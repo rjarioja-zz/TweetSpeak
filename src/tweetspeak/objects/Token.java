@@ -5,12 +5,11 @@ enum TokenName {
 	PROC_CALL, PROC_RET,
 	ASSIGN, COMMENT, INPUT, OUTPUT,
 	IF, ELSE_IF, ELSE, 
-	DO, WHILE, BREAK, CONTINUE
-	;
+	DO, WHILE, BREAK, CONTINUE;
 
 }
 
 public class Token {
-	private String lexeme;
+	private String lexeme, type;
 	private int lineNumber, indexNumber;
 }

@@ -1,4 +1,6 @@
 package tweetspeak.main;
+
+import tweetspeak.divisions.*;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -8,7 +10,6 @@ public class Test implements ActionListener {
 
 	private String title = "TweetSpeak Test";
 	private String filename = "sample.tsp";
-	
 	private File sourceFile = new File(filename);
 	
 	private JFrame frame;
@@ -19,7 +20,6 @@ public class Test implements ActionListener {
 	private JFileChooser browser = new JFileChooser();
 	
 	public Test() {
-	
 		frame = new JFrame(title);
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -31,9 +31,9 @@ public class Test implements ActionListener {
 	}
 	
 	public void launchApp() {
-	
-		textArea.setPreferredSize(new Dimension(550,320));
+		textArea.setPreferredSize(new Dimension(700,500));
 		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
+		textArea.setTabSize(2);
 		
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setWheelScrollingEnabled(true);
@@ -62,9 +62,9 @@ public class Test implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
-	
 		Object source = ae.getSource();
 		String sourceCode = "";
+		int lineCount = 0;
 	
 		if (textArea.getText() != null) {
 			if (source == buttonLoad) {
@@ -74,13 +74,16 @@ public class Test implements ActionListener {
                 frame.setTitle(title + " - " + filename);
                 try {
 					BufferedReader read = new BufferedReader(new FileReader(sourceFile));
-					String str;
-					
+					String input;
 					textArea.setText("");
-					while ((str = read.readLine()) != null) {
-						textArea.append(str + "\n");
-						sourceCode += str + "\n";
+					
+					while ((input = read.readLine()) != null) {
+						Code.addLine(new CodeLine(input, ++lineCount));
+						sourceCode += input + "\n";
 					}
+					
+					textArea.setText(sourceCode);
+					Code.setCode(sourceCode);
 					read.close();
 				}
 				catch (FileNotFoundException fnfe) {}
@@ -97,13 +100,7 @@ public class Test implements ActionListener {
 			}
 			
 			else if (source == buttonRun) {
-				/*try {
-					textArea.setText("");
-					PrintWriter write = new PrintWriter(new FileWriter(sourceFile));
-					write.print(textArea.getText());
-					write.close();
-				}			
-				catch (IOException ie) {}*/
+				System.out.print(Code.toLines());
 			}
 			
 			else if (source == buttonClose) System.exit(0);
