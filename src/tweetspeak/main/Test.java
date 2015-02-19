@@ -1,9 +1,12 @@
 package tweetspeak.main;
 
 import tweetspeak.divisions.*;
+import tweetspeak.functions.Tokenizer;
+
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class Test implements ActionListener {
@@ -92,7 +95,7 @@ public class Test implements ActionListener {
 			
 			else if (source == buttonSave) {
 				try {
-					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, true));
+					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
 					write.print(textArea.getText());
 					write.close();
 				}
@@ -101,6 +104,7 @@ public class Test implements ActionListener {
 			
 			else if (source == buttonRun) {
 				System.out.print(Code.toLines());
+				Tokenizer.tokenize(Code.getLine(0));
 			}
 			
 			else if (source == buttonClose) System.exit(0);

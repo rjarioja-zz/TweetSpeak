@@ -1,6 +1,6 @@
 package tweetspeak.functions;
 
-import java.util.LinkedList;
+import java.util.*;
 
 import tweetspeak.collections.TokenName;
 import tweetspeak.collections.TokenType;
@@ -8,44 +8,72 @@ import tweetspeak.divisions.CodeLine;
 import tweetspeak.objects.Token;
 
 public class Tokenizer {
-	private String sourceCode;
-	private LinkedList<Token> tokens = new LinkedList<Token>();
-	private int lineIndex;
+	private static String sourceCode;
+	private static LinkedList<Token> tokens = new LinkedList<Token>();
+	private static String token = "", tokenName = "", tokenType = "";
 	
 	//getters
-	public String getSourceCode() { return sourceCode; }
+	public static String getSourceCode() { return sourceCode; }
 	
 	//setters
-	public void setSourceCode(String token) { this.sourceCode = token; }
+	public static void setSourceCode(String token) { Tokenizer.sourceCode = token; }
 	
 	//methods
-	public void tokenize(CodeLine lineCode) {
-		String source = lineCode.getLineCode();
-		String tokenName = "", tokenType = "";
-		String tokens[] = source.split(" ");
-		for (String token : tokens) {
-			switch (token) {
-				case "#login":
-					tokenName = TokenName.START.toString();
-					tokenType = TokenType.RESERVED_WORD.toString();
-					break;
-				case "#logout":
-					tokenName = TokenName.END.toString();
-					tokenType = TokenType.RESERVED_WORD.toString();
-					break;
-				default:
-					for (char c : token.toCharArray()) {
-						switch (c) {
-							case '+':
-								tokenName = TokenName.ADD_OP.toString();
-								tokenType = TokenType.OPERATOR.toString();
-								break;
-						}
-					}
-					Token t = new Token(token, tokenName, tokenType, lineCode.getLineNumber(), source.indexOf(token));
-					this.tokens.add(t);
-					lineCode.addToken(t);
+	public static void tokenize(CodeLine lineCode) {
+		sourceCode = lineCode.getLineCode();
+		ArrayList<Character> characters = new ArrayList<Character>();
+		for (char c : sourceCode.toCharArray()) characters.add(new Character(c));
+		
+		ListIterator<Character> iterator = characters.listIterator();
+		System.out.println(characters.toString());
+		int count = 0;
+		while (iterator.hasNext()) {
+			Character currentIndex = iterator.next();
+			System.out.print("Current = " + count);
+			if (Character.isWhitespace(currentIndex.charValue())) {
+				System.out.println("\twhitespace");
+				count++;
+				continue;
 			}
+			
+			switch(currentIndex.charValue()) {
+			//level 1
+				case '#':
+					currentIndex = iterator.next(); count++;
+					switch (currentIndex.charValue()) {
+					//level 2
+						case 'l':
+							currentIndex = iterator.next(); count++; // gets o
+							if (currentIndex.charValue() == 'o' && iterator.next().charValue() == 'g') {
+								currentIndex = iterator.next(); count+=2;
+								switch (currentIndex.charValue()) {
+								//level 3
+									case 'i':
+										currentIndex = iterator.next(); // gets n
+										if (currentIndex.charValue() == 'n' && iterator.next().charValue() == ' ') {
+											System.out.println(" START");
+											count += 2;
+										}
+									break;
+									case 'o':
+										currentIndex = iterator.next(); count++; // gets o
+										if (currentIndex.charValue() == 'u' && iterator.next().charValue() == 't') System.out.println(" END");
+									break;
+								}
+							}
+						break;
+						default: System.out.println(" level 2 exit");
+					}
+				break;
+				default: System.out.println(" level 1 exit");
+			}
+			count++;
 		}
 	}
-}
+	
+	
+	public static void main(String args[]) {
+		Tokenizer.tokenize(new CodeLine("123#login ##123 123", 1));
+	}
+		
+}	
