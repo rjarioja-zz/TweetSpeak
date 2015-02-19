@@ -4,6 +4,14 @@ public class Token {
 	private String lexeme, name, type;
 	private int lineNumber, indexNumber;
 	
+	public Token(String lexeme, String name, String type, int lineNumber, int indexNumber) {
+		setLexeme(lexeme);
+		setName(name);
+		setType(type);
+		setLineNumber(lineNumber);
+		setIndexNumber(indexNumber);
+	}
+	
 	//getters
 	public String getLexeme() { return lexeme; }
 	public String getName() { return name; }

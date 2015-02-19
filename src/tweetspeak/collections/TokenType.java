@@ -1,5 +1,5 @@
 package tweetspeak.collections;
 
 public enum TokenType {
-	WHITESPACE, RESERVED_WORD, CONSTANT, IDENTIFIER;
+	WHITESPACE, RESERVED_WORD, CONSTANT, IDENTIFIER, OPERATOR;
 }
