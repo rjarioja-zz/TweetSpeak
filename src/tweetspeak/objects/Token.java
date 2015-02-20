@@ -25,4 +25,9 @@ public class Token {
 	public void setType(String type) { this.type = type; }
 	public void setLineNumber(int lineNumber) { this.lineNumber = lineNumber; }
 	public void setIndexNumber(int indexNumber) { this.indexNumber = indexNumber; }
+	
+	//methods
+	public String toString() {
+		return lexeme + " " + name + " " + type + " " + lineNumber + " " + indexNumber;
+	}
 }

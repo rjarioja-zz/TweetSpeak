@@ -10,7 +10,6 @@ import tweetspeak.objects.Token;
 public class Tokenizer {
 	private static String sourceCode;
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
-	private static String token = "", tokenName = "", tokenType = "";
 	
 	//getters
 	public static String getSourceCode() { return sourceCode; }
@@ -21,59 +20,164 @@ public class Tokenizer {
 	//methods
 	public static void tokenize(CodeLine lineCode) {
 		sourceCode = lineCode.getLineCode();
-		ArrayList<Character> characters = new ArrayList<Character>();
-		for (char c : sourceCode.toCharArray()) characters.add(new Character(c));
+		int index = 0;
 		
-		ListIterator<Character> iterator = characters.listIterator();
-		System.out.println(characters.toString());
-		int count = 0;
-		while (iterator.hasNext()) {
-			Character currentIndex = iterator.next();
-			System.out.print("Current = " + count);
-			if (Character.isWhitespace(currentIndex.charValue())) {
-				System.out.println("\twhitespace");
-				count++;
-				continue;
+		System.out.println(sourceCode.toCharArray());
+		
+		while (index < sourceCode.length() && sourceCode.indexOf(index + 1) != '\0') {
+			String token = "", tokenType = "";
+			int count = 0, whitespace = 0;
+			System.out.print("\nindex:" + index + " - ");
+			
+			if (!Character.isWhitespace(sourceCode.charAt(index))) {
+				switch(sourceCode.charAt(index)) {
+					
+					/*
+					 * OPERATORS - ARITHMETIC
+					 */
+					case '+':
+						break;
+					case '-':
+						break;
+					case '*':
+						break;
+					case '/':
+						break;
+					case '%':
+						break;
+					
+					/*
+					 * SPECIAL SYMBOLS
+					 */
+					case ';':
+						break;
+					case '\'':
+						break;
+					case '\"':
+						break;
+					
+					/*
+					 * RESERVED WORDS
+					 */
+					case '#':
+						token += sourceCode.charAt(index++); count++;
+						tokenType = TokenType.RESERVED_WORD.toString();
+						
+						switch (sourceCode.charAt(index)) {
+
+							// login, logout
+							case 'l':
+								// check if no other characters at the start
+								if (index - 1 != 0) continue; 
+								else {
+									token += sourceCode.charAt(index++); count++;
+									
+									if (sourceCode.charAt(index++) == 'o' && sourceCode.charAt(index++) == 'g') {
+										token += "og"; count+=2;
+										
+										switch (sourceCode.charAt(index)) {
+											// login
+											case 'i': 
+												 
+												token += sourceCode.charAt(index++); count++;
+												
+												if (sourceCode.charAt(index++) == 'n'	&& sourceCode.charAt(index) == ' ') {
+													token += "n "; count+=2;
+													token += sourceCode.charAt(index);
+													System.out.print(token + ".START");
+													
+													//create token
+													tokens.add(
+														new Token(
+															token, 
+															TokenName.START.toString(), 
+															tokenType, 
+															lineCode.getLineNumber(), 
+															index - count
+														)
+													);
+													
+													continue;
+												}
+													
+												else {
+													System.out.print(token + ".STARTERROR");
+													index -= 2; // backtrack 2
+													continue;
+												}
+												
+											// logout
+											case 'o':
+												token += sourceCode.charAt(index++);
+												
+												if (sourceCode.charAt(index++) == 'u' && sourceCode.charAt(index++) == 't') {
+													token += "ut";
+													
+													// check if no other characters at the end
+													if (index == sourceCode.length()) {
+														System.out.print(token + " END");
+														
+														// create token
+														tokens.add(
+																new Token(
+																	token, 
+																	TokenName.START.toString(), 
+																	tokenType, 
+																	lineCode.getLineNumber(), 
+																	index - count
+																)
+															);
+														
+														continue;
+													}
+													
+													else {
+														System.out.print(token + ".ENDERROR");
+														index -= 2; // backtrack 2
+														continue;
+													}
+												}
+												
+												else {
+													index -= 2; // backtrack 2
+													continue;
+												}
+												
+											default:
+												System.out.print("level 3 exit");
+												break;
+										}
+									}
+									
+									else {
+										index -= 2; // backtrack 2
+										continue;
+									}
+								}
+								
+							default:
+								System.out.print("level 2 exit");
+								break;
+									
+						}
+						
+						break;
+						
+					default:
+						System.out.print("level 1 exit");
+						break;
+				}
 			}
 			
-			switch(currentIndex.charValue()) {
-			//level 1
-				case '#':
-					currentIndex = iterator.next(); count++;
-					switch (currentIndex.charValue()) {
-					//level 2
-						case 'l':
-							currentIndex = iterator.next(); count++; // gets o
-							if (currentIndex.charValue() == 'o' && iterator.next().charValue() == 'g') {
-								currentIndex = iterator.next(); count+=2;
-								switch (currentIndex.charValue()) {
-								//level 3
-									case 'i':
-										currentIndex = iterator.next(); // gets n
-										if (currentIndex.charValue() == 'n' && iterator.next().charValue() == ' ') {
-											System.out.println(" START");
-											count += 2;
-										}
-									break;
-									case 'o':
-										currentIndex = iterator.next(); count++; // gets o
-										if (currentIndex.charValue() == 'u' && iterator.next().charValue() == 't') System.out.println(" END");
-									break;
-								}
-							}
-						break;
-						default: System.out.println(" level 2 exit");
-					}
-				break;
-				default: System.out.println(" level 1 exit");
-			}
+			else System.out.print("space");
+			index++;
 			count++;
 		}
 	}
 	
-	
-	public static void main(String args[]) {
-		Tokenizer.tokenize(new CodeLine("123#login ##123 123", 1));
-	}
+	// TESTING
+	/*public static void main(String args[]) {
+		Tokenizer.tokenize(new CodeLine("#login123 ", 1));
+	}*/
 		
 }	
