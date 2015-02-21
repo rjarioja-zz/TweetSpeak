@@ -40,7 +40,7 @@ public class Tokenizer {
 					case '+':
 						
 						if (index + 1 < sourceCode.length() && sourceCode.charAt(index + 1) == '+') {
-							token += sourceCode.charAt(index); count++;
+							token += sourceCode.charAt(index++); count++;
 							System.out.println(index + " " + count);
 							System.out.print(token + ".INC_OP");
 							//create token
