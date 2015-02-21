@@ -195,8 +195,8 @@ public class Tokenizer {
 	}
 	
 	// TESTING
-	public static void main(String args[]) {
-		Tokenizer.tokenize(new CodeLine("#login +++", 1));
-	}
+	/*public static void main(String args[]) {
+		Tokenizer.tokenize(new CodeLine("+#login +++", 1));
+	}*/
 		
 }	
