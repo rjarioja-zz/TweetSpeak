@@ -40,12 +40,8 @@ public class Tokenizer {
 					case '+':
 						token += sourceCode.charAt(index++); count++;
 						if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
-<<<<<<< HEAD
-							token += sourceCode.charAt(index); count++;
-=======
 							token += sourceCode.charAt(index++); count++;
 //							System.out.println(index + " " + count);
->>>>>>> branch 'master' of https://github.com/rjarioja/TweetSpeak.git
 							System.out.print(token + ".INC_OP");
 							//create token
 							t = new Token(
