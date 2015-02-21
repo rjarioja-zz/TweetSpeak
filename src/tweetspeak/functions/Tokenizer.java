@@ -27,6 +27,8 @@ public class Tokenizer {
 		while (index < sourceCode.length() && sourceCode.indexOf(index + 1) != '\0') {
 			String token = "", tokenType = "";
 			int count = 0, whitespace = 0;
+			Token t;
+			
 			System.out.print("\nindex:" + index + " - ");
 			
 			if (!Character.isWhitespace(sourceCode.charAt(index))) {
@@ -36,7 +38,41 @@ public class Tokenizer {
 					 * OPERATORS - ARITHMETIC
 					 */
 					case '+':
-						break;
+						
+						if (index + 1 < sourceCode.length() && sourceCode.charAt(index + 1) == '+') {
+							token += sourceCode.charAt(index); count++;
+							System.out.println(index + " " + count);
+							System.out.print(token + ".INC_OP");
+							//create token
+							t = new Token(
+									token, 
+									TokenName.INC_OP.toString(), 
+									TokenType.OPERATOR.toString(), 
+									lineCode.getLineNumber(), 
+									index - count
+								);
+							
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+						}
+						
+						else {
+							System.out.print(token + ".ADD_OP");
+							// create token
+							t = new Token(
+									token, 
+									TokenName.ADD_OP.toString(), 
+									TokenType.OPERATOR.toString(), 
+									lineCode.getLineNumber(), 
+									index - count
+								);
+							
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+						}
+						
 					case '-':
 						break;
 					case '*':
@@ -64,120 +100,103 @@ public class Tokenizer {
 						tokenType = TokenType.RESERVED_WORD.toString();
 						
 						switch (sourceCode.charAt(index)) {
-
-							// login, logout
+						
+						// login, logout
 							case 'l':
-								// check if no other characters at the start
-								if (index - 1 != 0) continue; 
-								else {
-									token += sourceCode.charAt(index++); count++;
-									
-									if (sourceCode.charAt(index++) == 'o' && sourceCode.charAt(index++) == 'g') {
-										token += "og"; count+=2;
-										
-										switch (sourceCode.charAt(index)) {
-											// login
-											case 'i': 
-												 
-												token += sourceCode.charAt(index++); count++;
-												
-												if (sourceCode.charAt(index++) == 'n'	&& sourceCode.charAt(index) == ' ') {
-													token += "n "; count+=2;
-													token += sourceCode.charAt(index);
-													System.out.print(token + ".START");
-													
-													//create token
-													tokens.add(
-														new Token(
-															token, 
-															TokenName.START.toString(), 
-															tokenType, 
-															lineCode.getLineNumber(), 
-															index - count
-														)
-													);
-													
-													continue;
-												}
-													
-												else {
-													System.out.print(token + ".STARTERROR");
-													index -= 2; // backtrack 2
-													continue;
-												}
-												
-											// logout
-											case 'o':
-												token += sourceCode.charAt(index++);
-												
-												if (sourceCode.charAt(index++) == 'u' && sourceCode.charAt(index++) == 't') {
-													token += "ut";
-													
-													// check if no other characters at the end
-													if (index == sourceCode.length()) {
-														System.out.print(token + " END");
-														
-														// create token
-														tokens.add(
-																new Token(
-																	token, 
-																	TokenName.START.toString(), 
-																	tokenType, 
-																	lineCode.getLineNumber(), 
-																	index - count
-																)
-															);
-														
-														continue;
-													}
-													
-													else {
-														System.out.print(token + ".ENDERROR");
-														index -= 2; // backtrack 2
-														continue;
-													}
-												}
-												
-												else {
-													index -= 2; // backtrack 2
-													continue;
-												}
-												
-											default:
-												System.out.print("level 3 exit");
-												break;
-										}
-									}
-									
-									else {
-										index -= 2; // backtrack 2
-										continue;
-									}
-								}
-								
+							    // check if no other characters at the start
+							    if (index - 1 != 0) continue; 
+							    else {
+							    	
+							        token += sourceCode.charAt(index++); count++;
+							        if (sourceCode.charAt(index) == 'o' && sourceCode.charAt(index + 1) == 'g') {
+							        	token += "og"; count += 2; index += 2;
+							            switch (sourceCode.charAt(index)) {
+							                case 'i': 
+							                    token += sourceCode.charAt(index++); count++;
+							                    if (sourceCode.charAt(index) == 'n') {  
+							                    	token += sourceCode.charAt(index++); count++;
+							                    	if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+							                    		token += sourceCode.charAt(index++);
+							                    		System.out.print(token + ".START");
+							                    		
+							                    		continue;
+							                    	}
+							                    	
+							                    	else {
+											            index --; 
+											            System.out.print(token + ".ERROR");
+											            continue;
+											        }
+							                    }
+							                    
+							                    else {
+										            index --; 
+										            System.out.print(token + ".ERROR");
+										            continue;
+										        }
+							                    
+							                // logout
+							                case 'o':
+							                	token += sourceCode.charAt(index++); count++;
+										        if (sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 't') {
+										        	token += "ut"; count += 2; index += 2;
+								                    if (index == sourceCode.length()) {  
+								                    	System.out.print(token + ".END");
+							                    		continue;
+								                    }
+								                    else {
+											            index --; 
+											            System.out.print(token + ".ERROR");
+											            continue;
+											        } 
+
+							                    }
+							                    
+							                    else {
+										            index --;
+										            System.out.print(token + ".ERROR");
+										            continue;
+										        }
+							                    
+							                default:
+							                	System.out.print(" level 3 exit");
+							                    index --;
+							                    break;
+							            }
+							        }
+							        
+							        else {
+							        	token += sourceCode.charAt(index);
+							        	System.out.print(token + ".ERROR");
+							            continue;
+							        }
+							    }
+							    
 							default:
-								System.out.print("level 2 exit");
-								break;
-									
+							    System.out.print(" level 2 exit");
+							    break;
 						}
 						
 						break;
 						
 					default:
-						System.out.print("level 1 exit");
+						System.out.print(" level 1 exit");
 						break;
 				}
 			}
 			
-			else System.out.print("space");
+			else {
+				System.out.print("space");
+				whitespace++;
+			}
 			index++;
 			count++;
 		}
 	}
 	
 	// TESTING
-	/*public static void main(String args[]) {
-		Tokenizer.tokenize(new CodeLine("#login123 ", 1));
-	}*/
+	public static void main(String args[]) {
+		Tokenizer.tokenize(new CodeLine("#login +++", 1));
+	}
 		
 }	
