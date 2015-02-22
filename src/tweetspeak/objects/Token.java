@@ -27,6 +27,9 @@ public class Token {
 	public void setIndexNumber(int indexNumber) { this.indexNumber = indexNumber; }
 	
 	//methods
+	public String printToken() {
+		return "[" + name + "]";
+	}
 	public String toString() {
 		return lexeme + " " + name + " " + type + " " + lineNumber + " " + indexNumber;
 	}
