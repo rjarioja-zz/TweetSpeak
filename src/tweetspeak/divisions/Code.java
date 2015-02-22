@@ -16,7 +16,15 @@ public class Code {
 	public static LinkedList<CodeBlock> getBlockList() { return blocks;	}
 	
 	//setters
-	public static void setCode(String code) { Code.code = code; }
+	public static void setCode(String code) { 
+		String lines[] = code.split("\n");
+		Code.code = code;
+		Code.lines.clear();
+		int lineNumber = 0;
+		for (String l : lines) {
+			addLine(new CodeLine(l, lineNumber++));
+		}
+	}
 	public static void setLineList(LinkedList<CodeLine> lines) { Code.lines = lines; }
 	public static void setBlockList(LinkedList<CodeBlock> blocks) {	Code.blocks = blocks; }
 	

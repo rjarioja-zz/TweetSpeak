@@ -32,7 +32,19 @@ public class CodeLine {
 	
 	//methods
 	public void addToken(Token token) { tokens.add(token); }
+	public String printTokens() {
+		String str = "";
+		for (Token t : tokens) {
+			str += t.toString() + " ";
+		}
+		return str;
+	}
 	public String toString() {
-		return lineNumber + "\t" + lineCode;
+		String lineNumber = "";
+		lineNumber += this.lineNumber;
+		if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";
+		else lineNumber += "\t";
+		
+		return lineNumber + lineCode;
 	}
 }
