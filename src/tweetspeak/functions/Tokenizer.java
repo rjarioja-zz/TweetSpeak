@@ -143,7 +143,12 @@ public class Tokenizer {
 										lineCode.getLineNumber(),
 										index - count
 								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						
 						break;
+						
 					case '%':
 						token += sourceCode.charAt(index); count++;
 						System.out.print(token + ".MOD_OP");
@@ -155,8 +160,63 @@ public class Tokenizer {
 									lineCode.getLineNumber(),
 									index - count
 								);
+						
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						
+						break;
+					
+					case '^':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".EXP_OP");
+						//create token
+						t = new Token(
+									token,
+									TokenName.EXP_OP.toString(),
+									TokenType.OPERATOR.toString(),
+									lineCode.getLineNumber(),
+									index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
 						break;
 						
+					case '(':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".LEFT_PAREN");
+						//create token
+						t = new Token(
+									token,
+									TokenName.LEFT_PAREN.toString(),
+									TokenType.OPERATOR.toString(),
+									lineCode.getLineNumber(),
+									index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						
+						break;
+					
+					case ')':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".RIGHT_PAREN");
+						//create token
+						t = new Token(
+									token,
+									TokenName.RIGHT_PAREN.toString(),
+									TokenType.OPERATOR.toString(),
+									lineCode.getLineNumber(),
+									index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						
+						break;
+					
 					/*
 					 * RELATIONAL AND LOGICAL OPERATORS	
 					 */
@@ -182,6 +242,138 @@ public class Tokenizer {
 						} else {
 							//index --;
 							System.out.print(token + ".ERROR");
+							continue;
+						}
+					
+					case '<':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".LESS_EQ_OP");
+							//create token
+							t = new Token (
+										token,
+										TokenName.LESS_EQ_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".LESS_OP");
+							//create token
+							t = new Token (
+										token,
+										TokenName.LESS_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+						
+					case '>':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".GREAT_EQ_OP");
+							//create token
+							t = new Token (
+										token,
+										TokenName.GREAT_EQ_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".GREAT_OP");
+							//create token
+							t = new Token (
+										token,
+										TokenName.GREAT_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+					
+					case '=':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".EQUAL_OP");
+							//create token
+							t = new Token(
+										token,
+										TokenName.EQUAL_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".ASSIGN_OP");
+							//create token
+							t = new Token(
+										token,
+										TokenName.ASSIGN_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+						
+					case '!':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".NOT_EQUAL_OP");
+							//create token
+							t = new Token(
+										token,
+										TokenName.NOT_EQUAL_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".NOT_OP");
+							//create token
+							t = new Token(
+										token,
+										TokenName.NOT_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
 							continue;
 						}
 						
@@ -522,7 +714,7 @@ public class Tokenizer {
 	
 	// TESTING
 	public static void main(String args[]) {
-		Tokenizer.tokenize(new CodeLine("#ootv #oots #ootc #ootb #comment #share #status #ooti #ootf #outbox ", 1));
+		Tokenizer.tokenize(new CodeLine(" <=>=&| #ooti >= + = & >=!+-  ()|||&&&<=<>=>===!=! +++---*/", 1));
 	}
 		
 }	
