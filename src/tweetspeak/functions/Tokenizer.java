@@ -42,7 +42,7 @@ public class Tokenizer {
 						if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
 							token += sourceCode.charAt(index++); count++;
 //							System.out.println(index + " " + count);
-							System.out.print(token + ".INC_OP");
+							System.out.print(token + ".INC_OP" + index + " " + sourceCode.length());
 							//create token
 							t = new Token(
 									token, 
@@ -59,7 +59,7 @@ public class Tokenizer {
 						}
 						
 						else {
-							System.out.print(token + ".ADD_OP");
+							System.out.print(token + ".ADD_OP" + index + " " + sourceCode.length());
 							// create token
 							t = new Token(
 									token, 
@@ -82,7 +82,7 @@ public class Tokenizer {
 						if (index < sourceCode.length() && sourceCode.charAt(index) == '-') {
 							token += sourceCode.charAt(index++); count++;
 							//System.out.println(index + " " + count);
-							System.out.print(token + ".DEC_OP");
+							System.out.print(token + ".DEC_OP" + index + " " + sourceCode.length());
 							//create token
 							t = new Token(
 									token, 
@@ -99,7 +99,7 @@ public class Tokenizer {
 						}
 						
 						else {
-							System.out.print(token + ".DIF_OP");
+							System.out.print(token + ".DIF_OP" + index + " " + sourceCode.length());
 							// create token
 							t = new Token(
 									token, 
@@ -117,7 +117,7 @@ public class Tokenizer {
 					
 					case '*':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".MUL_OP");
+						System.out.print(token + ".MUL_OP" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 										token,
@@ -134,7 +134,7 @@ public class Tokenizer {
 						
 					case '/':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".DIV_OP");
+						System.out.print(token + ".DIV_OP" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 										token,
@@ -143,20 +143,76 @@ public class Tokenizer {
 										lineCode.getLineNumber(),
 										index - count
 								);
-						break;
-					case '%':
-						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".MOD_OP");
-						//create token
-						t = new Token (
-									token,
-									TokenName.MOD_OP.toString(),
-									TokenType.OPERATOR.toString(),
-									lineCode.getLineNumber(),
-									index - count
-								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						
 						break;
 						
+					case '%':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".MOD_OP" + " " + index + " " + sourceCode.length());
+						//create token
+						t = new Token (
+										token,
+										TokenName.MOD_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);						
+						break;
+					
+					case '^':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".EXP_OP" + index + " " + sourceCode.length());
+						//create token
+						t = new Token (
+										token,
+										TokenName.EXP_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						break;
+						
+					case '(':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".LEFT_PAREN" + index + " " + sourceCode.length());
+						//create token
+						t = new Token (
+										token,
+										TokenName.LEFT_PAREN.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						break;
+						
+					case ')':
+						token += sourceCode.charAt(index); count++;
+						System.out.print(token + ".RIGHT_PAREN" + index + " " + sourceCode.length());
+						//create token
+						t = new Token (
+										token,
+										TokenName.RIGHT_PAREN.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+								);
+						//add to lists
+						tokens.add(t);
+						lineCode.addToken(t);
+						break;
+					
 					/*
 					 * RELATIONAL AND LOGICAL OPERATORS	
 					 */
@@ -165,23 +221,155 @@ public class Tokenizer {
 						token += sourceCode.charAt(index++); count++;
 						if (index < sourceCode.length() && sourceCode.charAt(index) == '|') {
 							token += sourceCode.charAt(index++); count++;
-							System.out.print(token + ".OR_OP");
+							System.out.print(token + ".OR_OP" + index + " " + sourceCode.length());
 							continue;
 						} else {
-							//index --;
+							index --;
 							System.out.print(token + ".ERROR");
-							continue;
+//							continue;
 						}
-//					break;
+					break;
 					case '&':
 						token += sourceCode.charAt(index++); count++;
 						if (index < sourceCode.length() && sourceCode.charAt(index) == '&') {
 							token += sourceCode.charAt(index++); count++;
-							System.out.print(token + ".AND_OP");
+							System.out.print(token + ".AND_OP" + index + " " + sourceCode.length());
 							continue;
 						} else {
-							//index --;
-							System.out.print(token + ".ERROR");
+							index --;
+							System.out.print(token + ".ERROR" + index + " " + sourceCode.length());
+//							continue;
+						}
+					break;
+					case '<':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".LESS_EQ_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token (
+										token,
+										TokenName.LESS_EQ_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".LESS_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token (
+										token,
+										TokenName.LESS_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+						
+					case '>':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".GREAT_EQ_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token (
+										token,
+										TokenName.GREAT_EQ_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".GREAT_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token (
+										token,
+										TokenName.GREAT_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							// add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+					
+					case '=':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".EQUAL_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token(
+										token,
+										TokenName.EQUAL_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".ASSIGN_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token(
+										token,
+										TokenName.ASSIGN_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						}
+						
+					case '!':
+						token += sourceCode.charAt(index++); count++;
+						if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
+							token += sourceCode.charAt(index++); count++;
+							System.out.print(token + ".NOT_EQUAL_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token(
+										token,
+										TokenName.NOT_EQUAL_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
+							continue;
+						} else {
+							System.out.print(token + ".NOT_OP" + index + " " + sourceCode.length());
+							//create token
+							t = new Token(
+										token,
+										TokenName.NOT_OP.toString(),
+										TokenType.OPERATOR.toString(),
+										lineCode.getLineNumber(),
+										index - count
+									);
+							//add to lists
+							tokens.add(t);
+							lineCode.addToken(t);
 							continue;
 						}
 						
@@ -190,7 +378,7 @@ public class Tokenizer {
 					 */
 					case ',':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".PARAM_SEP");
+						System.out.print(token + ".PARAM_SEP" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 									token,
@@ -202,7 +390,7 @@ public class Tokenizer {
 						break;
 					case ';':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".STMT_SEP");
+						System.out.print(token + ".STMT_SEP" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 									token,
@@ -214,7 +402,7 @@ public class Tokenizer {
 						break;
 					case '"':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".DQUOTE");
+						System.out.print(token + ".DQUOTE" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 									token,
@@ -226,7 +414,7 @@ public class Tokenizer {
 						break;
 					case '\'':
 						token += sourceCode.charAt(index); count++;
-						System.out.print(token + ".SQUOTE");
+						System.out.print(token + ".SQUOTE" + index + " " + sourceCode.length());
 						//create token
 						t = new Token (
 									token,
@@ -250,7 +438,31 @@ public class Tokenizer {
 						// login, logout
 							case 'l':
 							    // check if no other characters at the start
-							    if (index - 1 != 0) continue; 
+							    if (index - 1 != 0) {
+							    	
+							    	token += sourceCode.charAt(index++); count++;
+							        if(sourceCode.charAt(index) == 'i' && sourceCode.charAt(index + 1) == 'k' && sourceCode.charAt(index + 2) == 'e') {
+							        	token += "ike"; index += 3; count += 3;
+							    		t = new Token(
+												token, 
+												TokenName.DO.toString(), 
+												TokenType.RESERVED_WORD.toString(), 
+												lineCode.getLineNumber(), 
+												index - count
+											);
+										
+										// add to lists
+										tokens.add(t);
+										lineCode.addToken(t);
+							        	System.out.print(token + ".DO");
+							        	continue;
+							        }
+							        else {
+							        	index --;
+							        	System.out.print(token + ".ERROR");
+							        	continue;
+							        }
+							    }
 							    else {
 							    	
 							        token += sourceCode.charAt(index++); count++;
@@ -264,6 +476,17 @@ public class Tokenizer {
 							                    	token += sourceCode.charAt(index++); count++;
 							                    	if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 							                    		token += sourceCode.charAt(index++);
+							                    		t = new Token(
+																token, 
+																TokenName.START.toString(), 
+																TokenType.RESERVED_WORD.toString(), 
+																lineCode.getLineNumber(), 
+																index - count
+															);
+														
+														// add to lists
+														tokens.add(t);
+														lineCode.addToken(t);
 							                    		System.out.print(token + ".START");
 							                    		
 							                    		continue;
@@ -287,7 +510,18 @@ public class Tokenizer {
 							                	token += sourceCode.charAt(index++); count++;
 										        if (sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 't') {
 										        	token += "ut"; count += 2; index += 2;
-								                    if (index == sourceCode.length()) {  
+								                    if (index == sourceCode.length()) { 
+								                    	t = new Token(
+																token, 
+																TokenName.END.toString(), 
+																TokenType.RESERVED_WORD.toString(), 
+																lineCode.getLineNumber(), 
+																index - count
+															);
+														
+														// add to lists
+														tokens.add(t);
+														lineCode.addToken(t);
 								                    	System.out.print(token + ".END");
 							                    		continue;
 								                    }
@@ -311,6 +545,7 @@ public class Tokenizer {
 							                    break;
 							            }
 							        }
+							  
 							        
 							        else {
 							        	token += sourceCode.charAt(index);
@@ -327,6 +562,17 @@ public class Tokenizer {
 									if(sourceCode.charAt(index) == 'o' && sourceCode.charAt(index + 1) == 'm' && sourceCode.charAt(index+2) == 'm' 
 											&& sourceCode.charAt(index+3) == 'e' && sourceCode.charAt(index+4) == 'n' && sourceCode.charAt(index+5) == 't') {
 									   token += "omment"; count += 6; index += 6;
+									   t = new Token(
+												token, 
+												TokenName.COMMENT.toString(), 
+												TokenType.RESERVED_WORD.toString(), 
+												lineCode.getLineNumber(), 
+												index - count
+											);
+										
+										// add to lists
+										tokens.add(t);
+										lineCode.addToken(t);
 									   System.out.print(token + ".COMMENT");
 									   continue;
 									}
@@ -341,21 +587,30 @@ public class Tokenizer {
 							//#comment end; ---END
 							//#newsfeed start 
 							case 'n':
-								
 									token += sourceCode.charAt(index++); count++;
 									if(sourceCode.charAt(index) == 'e' && sourceCode.charAt(index + 1) == 'w' && sourceCode.charAt(index + 2) == 's'
 											&& sourceCode.charAt(index + 3) == 'f' && sourceCode.charAt(index + 4) == 'e' && sourceCode.charAt(index + 5) == 'e' 
 											&& sourceCode.charAt(index + 6) == 'd') {
-										token += "ewsfeed"; count += 7; index += 7;
-										
-										if (index == sourceCode.length()) {
+										token += "ewsfeed"; count += 7; index += 7;	
+										if (index < sourceCode.length() && sourceCode.charAt(index) == ' ' || index < sourceCode.length()) {
+											t = new Token(
+													token, 
+													TokenName.MAIN.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
 											System.out.print(token + ".MAIN");
 											continue;
-										}
+		
+										} 
 										else {
-											 index --;
-											 System.out.print(token + ".ERROR");
-											 continue;
+											index --;
+											System.out.print(token + ".ERROR");
 										}
 									}
 									else {
@@ -363,21 +618,41 @@ public class Tokenizer {
 										 System.out.print(token + ".ERROR");
 										 continue;
 									}
-						
+								break;
+						    
 							//#newsfeed END
 							case 's':
 									
 									token += sourceCode.charAt(index++); count++;
+									//System.out.println(index);
 									switch(sourceCode.charAt(index)) {
 									//#SHARE
 										case 'h':
+											//System.out.println(index);
 											token += sourceCode.charAt(index++); count++;
 											if(sourceCode.charAt(index) == 'a' && sourceCode.charAt(index + 1) == 'r' && sourceCode.charAt(index + 2) == 'e'){
 												token += "are"; index += 3; count += 3;
-	
+												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+													t = new Token(
+															token, 
+															TokenName.ASSIGN.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".ASSIGN");
 													continue;
-												}	
+												}
+												else {
+													index --;
+													System.out.print(token + ".ERROR");
+													continue;
+												}
+											}
 											else {
 												index --;
 												System.out.print(token + ".ERROR");
@@ -389,15 +664,36 @@ public class Tokenizer {
 											token += sourceCode.charAt(index++); count++;
 											if(sourceCode.charAt(index) == 'a' && sourceCode.charAt(index + 1) == 't' && sourceCode.charAt(index + 2) == 'u' &&
 													sourceCode.charAt(index + 3) == 's'){
-												token += "atus"; index += 4; count += 4;
-													System.out.print(token + ".WHILE");
-													continue;
+													token += "atus"; index += 4; count += 4;
+													if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+														t = new Token(
+																token, 
+																TokenName.WHILE.toString(), 
+																TokenType.RESERVED_WORD.toString(), 
+																lineCode.getLineNumber(), 
+																index - count
+															);
+														
+														// add to lists
+														tokens.add(t);
+														lineCode.addToken(t);
+														System.out.print(token + ".WHILE");
+														continue;
+													}
+													else {
+														index --;
+														System.out.print(token + ".ERROR");
+													}
 											}
 											else {
 												index --;
 												System.out.print(token + ".ERROR");
 												continue;
 											}
+										default:
+							               	System.out.print(" level 3 exit");
+							               		index --;
+							                    break;
 									}
 							
 							case 'o': 
@@ -412,6 +708,17 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_INT.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_INT");
 													continue;
 												}
@@ -424,6 +731,17 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_FLOAT.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_FLOAT");
 													continue;
 												}
@@ -436,6 +754,17 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_CHAR.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_CHAR");
 													continue;
 												}
@@ -448,6 +777,17 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_STRING.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_STRING");
 													continue;
 												}
@@ -460,6 +800,17 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_BOOL.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_BOOL");
 													continue;
 												}
@@ -472,14 +823,30 @@ public class Tokenizer {
 												token += sourceCode.charAt(index++); count++;
 												if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
 													token += sourceCode.charAt(index++);
+													t = new Token(
+															token, 
+															TokenName.DATATYPE_VOID.toString(), 
+															TokenType.RESERVED_WORD.toString(), 
+															lineCode.getLineNumber(), 
+															index - count
+														);
+													
+													// add to lists
+													tokens.add(t);
+													lineCode.addToken(t);
 													System.out.print(token + ".DATATYPE_VOID");
 													continue;
+											
 												}
 												else {
 													index --;
 													System.out.print(token + ".ERROR");
 													continue;
 												}
+										   default:
+								                System.out.print(" level 3 exit");
+								                   index --;
+								                   break;
 										}
 									}
 									
@@ -488,7 +855,25 @@ public class Tokenizer {
 											&& sourceCode.charAt(index + 3) == 'o' && sourceCode.charAt(index + 4) == 'x') {
 										
 										token += "utbox"; index += 5; count += 5;
+										if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+										t = new Token(
+												token, 
+												TokenName.OUTPUT.toString(), 
+												TokenType.RESERVED_WORD.toString(), 
+												lineCode.getLineNumber(), 
+												index - count
+											);
+										
+										// add to lists
+										tokens.add(t);
+										lineCode.addToken(t);
 										System.out.print(token + ".OUTPUT");
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
 									}
 									else {
 										index --;
@@ -496,17 +881,440 @@ public class Tokenizer {
 										continue;
 									}
 									break;
-							
+							//#T
+							case 't':
+									token += sourceCode.charAt(index++); count++;
+									switch(sourceCode.charAt(index)) {
+									//#TRENDING
+									case 'r':
+										token += sourceCode.charAt(index++); count++;
+										if(sourceCode.charAt(index) == 'e' && sourceCode.charAt(index + 1) == 'n' 
+												&& sourceCode.charAt(index + 2) == 'd' && sourceCode.charAt(index + 3) == 'i' 
+												&& sourceCode.charAt(index + 4) == 'n' && sourceCode.charAt(index + 5) == 'g') {
+											token += "ending"; index += 6; count +=6;
+											if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+											t = new Token(
+													token, 
+													TokenName.PROC_CALL.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
+											System.out.print(token + ".PROC_CALL");
+											continue;
+											}
+											else {
+												index --;
+												System.out.print(token + ".ERROR");
+												continue;
+											}
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
+									//#THROWBACK
+									case 'h':
+										token += sourceCode.charAt(index++); count++;
+										if(sourceCode.charAt(index) == 'r' && sourceCode.charAt(index + 1) == 'o' 
+												&& sourceCode.charAt(index + 2) == 'w' && sourceCode.charAt(index + 3) == 'b'
+												&& sourceCode.charAt(index + 4) == 'a' && sourceCode.charAt(index + 5) == 'c'
+												&& sourceCode.charAt(index + 6) == 'k') {
+											token += "rowback"; index += 7; count += 7;
+											if (index > sourceCode.length() && sourceCode.charAt(index) == ' ') {
+											t = new Token(
+													token, 
+													TokenName.PROC_RET.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
+											System.out.print(token + ".PROC_RET");
+											continue;
+											}
+											else {
+												index --;
+												System.out.print(token + ".ERROR");
+												continue;
+											}
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
+									//#TWEET
+									case 'w':
+										token += sourceCode.charAt(index++); count++;
+										if(sourceCode.charAt(index) == 'e' && sourceCode.charAt(index + 1) =='e' 
+												&& sourceCode.charAt(index + 2) == 't') {
+											
+											token += "eet"; index += 3; count += 3;
+											if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+											t = new Token(
+													token, 
+													TokenName.IF.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
+											System.out.print(token + ".IF");
+											continue;
+											}
+											else {
+												index --;
+												System.out.print(token + ".ERROR");
+											}
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
+									 default:
+							                System.out.print(" level 3 exit");
+							                   index --;
+							                   break;
+									}
+							//#R
+							case 'r':
+								token += sourceCode.charAt(index++); count++;
+								if(sourceCode.charAt(index) == 'e') {
+									token += sourceCode.charAt(index++); count++;
+									switch(sourceCode.charAt(index)) {
+									//#RETWEET
+									case 't':
+										token += sourceCode.charAt(index++); count++;
+										if(sourceCode.charAt(index) == 'w' && sourceCode.charAt(index + 1) == 'e' 
+												&& sourceCode.charAt(index + 2) == 'e' && sourceCode.charAt(index + 3) == 't') {
+											token += "weet"; index += 4; count += 4;
+											if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+											t = new Token(
+													token, 
+													TokenName.ELSE_IF.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
+											System.out.print(token + ".ELSE_IF");
+											continue;
+											}
+											else {
+												index --;
+												System.out.print(token + ".ERROR");
+												continue;
+											}
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
+									//#REPLY
+									case 'p':
+										token += sourceCode.charAt(index++); count++;
+										if(sourceCode.charAt(index) == 'l' && sourceCode.charAt(index + 1) == 'y') {
+											token += "ly"; index += 2; count += 2;
+											if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+											t = new Token(
+													token, 
+													TokenName.ELSE.toString(), 
+													TokenType.RESERVED_WORD.toString(), 
+													lineCode.getLineNumber(), 
+													index - count
+												);
+											
+											// add to lists
+											tokens.add(t);
+											lineCode.addToken(t);
+											System.out.print(token + ".ELSE");
+											continue;
+											}
+											else {
+												index --;
+												System.out.print(token + ".ERROR");
+												continue;
+											}
+										}
+										else {
+											index --;
+											System.out.print(token + ".ERROR");
+											continue;
+										}
+									default: 
+										System.out.print("level 3 exit");
+										index--;
+										break;
+									}
+								}
+								else {
+									index --;
+									System.out.print(token + ".ERROR");
+								}
+								
+							//#UNFOLLOW
+							case 'u':
+								token += sourceCode.charAt(index++); count++;
+								if(sourceCode.charAt(index) == 'n' && sourceCode.charAt(index + 1) == 'f' && sourceCode.charAt(index + 2) == 'o'
+										&& sourceCode.charAt(index + 3) == 'l' && sourceCode.charAt(index + 4) == 'l' && sourceCode.charAt(index + 5) == 'o'
+										&& sourceCode.charAt(index + 6) == 'w'){
+									
+									token += "nfollow"; index += 7; count +=7;
+									if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+									t = new Token(
+											token, 
+											TokenName.BREAK.toString(), 
+											TokenType.RESERVED_WORD.toString(), 
+											lineCode.getLineNumber(), 
+											index - count
+										);
+									
+									// add to lists
+									tokens.add(t);
+									lineCode.addToken(t);
+									System.out.print(token + ".BREAK");
+									continue;
+									}
+									else {
+										index --;
+										System.out.print(token + ".ERROR");
+									}
+								}
+								else {
+									index --;
+									System.out.print(token + ".ERROR");
+									continue;
+								}
+								
+							//#FOLLOW
+							case 'f':
+								token += sourceCode.charAt(index++); count++;
+								if(sourceCode.charAt(index) == 'o' && sourceCode.charAt(index + 1) == 'l' && sourceCode.charAt(index + 2) == 'l'
+										&& sourceCode.charAt(index + 3) == 'o' && sourceCode.charAt(index + 4) == 'w'){
+									
+									token += "ollow"; index += 5; count +=5;
+									if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+									t = new Token(
+											token, 
+											TokenName.CONTINUE.toString(), 
+											TokenType.RESERVED_WORD.toString(), 
+											lineCode.getLineNumber(), 
+											index - count
+										);
+									
+									// add to lists
+									tokens.add(t);
+									lineCode.addToken(t);
+									System.out.print(token + ".CONTINUE");
+									continue;
+									}
+									else {
+										index --;
+										System.out.print(token + ".ERROR");
+									}
+								}
+								else {
+									index --;
+									System.out.print(token + ".ERROR");
+									continue;
+								}
+							case 'i':
+								token += sourceCode.charAt(index++); count++;
+								if(sourceCode.charAt(index) == 'n' && sourceCode.charAt(index + 1) == 'b'
+										&& sourceCode.charAt(index + 2) == 'o' && sourceCode.charAt(index + 3) == 'x'){
+									
+									token += "nbox"; index += 4; index += 4;
+									if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+									t = new Token(
+											token, 
+											TokenName.INPUT.toString(), 
+											TokenType.RESERVED_WORD.toString(), 
+											lineCode.getLineNumber(), 
+											index - count
+										);
+									
+									// add to lists
+									tokens.add(t);
+									lineCode.addToken(t);
+									System.out.print(token + ".INPUT");
+									continue;
+									}
+									else {
+										index --;
+										System.out.print(token + ".ERROR");
+										continue;
+									}
+								}
+								else {
+									index --;
+									System.out.print(token + ".ERROR");
+									continue;
+								}
+								
 							default:
 							    //reserved words
-								System.out.print(" level 2 exit");
+								System.out.print(" level 2 exit" + index + " " + sourceCode.length());
 							    break;
 						}
 						
 						break;
-						
+					//ACCEPT	
+					case 'a':
+						 token += sourceCode.charAt(index++); count++;
+						 switch(sourceCode.charAt(index)) {
+						 case 'c':
+							 token += sourceCode.charAt(index++); count++;
+							 if(sourceCode.charAt(index) == 'c' && sourceCode.charAt(index + 1) == 'e' 
+									 && sourceCode.charAt(index + 2) == 'p' && sourceCode.charAt(index + 3) == 't'){
+								 token += "cept"; index += 4; count += 4;
+								 if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+								 t = new Token(
+											token, 
+											TokenName.BOOL_CONST_TRUE.toString(), 
+											TokenType.RESERVED_WORD.toString(), 
+											lineCode.getLineNumber(), 
+											index - count
+										);
+									
+									// add to lists
+									tokens.add(t);
+									lineCode.addToken(t);
+								 System.out.print(token + ".BOOL_CONST_TRUE");
+								 continue;
+								 }
+								 else {
+									 index --;
+									 System.out.print(token + ".ERROR");
+									 continue;
+								 }
+							 }
+							 else {
+								 index --;
+								 System.out.print(token + ".ERROR");
+								 continue;
+							 }
+						 case 'r':
+							 token += sourceCode.charAt(index++); count++;
+							 if(sourceCode.charAt(index) == 'e' && sourceCode.charAt(index + 1) == 'F' && sourceCode.charAt(index + 2) == 'r'
+									 && sourceCode.charAt(index + 3) == 'i' && sourceCode.charAt(index + 4) == 'e' 
+									 && sourceCode.charAt(index + 5) == 'n' && sourceCode.charAt(index + 6) == 'd'
+									 && sourceCode.charAt(index + 7) == 's' && sourceCode.charAt(index + 8) == 'W'
+									 && sourceCode.charAt(index + 9) == 'i' && sourceCode.charAt(index + 10) == 't'
+									 && sourceCode.charAt(index + 11) == 'h'){
+								 
+								 token +="eFriendsWith"; index += 12; count += 12;
+								 if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+								 t = new Token(
+											token, 
+											TokenName.CONCAT.toString(), 
+											TokenType.RESERVED_WORD.toString(), 
+											lineCode.getLineNumber(), 
+											index - count
+										);
+									
+									// add to lists
+									tokens.add(t);
+									lineCode.addToken(t);
+								 System.out.print(token + ".CONCAT");
+								 continue;
+								 }
+								 else {
+									 index --;
+									 System.out.print(token + ".ERROR");
+									 continue;
+								 }
+							 }
+							 else {
+								 index --;
+								 System.out.print(token + ".ERROR");
+								 continue;
+							 }
+				
+						 }
+//					 case 'd':
+//						 token += sourceCode.charAt(index++); count++;
+//						 if(index + 5 > sourceCode.length() && sourceCode.charAt(index) =='e' && sourceCode.charAt(index + 1) == 'c' && sourceCode.charAt(index + 2) == 'l'
+//								 && sourceCode.charAt(index + 3) == 'i' && sourceCode.charAt(index + 4) == 'n' 
+//								 && sourceCode.charAt(index + 5) == 'e') {
+//							 
+//							 token +="ecline"; index += 6; count +=6;
+//							 if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+//							 t = new Token(
+//										token, 
+//										TokenName.BOOL_CONST_FALSE.toString(), 
+//										TokenType.RESERVED_WORD.toString(), 
+//										lineCode.getLineNumber(), 
+//										index - count
+//									);
+//								
+//								// add to lists
+//								tokens.add(t);
+//								lineCode.addToken(t);
+//							 System.out.print(token + ".BOOL_CONST_FALSE");
+//							 continue;
+//							 }
+//							 else {
+//								 index --;
+//								 System.out.print(token + ".ERROR");
+//								 continue;
+//							 }
+//						 }
+//						 else {
+//							 index --;
+//							 System.out.print(token + ".ERROR");
+//							 continue;
+//						 }
+					 case 'n':
+						 token += sourceCode.charAt(index++); count++;
+						 if(sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 'l' 
+								 && sourceCode.charAt(index + 2) == 'l') {
+							 token += "ull"; index += 3; count += 3;
+							 if (index < sourceCode.length() && sourceCode.charAt(index) == ' ') {
+							 t = new Token(
+										token, 
+										TokenName.NULL.toString(), 
+										TokenType.RESERVED_WORD.toString(), 
+										lineCode.getLineNumber(), 
+										index - count
+									);
+								
+								// add to lists
+								tokens.add(t);
+								lineCode.addToken(t);
+							 System.out.print(token + ".NULL");
+							 continue;
+							 }
+							 else {
+								 index --; 
+								 System.out.print(token + ".ERROR");
+								 continue;
+							 }
+						 }
+						 else {
+							 index --;
+							 System.out.print(token + ".ERROR");
+							 continue;
+						 }
 					default:
-						System.out.print(" level 1 exit");
+						System.out.print(" level 1 exit" + index + " " + sourceCode.length());
+						
 						break;
 				}
 			}
@@ -517,13 +1325,18 @@ public class Tokenizer {
 			}
 			index++;
 			count++;
+			System.out.print(" " + index);
 		}
 	}
-	
+}	
 	// TESTING
-
+/*
 	public static void main(String args[]) {
-		Tokenizer.tokenize(new CodeLine("#ootv #oots #ootc #ootb #comment #share #status #ooti #ootf #outbox ", 1));
+<<<<<<< HEAD
+		Tokenizer.tokenize(new CodeLine("#newsfeed #shares nulls", 1));
 	}
 		
-}	
+=======
+		Tokenizer.tokenize(new CodeLine("/%|||", 1));
+	}	*/
+
