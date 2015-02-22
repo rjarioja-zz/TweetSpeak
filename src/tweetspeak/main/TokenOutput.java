@@ -13,8 +13,6 @@ public class TokenOutput implements ActionListener {
 
 	private String title = "TweetSpeak Tokens";
 	private String filename = "sample.tsp";
-	private String sourceCode = "";
-	private File sourceFile = new File(filename);
 	
 	private JFrame frame;
 	private JScrollPane scrollPane;
@@ -80,7 +78,7 @@ public class TokenOutput implements ActionListener {
 		
 		else if (source == buttonTokenized) {
 			for (CodeLine line : Code.getLineList()) {
-				text += line.toString() + "\n";
+				text += line.printTokens() + "\n";
 			}
 			textArea.setText(text);
 		}
