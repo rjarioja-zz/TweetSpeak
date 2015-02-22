@@ -22,7 +22,7 @@ public class Tokenizer {
 		sourceCode = lineCode.getLineCode();
 		int index = 0;
 		
-		System.out.println(sourceCode.toCharArray());
+		System.out.println(sourceCode);
 		
 		while (index < sourceCode.length() && sourceCode.indexOf(index + 1) != '\0') {
 			String token = "", tokenType = "";

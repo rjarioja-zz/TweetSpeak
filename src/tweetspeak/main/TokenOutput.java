@@ -7,6 +7,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import tweetspeak.divisions.Code;
+import tweetspeak.divisions.CodeLine;
 
 public class TokenOutput implements ActionListener {
 
@@ -71,15 +72,17 @@ public class TokenOutput implements ActionListener {
 	
 	public void actionPerformed(ActionEvent ae) {
 		Object source = ae.getSource();
-	
+		String text = "";
 		if (source == buttonSource) {
 			
             
 		}
 		
 		else if (source == buttonTokenized) {
-//				System.out.print(Code.toLines());
-//				Tokenizer.tokenize(Code.getLine(0));
+			for (CodeLine line : Code.getLineList()) {
+				text += line.toString() + "\n";
+			}
+			textArea.setText(text);
 		}
 		
 		else if (source == buttonClose) frame.dispose();

@@ -15,31 +15,39 @@ public class Test implements ActionListener {
 	private String filename = "sample.tsp";
 	private File sourceFile = new File(filename);
 	
-	private JFrame frame;
+	private JFrame frame;	
 	private JScrollPane scrollPane;
 	private JPanel panel1, panel2;
 	private JTextArea textArea;
-	private JButton buttonLoad, buttonSave, buttonExit;
 	private JButton buttonTokenizer, buttonParser, buttonInterpreter;
-	private JFileChooser load = new JFileChooser();
-	private JFileChooser save = new JFileChooser();
+	private JFileChooser openBox = new JFileChooser();
+	private JFileChooser saveBox = new JFileChooser();
+	
+	//menu
+	private JMenuBar menuBar;
+	private JMenu file, compiler, about;
+	private JMenuItem open;
+	private JMenuItem save;
+	private JMenuItem saveAs;
+	private JMenuItem exit;
+	
 	
 	public Test() {
 		frame = new JFrame(title);
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		textArea = new JTextArea("");
-		buttonLoad = new JButton("Load Source Code");
-		buttonSave = new JButton("Save Source Code");
-		buttonExit = new JButton("Exit Program");
 		buttonTokenizer = new JButton("Tokenize");
 		buttonParser = new JButton("Parse");
-		buttonInterpreter = new JButton("Interprete");
+		buttonInterpreter = new JButton("Interpret");
 		
+		menuBar = new JMenuBar();
+		file = new JMenu("File");
+		compiler = new JMenu("Compiler");
+		about = new JMenu("About");
 	}
 	
 	public void launchApp() {
-		
 		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
 		textArea.setTabSize(2);
 		
@@ -47,36 +55,61 @@ public class Test implements ActionListener {
 		scrollPane.setPreferredSize(new Dimension(800,600));
 		scrollPane.setWheelScrollingEnabled(true);
 		
+		file.setMnemonic(KeyEvent.VK_F);
+		menuBar.add(file);
+		compiler.setMnemonic(KeyEvent.VK_C);
+		menuBar.add(compiler);
+		about.setMnemonic(KeyEvent.VK_A);
+		menuBar.add(about);
+		
+		open = new JMenuItem("Open File           ");
+		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		open.addActionListener(this);
+		file.add(open);
+		
+		save = new JMenuItem("Save File           ");
+		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		save.addActionListener(this);
+		save.setEnabled(false);
+		file.add(save);
+		
+		saveAs = new JMenuItem("Save As...          ");
+		saveAs.addActionListener(this);
+		saveAs.setEnabled(false);
+		file.add(saveAs);
+		
+		
+		exit = new JMenuItem("Exit Program...     ");
+		exit.setMnemonic(KeyEvent.VK_X);
+		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+		exit.addActionListener(this);
+		file.add(exit);
+		
 		panel1.setLayout(new BorderLayout());
 		panel1.add(scrollPane, BorderLayout.CENTER);
 		
-		panel2.setLayout(new GridLayout(2,3));
-		panel2.add(buttonLoad);
-		panel2.add(buttonSave);
-		panel2.add(buttonExit);
+		panel2.setLayout(new GridLayout(1,3));
 		panel2.add(buttonTokenizer);
 		panel2.add(buttonParser);
 		panel2.add(buttonInterpreter);
 		
 		frame.setLayout(new BorderLayout());
+		frame.add(menuBar, BorderLayout.NORTH);
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new CloseHandler());
 		
-		buttonLoad.addActionListener(this);
-		buttonSave.addActionListener(this);
-		buttonExit.addActionListener(this);
+		
+		
 		buttonTokenizer.addActionListener(this);
-		/*buttonRun.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		SeeOutputActionPerformed(arg0);
-        	}
-        });*/
+		buttonTokenizer.setEnabled(false);
 		buttonParser.setEnabled(false);
 		buttonInterpreter.setEnabled(false);
 		
-		frame.addWindowListener(new CloseHandler());
+		
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
@@ -85,33 +118,48 @@ public class Test implements ActionListener {
 		int lineCount = 0;
 	
 		if (textArea.getText() != null) {
-			if (source == buttonLoad) {
-				load.showOpenDialog(frame);
-                sourceFile = load.getSelectedFile();
-                filename = load.getSelectedFile().getName();
+			if (source == open) {
+				openBox.showOpenDialog(frame);
+                sourceFile = openBox.getSelectedFile();
+                filename = openBox.getSelectedFile().getName();
                 frame.setTitle(title + " - " + filename);
                 try {
 					BufferedReader read = new BufferedReader(new FileReader(sourceFile));
 					String input;
 					textArea.setText("");
 					
-					while ((input = read.readLine()) != null) {
-						Code.addLine(new CodeLine(input, ++lineCount));
-						sourceCode += input + "\n";
-					}
+					while ((input = read.readLine()) != null) sourceCode += input + "\n";
 					
 					textArea.setText(sourceCode);
 					Code.setCode(sourceCode);
 					read.close();
+					
+					save.setEnabled(true);
+					saveAs.setEnabled(true);
+					buttonTokenizer.setEnabled(true);
 				}
 				catch (FileNotFoundException fnfe) {}
 				catch (IOException ie) {}
 			}
 			
-			else if (source == buttonSave) {
-				save.showSaveDialog(frame);
-				sourceFile = save.getSelectedFile();
-				filename = save.getSelectedFile().getName();
+			else if (source == save) {
+				try {
+					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
+					sourceCode = textArea.getText();
+					Code.setCode(sourceCode);
+					write.print(sourceCode);
+					write.close();
+				}
+				catch (IOException ie) {}
+				
+				
+			}
+			
+			else if (source == saveAs) {
+				saveBox.showSaveDialog(frame);
+				sourceFile = saveBox.getSelectedFile();
+				filename = saveBox.getSelectedFile().getName();
+				frame.setTitle(title + " - " + filename);
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
 					write.print(textArea.getText());
@@ -121,19 +169,22 @@ public class Test implements ActionListener {
 			}
 			
 			else if (source == buttonTokenizer) {
-//				System.out.print(Code.toLines());
-//				Tokenizer.tokenize(Code.getLine(0));
 				Code.setCode(textArea.getText());
+				for (CodeLine line : Code.getLineList()) {
+					Tokenizer.tokenize(line);
+				}
 				TokenOutput tokenOutput = new TokenOutput();
 				tokenOutput.launchApp();
 			}
 			
-			else if (source == buttonExit) System.exit(0);
+			else if (source == exit) System.exit(0);
 		}
 	}
 	
 	class CloseHandler extends WindowAdapter {
-		public void windowClosing(WindowEvent we) {	System.exit(0); }
+		public void windowClosing(WindowEvent we) {	
+			System.exit(0); 
+		}
 	}
 	
 	public static void main(String args[]) {
