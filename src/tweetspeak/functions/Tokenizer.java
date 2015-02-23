@@ -38,12 +38,11 @@ public class Tokenizer {
 				OPERATORS - ARITHMETIC                                                
 *************************************************************************************/
 					
-/*				case '+':
+				case '+':
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
 				        token += sourceCode.charAt(index++); count++;
-//											System.out.println(index + " " + count);
-				        System.out.print(token + ".INC_OP" + index + " " + sourceCode.length());
+				        tokenized += token + ".INC_OP";
 				        //create token
 				        t = new Token(
 				                token, 
@@ -60,7 +59,7 @@ public class Tokenizer {
 				    }
 				    
 				    else {
-				        System.out.print(token + ".ADD_OP" + index + " " + sourceCode.length());
+				        tokenized += token + ".ADD_OP";
 				        // create token
 				        t = new Token(
 				                token, 
@@ -76,7 +75,7 @@ public class Tokenizer {
 				        continue;
 				    }
 				    
-//										break;
+/*
 				    
 				case '-':
 				    token += sourceCode.charAt(index++); count++;
@@ -1283,8 +1282,9 @@ public class Tokenizer {
 							}
 					
 					case 'd':
-				        token += sourceCode.charAt(index++); count++;
-				        System.out.println(token + " " + index);
+						token += sourceCode.charAt(index++); count++;
+				        tokenized += token + " " + index + " " + sourceCode.length();
+				        continue;
 				        /*if (sourceCode.charAt(index) =='e' && sourceCode.charAt(index + 1) == 'c' 
 				        		&& sourceCode.charAt(index + 2) == 'l' && sourceCode.charAt(index + 3) == 'i' 
 				        		&& sourceCode.charAt(index + 4) == 'n' && sourceCode.charAt(index + 5) == 'e') {
@@ -1311,9 +1311,10 @@ public class Tokenizer {
 				        }
 */					
 				        
-					case 'n':
-						token += sourceCode.charAt(index++); count++;
-				        System.out.println(token + " " + index);
+//					case 'n':
+//						token += sourceCode.charAt(index++); count++;
+//						tokenized += sourceCode.charAt(index);
+//						continue;
 						/*if(sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 'l' 
 						        && sourceCode.charAt(index + 2) == 'l') {
 						    token += "ull"; index += 3; count += 3;
@@ -1344,17 +1345,31 @@ public class Tokenizer {
 				        
 			//	LEVEL 1 SWITCH
 					default:
-						// tokenized += sourceCode.charAt(index) + " " + index + " " + sourceCode.length();
+						t = null;
 						if (Character.isLetter(sourceCode.charAt(index))) {
-	                   		t = identifier(lineCode, index);
-	                   		if (t != null) {
-	                   			tokenized += " " + t.getLexeme() + ".IDENTIFER";
+							t = identifier(lineCode, index);
+							if (t != null) {
+	                   			tokenized += t.getLexeme() + ".IDENTIFER";
 	                   			tokens.add(t);
 	                   			lineCode.addToken(t);
 	                   			index += t.getLexeme().length();
-	                   			break;
+	                   			continue;
 	                   		}
 						}
+	                   	else if (sourceCode.charAt(index) == '"') {
+	                   		t = stringConst(lineCode, index);
+	                   		if (t != null) {
+	                   			tokenized += t.getLexeme() + ".CONSTANT";
+	                   			tokens.add(t);
+	                   			lineCode.addToken(t);
+	                   			index += t.getLexeme().length() + 2;
+	                   			continue;
+	                   		}
+	                   	}
+						else {
+							tokenized += sourceCode.charAt(index);
+						}
+						
 				}
 		} else {
 			tokenized += "space";
@@ -1384,6 +1399,19 @@ public class Tokenizer {
 		}
 		return new Token(id, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
 		//return id;
+	}
+	
+	public static Token stringConst(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+		String constant = "";
+		if (sourceCode.charAt(index) == '"') {
+			for (int i = index + 1; i < sourceCode.length(); i++) {
+				if (sourceCode.charAt(i) == '"') break;
+				constant += sourceCode.charAt(i);
+			}
+			return new Token(constant, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
+		}
+		else return null;
 	}
 }	
 	// TESTING
