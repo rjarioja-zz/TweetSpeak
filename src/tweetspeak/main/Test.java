@@ -138,7 +138,7 @@ public class Test implements ActionListener {
 			}
 			
 			else if (source == save) {
-				if (textArea.getText().isEmpty() || textArea.getText() != "") {
+				if (textArea.getText().isEmpty() || textArea.getText() == "") {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
 					frame.setTitle(title + " - " + filename);
@@ -149,6 +149,7 @@ public class Test implements ActionListener {
 					Code.setCode(sourceCode);
 					write.print(sourceCode);
 					write.close();
+					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}				
 			}
@@ -162,6 +163,7 @@ public class Test implements ActionListener {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
 					write.print(textArea.getText());
 					write.close();
+					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}
 			}
