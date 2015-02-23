@@ -24,8 +24,8 @@ public class Tokenizer {
 		String tokenized = "";
 		
 		while (index < sourceCode.length()) {
-			String token = "", tokenType = "";
-			int count = 0, whitespace = 0;
+			String token = "";
+			int count = 0;
 			Token t;
 			
 //			tokenized += "\nindex:" + index + " - ";			
@@ -558,7 +558,7 @@ public class Tokenizer {
 *************************************************************************************/
 					case '#':
 						token += sourceCode.charAt(index++); count++;
-						tokenType = TokenType.RESERVED_WORD.toString();
+					TokenType.RESERVED_WORD.toString();
 						
 						switch (sourceCode.charAt(index)) {
 							// comment
@@ -580,8 +580,17 @@ public class Tokenizer {
 					               // add to lists
 					               tokens.add(t);
 					               lineCode.addToken(t);
+					               
 					               tokenized += "[" + t.getName() + "]";
-					               continue;
+					               t = new Token(
+					                        sourceCode.substring(index, sourceCode.length()), 
+					                        TokenName.GIBBERISH.toString(), 
+					                        TokenType.COMMENTS.toString(), 
+					                        lineCode.getLineNumber(), 
+					                        index
+					                    );
+					               tokenized += "[" + t.getType() + " = " + t.getLexeme() + "]";
+					               break;
 					            } else {
 					               index --; 
 					               tokenized += "[INVALID_TOKEN = COMMENT @" + index + "]";
@@ -1362,7 +1371,6 @@ public class Tokenizer {
 				}
 			} else {
 				tokenized += " ";
-				whitespace++;
 			}
 			
 		index++;
@@ -1387,7 +1395,6 @@ public class Tokenizer {
 			}
 		}
 		return new Token(id, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
-		//return id;
 	}
 	
 	public static Token stringConst(CodeLine lineCode, int index) {

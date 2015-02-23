@@ -1,6 +1,5 @@
 package tweetspeak.main;
 
-import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -13,8 +12,6 @@ import tweetspeak.functions.Tokenizer;
 public class TokenOutput implements ActionListener {
 
 	private String title = "TweetSpeak Tokens";
-	private String filename = "sample.tsp";
-	
 	private JFrame frame;
 	private JScrollPane scrollPane;
 	private JPanel panel1, panel2;
@@ -33,17 +30,16 @@ public class TokenOutput implements ActionListener {
 	
 	public TokenOutput(String filename) {
 		this();
-		this.filename = filename;
 		frame.setTitle(title + " - " + filename);
 	}
 	
 	public void launchApp() {
 		textArea.setBackground(Color.BLACK);
-		textArea.setFont(new java.awt.Font("Consolas", 0, 12));
+		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
 		textArea.setForeground(Color.white);
 		textArea.setTabSize(2);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
+		/*textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);*/
 		textArea.setText(Code.toLines());
 		
 		scrollPane = new JScrollPane(textArea);
@@ -64,6 +60,7 @@ public class TokenOutput implements ActionListener {
 		frame.pack();
 		frame.setVisible(true);
 		
+		buttonSource.setEnabled(false);
 		buttonSource.addActionListener(this);
 		buttonTokenized.addActionListener(this);
 		buttonClose.addActionListener(this);
@@ -76,6 +73,8 @@ public class TokenOutput implements ActionListener {
 		String text = "";
 		if (source == buttonSource) {
 			textArea.setText(Code.toLines());
+			buttonSource.setEnabled(false);
+			buttonTokenized.setEnabled(true);
 		}
 		
 		else if (source == buttonTokenized) {
@@ -84,6 +83,8 @@ public class TokenOutput implements ActionListener {
 				text += Tokenizer.tokenize(line) + "\n";
 			}
 			textArea.setText(text);
+			buttonSource.setEnabled(true);
+			buttonTokenized.setEnabled(false);
 		}
 		
 		else if (source == buttonClose) frame.dispose();
