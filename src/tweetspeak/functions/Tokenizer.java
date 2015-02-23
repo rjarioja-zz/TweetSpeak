@@ -43,6 +43,7 @@ public class Tokenizer {
 							token += sourceCode.charAt(index++); count++;
 //							System.out.println(index + " " + count);
 							System.out.print(token + ".INC_OP" + index + " " + sourceCode.length());
+							System.out.print(" " + index + " ");
 							//create token
 							t = new Token(
 									token, 
@@ -72,9 +73,8 @@ public class Tokenizer {
 							// add to lists
 							tokens.add(t);
 							lineCode.addToken(t);
-							continue;
+//							continue;
 						}
-						
 //						break;
 						
 					case '-':
