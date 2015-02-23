@@ -39,12 +39,12 @@ public class TokenOutput implements ActionListener {
 	
 	public void launchApp() {
 		textArea.setBackground(Color.BLACK);
-		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
-		textArea.setForeground(Color.GREEN);
+		textArea.setFont(new java.awt.Font("Consolas", 0, 12));
+		textArea.setForeground(Color.white);
 		textArea.setTabSize(2);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		textArea.setText(Code.getCode());
+		textArea.setText(Code.toLines());
 		
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(640, 480));
@@ -80,7 +80,7 @@ public class TokenOutput implements ActionListener {
 		
 		else if (source == buttonTokenized) {
 			for (CodeLine line : Code.getLineList()) {
-				text += "\ncode: \"" + line.getLineCode() + "\" length: " + line.getLineCode().length() + "\n";
+//				text += "\ncode: \"" + line.getLineCode() + "\" length: " + line.getLineCode().length() + "\n";
 				text += Tokenizer.tokenize(line) + "\n";
 			}
 			textArea.setText(text);

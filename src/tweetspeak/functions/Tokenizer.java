@@ -22,20 +22,18 @@ public class Tokenizer {
 		sourceCode = lineCode.getLineCode();
 		int index = 0;
 		String tokenized = "";
-//		System.out.println("\n" + sourceCode + " " + sourceCode.length());
 		
 		while (index < sourceCode.length()) {
 			String token = "", tokenType = "";
 			int count = 0, whitespace = 0;
 			Token t;
 			
-			tokenized += "\nindex:" + index + " - ";			
+//			tokenized += "\nindex:" + index + " - ";			
 			if (!Character.isWhitespace(sourceCode.charAt(index))) {
 				if (sourceCode.charAt(index) == 'a') {
 					if (sourceCode.charAt(index + 1) == 'c') {
 						if (index + 6 <= sourceCode.length() && (sourceCode.substring(index + 2, index + 6).equals("cept"))) {
 							token += "accept"; count += 6; index += 6;
-					        tokenized += token + ".BOOL_CONST_TRUE";
 					        //create token
 					        t = new Token(
 					                token, 
@@ -44,7 +42,7 @@ public class Tokenizer {
 					                lineCode.getLineNumber(), 
 					                index - count
 					            );
-					        
+					        tokenized += "[" + t.getName() + " = " + t.getLexeme() + "]";
 					        // add to lists
 					        tokens.add(t);
 					        lineCode.addToken(t);
@@ -53,7 +51,6 @@ public class Tokenizer {
 					} else if (sourceCode.charAt(index + 1) == 'r') {
 						if (index + 14 <= sourceCode.length() && (sourceCode.substring(index + 2, index + 14).equals("eFriendsWith"))) {
 							token += "areFriendsWith"; count += 14; index += 14;
-					        tokenized += token + ".CONCAT";
 					        //create token
 					        t = new Token(
 					                token, 
@@ -62,7 +59,7 @@ public class Tokenizer {
 					                lineCode.getLineNumber(), 
 					                index - count
 					            );
-					        
+					        tokenized += "[" + t.getName() + "]";
 					        // add to lists
 					        tokens.add(t);
 					        lineCode.addToken(t);
@@ -73,7 +70,6 @@ public class Tokenizer {
 				} else if (sourceCode.charAt(index) == 'd') {
 					if (index + 7 <= sourceCode.length() && (sourceCode.substring(index + 1, index + 7).equals("ecline"))) {
 						token += "decline"; count += 7; index += 7;
-				        tokenized += token + ".BOOL_CONST_FALSE";
 				        //create token
 				        t = new Token(
 				                token, 
@@ -82,7 +78,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + " = " + t.getLexeme() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -91,7 +87,6 @@ public class Tokenizer {
 				} else if (sourceCode.charAt(index) == 'n') {
 					if (index + 4 <= sourceCode.length() && (sourceCode.substring(index + 1, index + 4).equals("ull"))) {
 						token += "null"; count += 4; index += 4;
-				        tokenized += token + ".BOOL_CONST_TRUE";
 				        //create token
 				        t = new Token(
 				                token, 
@@ -100,7 +95,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -109,21 +104,30 @@ public class Tokenizer {
 				}  else if (sourceCode.charAt(index) == '"') {
 					t = stringConst(lineCode, index + 1);
 					if (t != null) {
-						 tokenized += t.getLexeme() + "." + t.getName();
-                		 tokens.add(t);
-                		 lineCode.addToken(t);
-                		 index += t.getLexeme().length() + 2;
-                		 continue;
+						tokenized += "[" + t.getName() + " = \"" + t.getLexeme() + "\"]";
+						tokens.add(t);
+						lineCode.addToken(t);
+						index += t.getLexeme().length() + 2;
+						continue;
 					}
 				} else if (sourceCode.charAt(index) == '\'') {
 					t = charConst(lineCode, index + 1);
 					if (t != null) {
-						 tokenized += t.getLexeme() + "." + t.getName();
-                		 tokens.add(t);
-                		 lineCode.addToken(t);
-                		 index += t.getLexeme().length() + 2;
-                		 continue;
+						tokenized += "[" + t.getName() + " = \'" + t.getLexeme() + "\']";
+						tokens.add(t);
+						lineCode.addToken(t);
+						index += t.getLexeme().length() + 2;
+						continue;
 					}
+				} else if (Character.isDigit(sourceCode.charAt(index))) {
+					t = numConst(lineCode, index);
+					if (t != null) {
+						tokenized += "[" + t.getName() + " = " + t.getLexeme() + "]";
+               			tokens.add(t);
+               			lineCode.addToken(t);
+               			index += t.getLexeme().length();
+               			continue;
+               		}
 				}
 				switch(sourceCode.charAt(index)) {
 
@@ -136,7 +140,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".INC_OP";
 				        //create token
 				        t = new Token(
 				                token, 
@@ -145,7 +148,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -153,7 +156,6 @@ public class Tokenizer {
 				    }
 				    
 				    else {
-				        tokenized += token + ".ADD_OP";
 				        // create token
 				        t = new Token(
 				                token, 
@@ -162,7 +164,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -176,7 +178,6 @@ public class Tokenizer {
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '-') {
 				        token += sourceCode.charAt(index++); count++;
 				        //System.out.println(index + " " + count);
-				        tokenized += token + ".DEC_OP";
 				        //create token
 				        t = new Token(
 				                token, 
@@ -185,7 +186,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -193,7 +194,6 @@ public class Tokenizer {
 				    }
 				    
 				    else {
-				    	tokenized += token + ".DIF_OP";
 				        // create token
 				        t = new Token(
 				                token, 
@@ -202,7 +202,7 @@ public class Tokenizer {
 				                lineCode.getLineNumber(), 
 				                index - count
 				            );
-				        
+				        tokenized += "[" + t.getName() + "]";
 				        // add to lists
 				        tokens.add(t);
 				        lineCode.addToken(t);
@@ -211,7 +211,6 @@ public class Tokenizer {
 
 				case '*':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".MUL_OP";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -220,6 +219,7 @@ public class Tokenizer {
 				                    lineCode.getLineNumber(),
 				                    index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
 				    // add to lists
 				    tokens.add(t);
 				    lineCode.addToken(t);
@@ -228,7 +228,6 @@ public class Tokenizer {
 				    
 				case '/':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".DIV_OP";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -237,6 +236,7 @@ public class Tokenizer {
 				                    lineCode.getLineNumber(),
 				                    index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
 				    //add to lists
 				    tokens.add(t);
 				    lineCode.addToken(t);
@@ -245,7 +245,6 @@ public class Tokenizer {
 				    
 				case '%':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".MOD_OP";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -255,13 +254,13 @@ public class Tokenizer {
 				                    index - count
 				            );
 				    //add to lists
+				    tokenized += "[" + t.getName() + "]";
 				    tokens.add(t);
 				    lineCode.addToken(t);						
 				    break;
 
 				case '^':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".EXP_OP";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -271,13 +270,13 @@ public class Tokenizer {
 				                    index - count
 				            );
 				    //add to lists
+				    tokenized += "[" + t.getName() + "]";
 				    tokens.add(t);
 				    lineCode.addToken(t);
 				    break;
 				    
 				case '(':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".LEFT_PAREN";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -286,6 +285,7 @@ public class Tokenizer {
 				                    lineCode.getLineNumber(),
 				                    index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
 				    //add to lists
 				    tokens.add(t);
 				    lineCode.addToken(t);
@@ -293,7 +293,6 @@ public class Tokenizer {
 				    
 				case ')':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".RIGHT_PAREN";
 				    //create token
 				    t = new Token (
 				                    token,
@@ -302,6 +301,7 @@ public class Tokenizer {
 				                    lineCode.getLineNumber(),
 				                    index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
 				    //add to lists
 				    tokens.add(t);
 				    lineCode.addToken(t);
@@ -315,7 +315,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '|') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".OR_OP";
 				        //create token
 				        t = new Token (
 				        		token,
@@ -326,6 +325,7 @@ public class Tokenizer {
 				        		);
 				        
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -339,7 +339,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '&') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".AND_OP";
 				        //create token
 				        t = new Token (
 				        		token,
@@ -350,6 +349,7 @@ public class Tokenizer {
 				        		);
 				        
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -363,7 +363,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".LESS_EQ_OP";
 				        //create token
 				        t = new Token (
 				                    token,
@@ -373,11 +372,11 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
 				    } else {
-				    	tokenized += token + ".LESS_OP";
 				        //create token
 				        t = new Token (
 				                    token,
@@ -387,6 +386,7 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        // add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -396,7 +396,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".GREAT_EQ_OP";
 				        //create token
 				        t = new Token (
 				                    token,
@@ -406,11 +405,11 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
 				    } else {
-				    	tokenized += token + ".GREAT_OP";
 				        //create token
 				        t = new Token (
 				                    token,
@@ -420,6 +419,7 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        // add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -429,7 +429,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".EQUAL_OP";
 				        //create token
 				        t = new Token(
 				                    token,
@@ -439,11 +438,11 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
 				    } else {
-				    	tokenized += token + ".ASSIGN_OP";
 				        //create token
 				        t = new Token(
 				                    token,
@@ -453,6 +452,7 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -462,7 +462,6 @@ public class Tokenizer {
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
 				        token += sourceCode.charAt(index++); count++;
-				        tokenized += token + ".NOT_EQUAL_OP";
 				        //create token
 				        t = new Token(
 				                    token,
@@ -472,11 +471,11 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
 				    } else {
-				    	tokenized += token + ".NOT_OP";
 				        //create token
 				        t = new Token(
 				                    token,
@@ -486,6 +485,7 @@ public class Tokenizer {
 				                    index - count
 				                );
 				        //add to lists
+				        tokenized += "[" + t.getName() + "]";
 				        tokens.add(t);
 				        lineCode.addToken(t);
 				        continue;
@@ -497,7 +497,6 @@ public class Tokenizer {
 
 				case ',':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".PARAM_SEP";
 				    //create token
 				    t = new Token (
 				                token,
@@ -506,10 +505,12 @@ public class Tokenizer {
 				                lineCode.getLineNumber(),
 				                index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
+				    tokens.add(t);
+			        lineCode.addToken(t);
 				    break;
 				case ';':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".STMT_SEP";
 				    //create token
 				    t = new Token (
 				                token,
@@ -518,10 +519,12 @@ public class Tokenizer {
 				                lineCode.getLineNumber(),
 				                index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
+				    tokens.add(t);
+			        lineCode.addToken(t);
 				    break;
 				case '"':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".DQUOTE";
 				    //create token
 				    t = new Token (
 				                token,
@@ -530,12 +533,12 @@ public class Tokenizer {
 				                lineCode.getLineNumber(),
 				                index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
 				    tokens.add(t);
-                    lineCode.addToken(t);
+			        lineCode.addToken(t);
 				    break;
 				case '\'':
 				    token += sourceCode.charAt(index); count++;
-				    tokenized += token + ".SQUOTE";
 				    //create token
 				    t = new Token (
 				                token,
@@ -544,9 +547,10 @@ public class Tokenizer {
 				                lineCode.getLineNumber(),
 				                index - count
 				            );
+				    tokenized += "[" + t.getName() + "]";
+				    tokens.add(t);
+			        lineCode.addToken(t);
 				    break;
-
-//>>>>>>> branch 'master' of https://rjarioja@github.com/rjarioja/TweetSpeak.git
 					
 /************************************************************************************
 				Fhrey
@@ -576,11 +580,11 @@ public class Tokenizer {
 					               // add to lists
 					               tokens.add(t);
 					               lineCode.addToken(t);
-					               tokenized += token + ".COMMENT";
+					               tokenized += "[" + t.getName() + "]";
 					               continue;
 					            } else {
 					               index --; 
-					               tokenized += token + ".COMMENT_ERROR";
+					               tokenized += "[INVALID_TOKEN = COMMENT @" + index + "]";
 					               continue;
 					            }
 							
@@ -602,7 +606,7 @@ public class Tokenizer {
 						            // add to lists
 						            tokens.add(t);
 						            lineCode.addToken(t);
-						            tokenized += token + ".CONTINUE";
+						            tokenized += "[" + t.getName() + "]";
 						            continue;
 						        } else {
 						            index --;
@@ -628,7 +632,7 @@ public class Tokenizer {
 							            // add to lists
 							            tokens.add(t);
 							            lineCode.addToken(t);
-							            tokenized += token + ".INPUT";
+							            tokenized += "[" + t.getName() + "]";
 							            continue;
 						            } else {
 						                index--;
@@ -667,7 +671,7 @@ public class Tokenizer {
 						                                
 						                                tokens.add(t);
 						                                lineCode.addToken(t);
-						                                tokenized += token + ".START";
+						                                tokenized += "[" + t.getName() + "]";
 						                                
 						                                if (Character.isLetter(sourceCode.charAt(index))) {
 						                                	t = identifier(lineCode, index);
@@ -676,7 +680,7 @@ public class Tokenizer {
 							                                	 tokens.add(t);
 							                                	 lineCode.addToken(t);
 							                                	 
-							                                	 tokenized += " " + t.getLexeme() + ".PROG_NAME";
+							                                	 tokenized += "[" + t.getName() + " = " + t.getLexeme() + "]";
 							                                	 index += t.getLexeme().length();
 							                                	 continue;
 							                            	 }
@@ -710,7 +714,7 @@ public class Tokenizer {
 						                                // add to lists
 						                                tokens.add(t);
 						                                lineCode.addToken(t);
-						                                tokenized += token + ".END";
+						                                tokenized += "[" + t.getName() + "]";
 						                                continue;
 						                            } else {
 						                                index --; 
@@ -746,7 +750,7 @@ public class Tokenizer {
 							                // add to lists
 							                tokens.add(t);
 							                lineCode.addToken(t);
-							                tokenized += token + ".DO";
+							                tokenized += "[" + t.getName() + "]";
 							                continue;
 							            } else {
 							                index --;
@@ -771,7 +775,7 @@ public class Tokenizer {
 					                // add to lists
 					                tokens.add(t);
 					                lineCode.addToken(t);
-					                tokenized += token + ".DO";
+					                tokenized += "[" + t.getName() + "]";
 					                continue;
 					            } else {
 					                index --;
@@ -798,7 +802,7 @@ public class Tokenizer {
 				                    // add to lists
 				                    tokens.add(t);
 				                    lineCode.addToken(t);
-				                    tokenized += token + ".MAIN";
+				                    tokenized += "[" + t.getName() + "]";
 				                    continue;
 					                } else {
 					                    index --;
@@ -830,13 +834,13 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_INT";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            // if next is identifier
 					                            if (Character.isLetter(sourceCode.charAt(index))) {
 					                            	 t = identifier(lineCode, index);
 					                            	 if (t != null) {
-					                            		 tokenized += " " + t.getLexeme() + ".VAR";
+					                            		 tokenized += "[" + t.getLexeme() + "]";
 					                            		 tokens.add(t);
 					                            		 lineCode.addToken(t);
 					                            		 index += t.getLexeme().length();
@@ -864,13 +868,13 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_FLOAT";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            // if next is identifier
 					                            if (Character.isLetter(sourceCode.charAt(index))) {
 					                            	 t = identifier(lineCode, index);
 					                            	 if (t != null) {
-					                            		 tokenized += " " + t.getLexeme() + ".VAR";
+					                            		 tokenized += "[" + t.getLexeme() + "]";
 					                            		 tokens.add(t);
 					                            		 lineCode.addToken(t);
 					                            		 index += t.getLexeme().length();
@@ -898,13 +902,13 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_CHAR";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            // if next is identifier
 					                            if (Character.isLetter(sourceCode.charAt(index))) {
 					                            	 t = identifier(lineCode, index);
 					                            	 if (t != null) {
-					                            		 tokenized += " " + t.getLexeme() + ".VAR";
+					                            		 tokenized += "[" + t.getLexeme() + "]";
 					                            		 tokens.add(t);
 					                            		 lineCode.addToken(t);
 					                            		 index += t.getLexeme().length();
@@ -932,13 +936,13 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_STRING";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            // if next is identifier
 					                            if (Character.isLetter(sourceCode.charAt(index))) {
 					                            	 t = identifier(lineCode, index);
 					                            	 if (t != null) {
-					                            		 tokenized += " " + t.getLexeme() + ".VAR";
+					                            		 tokenized += "[" + t.getLexeme() + "]";
 					                            		 tokens.add(t);
 					                            		 lineCode.addToken(t);
 					                            		 index += t.getLexeme().length();
@@ -966,13 +970,13 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_BOOL";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            // if next is identifier
 					                            if (Character.isLetter(sourceCode.charAt(index))) {
 					                            	 t = identifier(lineCode, index);
 					                            	 if (t != null) {
-					                            		 tokenized += " " + t.getLexeme() + ".VAR";
+					                            		 tokenized += "[" + t.getLexeme() + "]";
 					                            		 tokens.add(t);
 					                            		 lineCode.addToken(t);
 					                            		 index += t.getLexeme().length();
@@ -1000,7 +1004,7 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".DATATYPE_VOID";
+					                            tokenized += "[" + t.getName() + "]";
 					                            
 					                            continue;
 					                    
@@ -1035,7 +1039,7 @@ public class Tokenizer {
 						                // add to lists
 						                tokens.add(t);
 						                lineCode.addToken(t);
-						                tokenized += token + ".OUTPUT";
+			                            tokenized += "[" + t.getName() + "]";
 						                continue;
 					                } else {
 					                    index --;
@@ -1073,7 +1077,7 @@ public class Tokenizer {
 							                    // add to lists
 							                    tokens.add(t);
 							                    lineCode.addToken(t);
-							                    tokenized += token + ".ELSE_IF";
+					                            tokenized += "[" + t.getName() + "]";
 							                    continue;
 							                    } else {
 							                        index --;
@@ -1102,7 +1106,7 @@ public class Tokenizer {
 							                    // add to lists
 							                    tokens.add(t);
 							                    lineCode.addToken(t);
-							                    tokenized += token + ".ELSE";
+					                            tokenized += "[" + t.getName() + "]";
 							                    continue;
 							                    } else {
 							                        index --;
@@ -1149,7 +1153,7 @@ public class Tokenizer {
 					                            // add to lists
 					                            tokens.add(t);
 					                            lineCode.addToken(t);
-					                            tokenized += token + ".ASSIGN";
+					                            tokenized += "[" + t.getName() + "]";
 					                            continue;
 					                        } else {
 					                            index --;
@@ -1180,7 +1184,7 @@ public class Tokenizer {
 					                                // add to lists
 					                                tokens.add(t);
 					                                lineCode.addToken(t);
-					                                tokenized += token + ".WHILE";
+						                            tokenized += "[" + t.getName() + "]";
 					                                continue;
 					                            } else {
 					                                index --;
@@ -1223,7 +1227,7 @@ public class Tokenizer {
 					                    // add to lists
 					                    tokens.add(t);
 					                    lineCode.addToken(t);
-					                    tokenized += token + ".PROC_CALL";
+			                            tokenized += "[" + t.getName() + "]";
 					                    continue;
 					                    } else {
 					                        index --;
@@ -1256,7 +1260,7 @@ public class Tokenizer {
 					                    // add to lists
 					                    tokens.add(t);
 					                    lineCode.addToken(t);
-					                    tokenized += token + ".PROC_RET";
+			                            tokenized += "[" + t.getName() + "]";
 					                    continue;
 					                    } else {
 					                        index --;
@@ -1288,7 +1292,7 @@ public class Tokenizer {
 					                    // add to lists
 					                    tokens.add(t);
 					                    lineCode.addToken(t);
-					                    tokenized += token + ".IF";
+			                            tokenized += "[" + t.getName() + "]";
 					                    continue;
 					                    } else {
 					                        index --;
@@ -1328,7 +1332,7 @@ public class Tokenizer {
 					            // add to lists
 					            tokens.add(t);
 					            lineCode.addToken(t);
-					            tokenized += token + ".BREAK";
+					            tokenized += "[" + t.getName() + "]";
 					            continue;
 					        } else {
 					            index --;
@@ -1344,30 +1348,20 @@ public class Tokenizer {
 				        
 			//	LEVEL 1 SWITCH
 					default:
-						t = null;
-						if (Character.isDigit(sourceCode.charAt(index))) {
-							t = numConst(lineCode, index);
-							if (t != null) {
-	                   			tokenized += t.getLexeme() + "." + t.getName();
-	                   			tokens.add(t);
-	                   			lineCode.addToken(t);
-	                   			index += t.getLexeme().length();
-	                   			continue;
-	                   		}
-						} else if (Character.isLetter(sourceCode.charAt(index))) {
+						if (Character.isLetter(sourceCode.charAt(index)) || sourceCode.charAt(index) == '_') {
 							t = identifier(lineCode, index);
 							if (t != null) {
-	                   			tokenized += t.getLexeme() + "." + t.getName();
-	                   			tokens.add(t);
-	                   			lineCode.addToken(t);
-	                   			index += t.getLexeme().length();
-	                   			continue;
-	                   		}
+		               			tokens.add(t);
+		               			lineCode.addToken(t);
+		               			index += t.getLexeme().length();
+		               			tokenized += "[" + t.getLexeme() + "]";
+	//	               			continue;
+		               		}
 						}
-						tokenized += sourceCode.charAt(index);
+						
 				}
 			} else {
-				tokenized += "space";
+				tokenized += " ";
 				whitespace++;
 			}
 			
