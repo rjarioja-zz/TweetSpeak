@@ -8,13 +8,12 @@ import javax.swing.*;
 
 import tweetspeak.divisions.Code;
 import tweetspeak.divisions.CodeLine;
+import tweetspeak.functions.Tokenizer;
 
 public class TokenOutput implements ActionListener {
 
 	private String title = "TweetSpeak Tokens";
 	private String filename = "sample.tsp";
-	private String sourceCode = "";
-	private File sourceFile = new File(filename);
 	
 	private JFrame frame;
 	private JScrollPane scrollPane;
@@ -43,6 +42,8 @@ public class TokenOutput implements ActionListener {
 		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
 		textArea.setForeground(Color.GREEN);
 		textArea.setTabSize(2);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
 		textArea.setText(Code.getCode());
 		
 		scrollPane = new JScrollPane(textArea);
@@ -74,13 +75,13 @@ public class TokenOutput implements ActionListener {
 		Object source = ae.getSource();
 		String text = "";
 		if (source == buttonSource) {
-			
-            
+			textArea.setText(Code.toLines());
 		}
 		
 		else if (source == buttonTokenized) {
 			for (CodeLine line : Code.getLineList()) {
-				text += line.toString() + "\n";
+				text += "\ncode: \"" + line.getLineCode() + "\" length: " + line.getLineCode().length() + "\n";
+				text += Tokenizer.tokenize(line) + "\n";
 			}
 			textArea.setText(text);
 		}

@@ -1,4 +1,3 @@
-#login HelloWorld
-  #newsfeed
-     #outbox "Hello World"
-#logout
+accept decline 
+decline accept
+decline decline declinedecline decline declinedecline decline decline
