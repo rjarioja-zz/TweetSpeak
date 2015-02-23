@@ -31,101 +31,108 @@ public class Tokenizer {
 			
 			tokenized += "\nindex:" + index + " - ";			
 			if (!Character.isWhitespace(sourceCode.charAt(index))) {
+				if (sourceCode.charAt(index) == 'a') {
+					if (sourceCode.charAt(index + 1) == 'c') {
+						if (index + 6 <= sourceCode.length() && (sourceCode.substring(index + 2, index + 6).equals("cept"))) {
+							token += "accept"; count += 6; index += 6;
+					        tokenized += token + ".BOOL_CONST_TRUE";
+					        //create token
+					        t = new Token(
+					                token, 
+					                TokenName.BOOL_CONST_TRUE.toString(), 
+					                TokenType.CONSTANT.toString(), 
+					                lineCode.getLineNumber(), 
+					                index - count
+					            );
+					        
+					        // add to lists
+					        tokens.add(t);
+					        lineCode.addToken(t);
+					        continue;
+						}
+					} else if (sourceCode.charAt(index + 1) == 'r') {
+						if (index + 14 <= sourceCode.length() && (sourceCode.substring(index + 2, index + 14).equals("eFriendsWith"))) {
+							token += "areFriendsWith"; count += 14; index += 14;
+					        tokenized += token + ".CONCAT";
+					        //create token
+					        t = new Token(
+					                token, 
+					                TokenName.CONCAT.toString(), 
+					                TokenType.RESERVED_WORD.toString(), 
+					                lineCode.getLineNumber(), 
+					                index - count
+					            );
+					        
+					        // add to lists
+					        tokens.add(t);
+					        lineCode.addToken(t);
+					        continue;
+						}
+					} 
+						
+				} else if (sourceCode.charAt(index) == 'd') {
+					if (index + 7 <= sourceCode.length() && (sourceCode.substring(index + 1, index + 7).equals("ecline"))) {
+						token += "decline"; count += 7; index += 7;
+				        tokenized += token + ".BOOL_CONST_FALSE";
+				        //create token
+				        t = new Token(
+				                token, 
+				                TokenName.BOOL_CONST_FALSE.toString(), 
+				                TokenType.CONSTANT.toString(), 
+				                lineCode.getLineNumber(), 
+				                index - count
+				            );
+				        
+				        // add to lists
+				        tokens.add(t);
+				        lineCode.addToken(t);
+				        continue;
+					}
+				} else if (sourceCode.charAt(index) == 'n') {
+					if (index + 4 <= sourceCode.length() && (sourceCode.substring(index + 1, index + 4).equals("ull"))) {
+						token += "null"; count += 4; index += 4;
+				        tokenized += token + ".BOOL_CONST_TRUE";
+				        //create token
+				        t = new Token(
+				                token, 
+				                TokenName.NULL.toString(), 
+				                TokenType.CONSTANT.toString(), 
+				                lineCode.getLineNumber(), 
+				                index - count
+				            );
+				        
+				        // add to lists
+				        tokens.add(t);
+				        lineCode.addToken(t);
+				        continue;
+					}
+				}  else if (sourceCode.charAt(index) == '"') {
+					t = stringConst(lineCode, index + 1);
+					if (t != null) {
+						 tokenized += t.getLexeme() + "." + t.getName();
+                		 tokens.add(t);
+                		 lineCode.addToken(t);
+                		 index += t.getLexeme().length() + 2;
+                		 continue;
+					}
+				} else if (sourceCode.charAt(index) == '\'') {
+					t = charConst(lineCode, index + 1);
+					if (t != null) {
+						 tokenized += t.getLexeme() + "." + t.getName();
+                		 tokens.add(t);
+                		 lineCode.addToken(t);
+                		 index += t.getLexeme().length() + 2;
+                		 continue;
+					}
+				}
 				switch(sourceCode.charAt(index)) {
 
 /************************************************************************************
 				jkzurita
 				OPERATORS - ARITHMETIC                                                
 *************************************************************************************/
-
-					
-					/*
-					 * OPERATORS - ARITHMETIC
-					 */
-/*					case '+':
-						token += sourceCode.charAt(index++); count++;
-						if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
-							token += sourceCode.charAt(index++); count++;
-//							System.out.println(index + " " + count);
-							System.out.print(token + ".INC_OP" + index + " " + sourceCode.length());
-							System.out.print(" " + index + " ");
-							//create token
-							t = new Token(
-									token, 
-									TokenName.INC_OP.toString(), 
-									TokenType.OPERATOR.toString(), 
-									lineCode.getLineNumber(), 
-									index - count
-								);
-							
-							// add to lists
-							tokens.add(t);
-							lineCode.addToken(t);
-							continue;
-						}
-						
-						else {
-							System.out.print(token + ".ADD_OP" + index + " " + sourceCode.length());
-							// create token
-							t = new Token(
-									token, 
-									TokenName.ADD_OP.toString(), 
-									TokenType.OPERATOR.toString(), 
-									lineCode.getLineNumber(), 
-									index - count
-								);
-							
-							// add to lists
-							tokens.add(t);
-							lineCode.addToken(t);
-//							continue;
-						}
-//						break;
-						
-					case '-':
-						token += sourceCode.charAt(index++); count++;
-						if (index < sourceCode.length() && sourceCode.charAt(index) == '-') {
-							token += sourceCode.charAt(index++); count++;
-							//System.out.println(index + " " + count);
-							System.out.print(token + ".DEC_OP" + index + " " + sourceCode.length());
-							//create token
-							t = new Token(
-									token, 
-									TokenName.DEC_OP.toString(), 
-									TokenType.OPERATOR.toString(), 
-									lineCode.getLineNumber(), 
-									index - count
-								);
-							
-							// add to lists
-							tokens.add(t);
-							lineCode.addToken(t);
-							continue;
-						}
-						
-						else {
-							System.out.print(token + ".DIF_OP" + index + " " + sourceCode.length());
-							// create token
-							t = new Token(
-									token, 
-									TokenName.DEC_OP.toString(), 
-									TokenType.OPERATOR.toString(), 
-									lineCode.getLineNumber(), 
-									index - count
-								);
-							
-							// add to lists
-							tokens.add(t);
-							lineCode.addToken(t);
-							continue;
-						} 
-						*/
-
-//				case '+':
-
-					
+				
 				case '+':
-//>>>>>>> branch 'master' of https://rjarioja@github.com/rjarioja/TweetSpeak.git
 				    token += sourceCode.charAt(index++); count++;
 				    if (index < sourceCode.length() && sourceCode.charAt(index) == '+') {
 				        token += sourceCode.charAt(index++); count++;
@@ -523,6 +530,8 @@ public class Tokenizer {
 				                lineCode.getLineNumber(),
 				                index - count
 				            );
+				    tokens.add(t);
+                    lineCode.addToken(t);
 				    break;
 				case '\'':
 				    token += sourceCode.charAt(index); count++;
@@ -1332,110 +1341,6 @@ public class Tokenizer {
 							tokenized += sourceCode.charAt(index) + " " + index + " " + sourceCode.length();
 							continue;
 						}
-					
-					case 'a':
-						token += sourceCode.charAt(index++); count++;
-						switch(sourceCode.charAt(index)) {
-							case 'c':
-								token += sourceCode.charAt(index++); count++;
-								if (index + 3 < sourceCode.length()) {
-									if (sourceCode.charAt(index) == 'c' && sourceCode.charAt(index + 1) == 'e' 
-								             && sourceCode.charAt(index + 2) == 'p' && sourceCode.charAt(index + 3) == 't') {
-										token += "cept"; index += 4; count += 4;
-										t = new Token(
-										           token, 
-										           TokenName.BOOL_CONST_TRUE.toString(), 
-										           TokenType.RESERVED_WORD.toString(), 
-										           lineCode.getLineNumber(), 
-										           index - count
-											 );
-										tokens.add(t);
-										lineCode.addToken(t);
-										tokenized += token + ".BOOL_CONST_TRUE";
-										continue;
-									} else {
-										index--;
-										tokenized += token + ".BOOL_CONST_TRUE_ERROR";
-										continue;
-									}
-								} continue;
-								
-							case 'r':
-								token += sourceCode.charAt(index++); count++;
-								if (index + 11 < sourceCode.length()) {
-									if (sourceCode.charAt(index) == 'e' && sourceCode.charAt(index + 1) == 'F' 
-											&& sourceCode.charAt(index + 2) == 'r' && sourceCode.charAt(index + 3) == 'i' 
-											&& sourceCode.charAt(index + 4) == 'e' && sourceCode.charAt(index + 5) == 'n' 
-											&& sourceCode.charAt(index + 6) == 'd' && sourceCode.charAt(index + 7) == 's' 
-											&& sourceCode.charAt(index + 8) == 'W' && sourceCode.charAt(index + 9) == 'i' 
-											&& sourceCode.charAt(index + 10) == 't' && sourceCode.charAt(index + 11) == 'h') {
-								         token +="eFriendsWith"; index += 12; count += 12;							         
-								         t = new Token(
-								                    token, 
-								                    TokenName.CONCAT.toString(), 
-								                    TokenType.RESERVED_WORD.toString(), 
-								                    lineCode.getLineNumber(), 
-								                    index - count
-								                );
-								            
-								            // add to lists
-								            tokens.add(t);
-								            lineCode.addToken(t);
-								            tokenized += token + ".CONCAT";
-								         continue;
-							         } else {
-							             index --;
-							             tokenized += token + ".CONCAT_ERROR";
-							             continue;
-							         }
-								} continue; 
-						} 
-					
-					case 'd':
-						token += sourceCode.charAt(index++); count++;
-				        if (index + 5 < sourceCode.length()) {
-							if (sourceCode.charAt(index) =='e' && sourceCode.charAt(index + 1) == 'c' 
-					        		&& sourceCode.charAt(index + 2) == 'l' && sourceCode.charAt(index + 3) == 'i' 
-					        		&& sourceCode.charAt(index + 4) == 'n' && sourceCode.charAt(index + 5) == 'e') {
-	
-					            token +="ecline"; index += 6; count +=6;
-				                t = new Token(
-				                        token, 
-				                        TokenName.BOOL_CONST_FALSE.toString(), 
-				                        TokenType.RESERVED_WORD.toString(), 
-				                        lineCode.getLineNumber(), 
-				                        index - count
-				                        );
-	
-				                // add to lists
-				                tokens.add(t);
-				                lineCode.addToken(t);
-				                tokenized += token + ".BOOL_CONST_FALSE";
-				            } continue;
-				        } index--;
-					
-				        
-					case 'n':
-						token += sourceCode.charAt(index++); count++;
-						if (index + 2 < sourceCode.length()) {
-							if (sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 'l' 
-							        && sourceCode.charAt(index + 2) == 'l') {
-							    token += "ull"; index += 3; count += 3;
-							    t = new Token(
-							               token, 
-							               TokenName.NULL.toString(), 
-							               TokenType.RESERVED_WORD.toString(), 
-							               lineCode.getLineNumber(), 
-							               index - count
-							           );
-							       
-							       // add to lists
-							       tokens.add(t);
-							       lineCode.addToken(t);
-							     tokenized += token + ".NULL";
-							     continue;
-						    }
-						} index--;
 				        
 			//	LEVEL 1 SWITCH
 					default:
@@ -1494,35 +1399,29 @@ public class Tokenizer {
 	public static Token stringConst(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
 		String constant = "";
-		if (sourceCode.charAt(index) == '"') {
-			for (int i = index + 1; i < sourceCode.length(); i++) {
-				constant += sourceCode.charAt(i);
-				if (sourceCode.charAt(i) == '"') break;
+		while (index < sourceCode.length()) {
+			if (sourceCode.charAt(index) == '"') {
+				if (sourceCode.charAt(index - 1) == '\\') {
+					constant += sourceCode.charAt(index);
+					index += 2;
+					continue;
+				}
+				else break;
 			}
-			if ((char) constant.charAt(constant.length() - 1) == '"') return null;
-			else {
-				constant = constant.substring(0, constant.length() - 1);
-				return new Token(constant, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
-			}
+			constant += sourceCode.charAt(index++);
 		}
-		return null;
+		if (sourceCode.length() - index == constant.length() + 1 || constant.isEmpty()) return null;
+		else return new Token(constant, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 	}
 	
 	public static Token charConst(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
 		String constant = "";
-		if (sourceCode.charAt(index) == '\'') {
-			for (int i = index + 1; i < sourceCode.length(); i++) {
-				constant += sourceCode.charAt(i);
-				if (sourceCode.charAt(i) == '\'') break;
-			}
-			if ((char) constant.charAt(constant.length() - 1) == '\'') return null;
-			else {
-				constant = constant.substring(0, constant.length() - 1);
-				return new Token(constant, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
-			}
+		if (sourceCode.charAt(index + 1) == '\'') {
+			constant += sourceCode.charAt(index);
+			return new Token(constant, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 		}
-		return null;
+		else return null;
 	}
 	
 	public static Token numConst(CodeLine lineCode, int index) {
