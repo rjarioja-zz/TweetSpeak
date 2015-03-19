@@ -642,6 +642,7 @@ public class Tokenizer {
 							            tokens.add(t);
 							            lineCode.addToken(t);
 							            tokenized += "[" + t.getName() + "]";
+							            index++;
 							            continue;
 						            } else {
 						                index--;
@@ -1031,7 +1032,7 @@ public class Tokenizer {
 					                }
 					            }
 					            
-					            //#OUTBOX
+					            //#outbox
 					            else if (sourceCode.charAt(index) == 'u' && sourceCode.charAt(index + 1) == 't' 
 					            		&& sourceCode.charAt(index + 2) == 'b' && sourceCode.charAt(index + 3) == 'o' 
 					            		&& sourceCode.charAt(index + 4) == 'x') {
@@ -1046,6 +1047,7 @@ public class Tokenizer {
 						                    );
 						                
 						                // add to lists
+						                index++;
 						                tokens.add(t);
 						                lineCode.addToken(t);
 			                            tokenized += "[" + t.getName() + "]";

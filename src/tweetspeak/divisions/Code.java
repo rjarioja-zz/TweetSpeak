@@ -20,7 +20,7 @@ public class Code {
 		String lines[] = code.split("\n");
 		Code.code = code;
 		Code.lines.clear();
-		int lineNumber = 0;
+		int lineNumber = 1;
 		for (String l : lines) {
 			addLine(new CodeLine(l, lineNumber++));
 		}
@@ -39,8 +39,8 @@ public class Code {
 		String lines[] = code.split("\n");
 		String toLines = "";
 		if (Code.lines.isEmpty()) {
-			int lineCount = 0;
-			for (String s : lines) Code.addLine(new CodeLine(s, ++lineCount));
+			int lineCount = 1;
+			for (String s : lines) Code.addLine(new CodeLine(s, lineCount++));
 		}
 		
 		for (CodeLine l : Code.lines) toLines += l.toString() + "\n";

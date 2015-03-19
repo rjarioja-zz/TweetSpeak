@@ -79,7 +79,10 @@ public class TokenOutput implements ActionListener {
 		
 		else if (source == buttonTokenized) {
 			for (CodeLine line : Code.getLineList()) {
-//				text += "\ncode: \"" + line.getLineCode() + "\" length: " + line.getLineCode().length() + "\n";
+				String lineNumber = Integer.toString(line.getLineNumber());
+				if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";
+				else lineNumber += "\t";
+				text += lineNumber;
 				text += Tokenizer.tokenize(line) + "\n";
 			}
 			textArea.setText(text);
