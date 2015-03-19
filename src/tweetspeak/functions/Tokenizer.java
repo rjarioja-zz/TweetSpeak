@@ -10,7 +10,35 @@ import tweetspeak.objects.Token;
 public class Tokenizer {
 	private static String sourceCode;
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
+	private HashMap<String, Token> SymbolTable;
 	
+	public Tokenizer () {
+		SymbolTable = new HashMap<>(100);
+		
+		SymbolTable.put("areFriendsWith", new Token("areFriendsWith", TokenName.ASSIGN_OP.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#comment", new Token("#comment", TokenName.COMMENT.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#follow", new Token("#follow",TokenName.CONTINUE.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#inbox", new Token("#inbox", TokenName.INPUT.toString(), TokenType.RESERVED_WORD.toString(), -1,-1));
+		SymbolTable.put("#login", new Token("#login",TokenName.START.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#logout", new Token("#logout", TokenName.END.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#like", new Token("#like", TokenName.DO.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#newsfeed", new Token("#newsfeed", TokenName.MAIN.toString(), TokenType.RESERVED_WORD.toString(), -1,-1));
+		SymbolTable.put("#ooti", new Token("#ooti", TokenName.DATATYPE_INT.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#ootf", new Token("#ootf", TokenName.DATATYPE_FLOAT.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#ootc", new Token("#ootc", TokenName.DATATYPE_CHAR.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#oots", new Token("#oots", TokenName.DATATYPE_STRING.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#ootb", new Token("#ootb", TokenName.DATATYPE_BOOL.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#ootv", new Token("#ootv", TokenName.DATATYPE_VOID.toString(), TokenType.RESERVED_WORD.toString(), -1,-1));
+		SymbolTable.put("#outbox", new Token("#outbox", TokenName.OUTPUT.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#retweet", new Token("#retweet", TokenName.ELSE_IF.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#reply", new Token("#reply", TokenName.ELSE.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+		SymbolTable.put("#share", new Token("#share", TokenName.ASSIGN.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#status", new Token("#status", TokenName.WHILE.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#trending", new Token("#trending", TokenName.PROC_CALL.toString(),TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#throwback", new Token("#throwback", TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), -1, -1));
+		SymbolTable.put("#tweet", new Token("#tweet", TokenName.IF.toString(), TokenType.RESERVED_WORD.toString(), -1,-1));
+		SymbolTable.put("#unfollow", new Token("#unfollow", TokenName.BREAK.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
+	}
 	//getters
 	public static String getSourceCode() { return sourceCode; }
 	
@@ -1364,7 +1392,7 @@ public class Tokenizer {
 							if (t != null) {
 		               			tokens.add(t);
 		               			lineCode.addToken(t);
-		               			index += t.getLexeme().length();
+		               			index += t.getLexeme().length() - 1;
 		               			tokenized += "[" + t.getLexeme() + "]";
 	//	               			continue;
 		               		}
@@ -1387,13 +1415,15 @@ public class Tokenizer {
 		if (Character.isLetter(sourceCode.charAt(index)) || sourceCode.charAt(index) == '_') {
 			id += sourceCode.charAt(index); index++;
 			while (index < sourceCode.length()) {
-				if (Character.isWhitespace(sourceCode.charAt(index))) break;
-				else if (Character.isLetter(sourceCode.charAt(index)) 
+				
+				if (Character.isLetter(sourceCode.charAt(index)) 
 						|| Character.isDigit(sourceCode.charAt(index)) 
 						|| sourceCode.charAt(index) == '_') {
 					id += sourceCode.charAt(index++);
 				}
-				else return null;
+				else {
+					break;
+				}
 			}
 		}
 		return new Token(id, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
