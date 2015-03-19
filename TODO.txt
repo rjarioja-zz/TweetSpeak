@@ -1,0 +1,9 @@
+Pre-Phase 3 TASKS:
+
+1) Modify Tokenizer.tokenize to return Token instead of String. Remove loop. Return last index.
+2) Create symbol table
+3) Create dummy parser
+4) Create operator precedence table
+5) Double check CFG depending if parser to be used is LR(1) or LL(1)
+6) Double check DFAs
+7) Double check documentations
