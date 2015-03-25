@@ -179,7 +179,7 @@ public class Tokenizer {
 			    if (index < sourceCode.length() && sourceCode.charAt(index) == '&') {
 			        token += sourceCode.charAt(index++);
 			        return new Token(token, TokenName.AND_OP.toString(), TokenType.OPERATOR.toString(), lineCode.getLineNumber(), index);
-			    } else return new Error(token, "INVALID AND OPERATOR", lineCode.getLineNumber(), index);
+			    } else return new Error(token, "INVALID 'AND' OPERATOR", lineCode.getLineNumber(), index);
 			case '<':
 			    token += sourceCode.charAt(index++);
 			    if (index < sourceCode.length() && sourceCode.charAt(index) == '=') {
@@ -208,5 +208,18 @@ public class Tokenizer {
 		return new Error(token, "INVALID RELATIONAL OPERATOR", lineCode.getLineNumber(), index);
 	}
 	
+	/*
+	public static Token getReservedWords(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+		String token = "";
+		if (sourceCode.charAt(index) == '#') {
+			token += sourceCode.charAt(index++);
+			switch(sourceCode.charAt(index)) {
+				
+			}
+		}
+		
+	}
+	*/
 }
 	
