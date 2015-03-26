@@ -437,6 +437,28 @@ public class Tokenizer {
 								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 						} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+					
+					// reply, retweet
+					case 'r':
+						token += sourceCode.charAt(index++);
+						if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+						if (sourceCode.charAt(index) == 'e') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'p') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'l') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 'y') {
+										
+									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							} else if (sourceCode.charAt(index) == 't') {
+								
+							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 				}
 		}
 		 return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
