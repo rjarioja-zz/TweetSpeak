@@ -32,7 +32,14 @@ public class Test implements ActionListener {
 	private JMenuItem exit;
 	private JMenuItem tokenize;
 	
-	//constructor
+	//nested class
+	class CloseHandler extends WindowAdapter {
+		public void windowClosing(WindowEvent we) {	
+			System.exit(0); 
+		}
+	}
+	
+	//constructors
 	public Test() {
 		frame = new JFrame(title + " - " + filename);
 		panel1 = new JPanel();
@@ -139,9 +146,7 @@ public class Test implements ActionListener {
 				}
 				catch (FileNotFoundException fnfe) {}
 				catch (IOException ie) {}
-			}
-			
-			else if (source == save) {
+			} else if (source == save) {
 				if (filename.equals("new.tsp")) {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
@@ -156,9 +161,7 @@ public class Test implements ActionListener {
 					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}				
-			}
-			
-			else if (source == saveAs) {
+			} else if (source == saveAs) {
 				saveBox.showSaveDialog(frame);
 				sourceFile = saveBox.getSelectedFile();
 				filename = saveBox.getSelectedFile().getName();
@@ -172,25 +175,15 @@ public class Test implements ActionListener {
 					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}
-			}
-			
-			else if (source == tokenize) {
+			} else if (source == tokenize || source == buttonTokenizer) {
 				Code.setCode(textArea.getText());
 				Tokenizer.tokenize();
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
-			}
-			
-			else if (source == exit) System.exit(0);
+			} else if (source == exit) System.exit(0);
 		}
 	}
-	
-	class CloseHandler extends WindowAdapter {
-		public void windowClosing(WindowEvent we) {	
-			System.exit(0); 
-		}
-	}
-	
+
 	public static void main(String args[]) {
 		Test test = new Test();
 		test.launchApp();

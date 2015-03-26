@@ -101,7 +101,8 @@ public class TokenOutput implements ActionListener {
 				if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";
 				else lineNumber += "\t";
 				
-				text += lineNumber + line.getTokens() + "\n";
+				text += lineNumber;
+				text += !line.getTokens().isEmpty() ? line.getTokens() + "\n" : "\n";
 			}
 			textArea.setText(text);
 			buttonSource.setEnabled(true);
