@@ -126,6 +126,14 @@ public class Tokenizer {
 						index = token.getNextIndex();
 						continue;
 						
+					case '\'':
+						token = getCharConstant(line, index);
+						Tokenizer.tokens.add(token);
+						line.addToken(token);
+						tokenizedCode += token.printToken();
+						index = token.getNextIndex();
+						continue;
+						
 					default:
 						tokenizedCode += code.charAt(index++);
 						continue;
@@ -535,6 +543,29 @@ public class Tokenizer {
 		 return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 	}
 	
+	public static Token getCharConstant(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+		String token = "";
+		
+		if(sourceCode.charAt(index) == '\'');
+		{
+			token += sourceCode.charAt(index++);
+			
+			while(sourceCode.charAt(index) != '\'')
+			{
+				token += sourceCode.charAt(index++);
+				if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN; MISSING END QUOTE - " + token, lineCode.getLineNumber(), index);
+			}
+			
+			if(sourceCode.charAt(index) == '\'')
+			{
+				token += sourceCode.charAt(index++); 
+				return new Token(token, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
+			} 
+			return new Token(token, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
+		}
+	}   
 	
 }
+
 	
