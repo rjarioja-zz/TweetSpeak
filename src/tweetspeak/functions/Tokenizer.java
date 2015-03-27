@@ -120,6 +120,7 @@ public class Tokenizer {
 						
 					case '#':
 						token = getReservedWords(line, index);
+						if (token instanceof Error) token = getComments(line, index);
 						Tokenizer.tokens.add(token);
 						line.addToken(token);
 						tokenizedCode += token.printToken();
@@ -665,19 +666,58 @@ public class Tokenizer {
 		return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 	}
 	
+	public static Token getComments(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+		String token = "";
+		
+		if (sourceCode.charAt(index) == '#') {
+			token += sourceCode.charAt(index++);
+			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+			if (sourceCode.charAt(index) == 'c') {
+				token += sourceCode.charAt(index++);
+				if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+				if (sourceCode.charAt(index) == 'o') {
+					token += sourceCode.charAt(index++);
+					if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+					if (sourceCode.charAt(index) == 'm') {
+						token += sourceCode.charAt(index++);
+						if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+						if (sourceCode.charAt(index) == 'm') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'e') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'n') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 't') {
+										token += sourceCode.charAt(index++);
+										if (sourceCode.charAt(index) == ' ') {
+											token += sourceCode.substring(index, sourceCode.length() - 1);
+											return new Token(token, TokenName.COMMENT.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), sourceCode.length());
+										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+								} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+							} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+						} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+					} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+				} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+			} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+		} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+	}
+	
 	public static Token getCharConstant(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
 		String token = "";
 		
-		if(sourceCode.charAt(index++) == '\''); {
+		if (sourceCode.charAt(index++) == '\'') {
 			if (index >= sourceCode.length()) return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
 			token += sourceCode.charAt(index++);
 			if (sourceCode.charAt(index) == '\'') {
 				token += sourceCode.charAt(index++); 
 				return new Token(token, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 			} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-		}
+		} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
 	}   
 }
-
-	

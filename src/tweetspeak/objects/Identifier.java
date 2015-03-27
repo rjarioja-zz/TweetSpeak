@@ -56,5 +56,4 @@ public class Identifier extends Token {
 	public String getStringVal() { return stringVal; }
 	public boolean isBoolean() { return boolVal; }
 	public boolean isVoid() { return voidFlag; }
-
 }
