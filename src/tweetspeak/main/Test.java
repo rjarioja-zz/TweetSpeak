@@ -150,7 +150,7 @@ public class Test implements ActionListener {
 				if (filename.equals("new.tsp")) {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
-					frame.setTitle(title + " - " + filename);
+					frame.setTitle(title + " - " + sourceFile);
 				}
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
