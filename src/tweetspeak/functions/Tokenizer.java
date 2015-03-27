@@ -15,6 +15,7 @@ public class Tokenizer {
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
 	private HashMap<String, Token> reserveWordSymbolTable;
 	private HashMap<String, Token> identifierSymbolTable;
+	private Stack<Token> indentStack = new Stack<Token>();
 	
 	//constructors
 	public Tokenizer () {
@@ -60,10 +61,10 @@ public class Tokenizer {
 		for (CodeLine line : Code.getLineList()) {
 			Token token;
 			String code = line.getLineCode(), buffer = "";
-			int index = 0, prevNestCount = 0, currNestCount = 0;
+			int index = 0, previousIndent = 0, currentIndent = 0;
 			
 			while (index < code.length()) {
-				token = null; currNestCount = 0;
+				token = null; currentIndent = 0;
 				switch (code.charAt(index)) {
 					case ' ': 
 						if (index == 0) {
@@ -79,7 +80,7 @@ public class Tokenizer {
 									line.addToken(token);
 									tokenizedCode += token.printToken();
 									index = token.getNextIndex();
-									currNestCount++;
+									currentIndent++;
 								}
 								continue;
 							} else {
@@ -170,7 +171,7 @@ public class Tokenizer {
 				}
 			}
 			tokenizedCode += "\n";
-			prevNestCount = currNestCount;
+			previousIndent = currentIndent;
 		}
 	}
 

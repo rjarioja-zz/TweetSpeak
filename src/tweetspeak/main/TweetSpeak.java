@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class Test implements ActionListener {
+public class TweetSpeak implements ActionListener {
 
 	private String title = "TweetSpeak Test";
 	private String filename = "new.tsp";
@@ -41,7 +41,7 @@ public class Test implements ActionListener {
 	}
 	
 	//constructors
-	public Test() {
+	public TweetSpeak() {
 		frame = new JFrame(title + " - " + filename);
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -192,8 +192,8 @@ public class Test implements ActionListener {
 	}
 
 	public static void main(String args[]) {
-		Test test = new Test();
-		test.launchApp();
+		TweetSpeak main = new TweetSpeak();
+		main.launchApp();
 	}
 
 }
