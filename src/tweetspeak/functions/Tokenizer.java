@@ -14,7 +14,6 @@ public class Tokenizer {
 	
 	public Tokenizer () {
 		SymbolTable = new HashMap<>(100);
-		
 		SymbolTable.put("areFriendsWith", new Token("areFriendsWith", TokenName.ASSIGN_OP.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
 		SymbolTable.put("#comment", new Token("#comment", TokenName.COMMENT.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
 		SymbolTable.put("#follow", new Token("#follow",TokenName.CONTINUE.toString(),TokenType.RESERVED_WORD.toString(),-1,-1));
@@ -39,6 +38,7 @@ public class Tokenizer {
 		SymbolTable.put("#tweet", new Token("#tweet", TokenName.IF.toString(), TokenType.RESERVED_WORD.toString(), -1,-1));
 		SymbolTable.put("#unfollow", new Token("#unfollow", TokenName.BREAK.toString(), TokenType.RESERVED_WORD.toString(),-1,-1));
 	}
+	
 	//getters
 	public static String getSourceCode() { return sourceCode; }
 	
@@ -56,7 +56,7 @@ public class Tokenizer {
 			int count = 0;
 			Token t;
 			
-//			tokenized += "\nindex:" + index + " - ";			
+  			// tokenized += "\nindex:" + index + " - ";			
 			if (!Character.isWhitespace(sourceCode.charAt(index))) {
 				if (sourceCode.charAt(index) == 'a') {
 					if (sourceCode.charAt(index + 1) == 'c') {
@@ -198,8 +198,6 @@ public class Tokenizer {
 				        lineCode.addToken(t);
 				        continue;
 				    }
-				    
-
 				    
 				case '-':
 				    token += sourceCode.charAt(index++); count++;
