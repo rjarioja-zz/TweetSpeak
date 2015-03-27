@@ -31,6 +31,7 @@ public class Test implements ActionListener {
 	private JMenuItem saveAs;
 	private JMenuItem exit;
 	private JMenuItem tokenize;
+	private JMenuItem parser;
 	
 	//nested class
 	class CloseHandler extends WindowAdapter {
@@ -96,6 +97,11 @@ public class Test implements ActionListener {
 		tokenize.addActionListener(this);
 		compiler.add(tokenize);
 		
+		parser = new JMenuItem("Parse              ");
+		parser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		parser.addActionListener(this);
+		compiler.add(tokenize);
+		
 		panel1.setLayout(new BorderLayout());
 		panel1.add(scrollPane, BorderLayout.CENTER);
 		
@@ -150,7 +156,8 @@ public class Test implements ActionListener {
 				if (filename.equals("new.tsp")) {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
-					frame.setTitle(title + " - " + sourceFile);
+					filename = saveBox.getSelectedFile().getName();
+					frame.setTitle(title + " - " + filename);
 				}
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));

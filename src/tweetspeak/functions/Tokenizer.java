@@ -16,6 +16,7 @@ public class Tokenizer {
 	private HashMap<String, Token> reserveWordSymbolTable;
 	private HashMap<String, Token> identifierSymbolTable;
 	
+	//constructors
 	public Tokenizer () {
 		reserveWordSymbolTable = new HashMap<>(100);
 		reserveWordSymbolTable.put("areFriendsWith", new Token("areFriendsWith", TokenName.ASSIGN_OP.toString(),TokenType.RESERVED_WORD.toString()));
@@ -701,19 +702,20 @@ public class Tokenizer {
 									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 									if (sourceCode.charAt(index) == 't') {
 										token += sourceCode.charAt(index++);
-										if (sourceCode.charAt(index) == ' ') {
-											token += sourceCode.substring(index, sourceCode.length() - 1);
-											return new Token(token, TokenName.COMMENT.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), sourceCode.length());
+										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+										if (sourceCode.charAt(index++) == ' ') {
+											return new Comment(token, sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());
 										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
-									} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-								} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-							} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-						} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-					} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-				} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-			} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
-		} else return new Error(token, "INVALID CHARACTER CONSTANT" + token, lineCode.getLineNumber(), index);
+									} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+								} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+							} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+						} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+					} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+				} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+			} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+		} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 	}
+	
 	
 	public static Token getCharConstant(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
