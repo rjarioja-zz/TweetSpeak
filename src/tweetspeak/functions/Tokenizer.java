@@ -586,8 +586,10 @@ public class Tokenizer {
 				return new Token(token, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 			} 
 			return new Token(token, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
-		}
-	}   
+		}  
+	}     
+	
+
 }
 
 	
