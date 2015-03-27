@@ -12,7 +12,7 @@ import javax.swing.*;
 public class Test implements ActionListener {
 
 	private String title = "TweetSpeak Test";
-	private String filename = "sample.tsp";
+	private String filename = "new.tsp";
 	private File sourceFile = new File(filename);
 	
 	private JFrame frame;	
@@ -30,10 +30,18 @@ public class Test implements ActionListener {
 	private JMenuItem save;
 	private JMenuItem saveAs;
 	private JMenuItem exit;
+	private JMenuItem tokenize;
 	
+	//nested class
+	class CloseHandler extends WindowAdapter {
+		public void windowClosing(WindowEvent we) {	
+			System.exit(0); 
+		}
+	}
 	
+	//constructors
 	public Test() {
-		frame = new JFrame(title);
+		frame = new JFrame(title + " - " + filename);
 		panel1 = new JPanel();
 		panel2 = new JPanel();
 		textArea = new JTextArea("");
@@ -47,6 +55,7 @@ public class Test implements ActionListener {
 		about = new JMenu("About");
 	}
 	
+	//methods
 	public void launchApp() {
 		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
 		textArea.setTabSize(2);
@@ -62,26 +71,30 @@ public class Test implements ActionListener {
 		about.setMnemonic(KeyEvent.VK_A);
 		menuBar.add(about);
 		
-		open = new JMenuItem("Open File           ");
+		open = new JMenuItem("Open File             ");
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		open.addActionListener(this);
 		file.add(open);
 		
-		save = new JMenuItem("Save File           ");
+		save = new JMenuItem("Save File             ");
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		save.addActionListener(this);
 		file.add(save);
 		
-		saveAs = new JMenuItem("Save As...          ");
+		saveAs = new JMenuItem("Save As...            ");
 		saveAs.addActionListener(this);
 		file.add(saveAs);
 		
-		
-		exit = new JMenuItem("Exit Program...     ");
+		exit = new JMenuItem("Exit Program...       ");
 		exit.setMnemonic(KeyEvent.VK_X);
 		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		exit.addActionListener(this);
 		file.add(exit);
+		
+		tokenize = new JMenuItem("Tokenize              ");
+		tokenize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+		tokenize.addActionListener(this);
+		compiler.add(tokenize);
 		
 		panel1.setLayout(new BorderLayout());
 		panel1.add(scrollPane, BorderLayout.CENTER);
@@ -98,9 +111,7 @@ public class Test implements ActionListener {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.addWindowListener(new CloseHandler());
-		
-		
+		frame.addWindowListener(new CloseHandler());		
 		
 		buttonTokenizer.addActionListener(this);
 		buttonTokenizer.setEnabled(false);
@@ -135,10 +146,8 @@ public class Test implements ActionListener {
 				}
 				catch (FileNotFoundException fnfe) {}
 				catch (IOException ie) {}
-			}
-			
-			else if (source == save) {
-				if (textArea.getText().isEmpty() || textArea.getText() == "") {
+			} else if (source == save) {
+				if (filename.equals("new.tsp")) {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
 					frame.setTitle(title + " - " + filename);
@@ -152,41 +161,29 @@ public class Test implements ActionListener {
 					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}				
-			}
-			
-			else if (source == saveAs) {
+			} else if (source == saveAs) {
 				saveBox.showSaveDialog(frame);
 				sourceFile = saveBox.getSelectedFile();
 				filename = saveBox.getSelectedFile().getName();
 				frame.setTitle(title + " - " + filename);
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
+					sourceCode = textArea.getText();
+					Code.setCode(sourceCode);
 					write.print(textArea.getText());
 					write.close();
 					buttonTokenizer.setEnabled(true);
 				}
 				catch (IOException ie) {}
-			}
-			
-			else if (source == buttonTokenizer) {
+			} else if (source == tokenize || source == buttonTokenizer) {
 				Code.setCode(textArea.getText());
-				for (CodeLine line : Code.getLineList()) {
-					Tokenizer.tokenize(line);
-				}
+				Tokenizer.tokenize();
 				TokenOutput tokenOutput = new TokenOutput(filename);
-				tokenOutput.launchApp();
-			}
-			
-			else if (source == exit) System.exit(0);
+				tokenOutput.launch();
+			} else if (source == exit) System.exit(0);
 		}
 	}
-	
-	class CloseHandler extends WindowAdapter {
-		public void windowClosing(WindowEvent we) {	
-			System.exit(0); 
-		}
-	}
-	
+
 	public static void main(String args[]) {
 		Test test = new Test();
 		test.launchApp();
