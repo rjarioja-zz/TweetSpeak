@@ -10,7 +10,7 @@
     #inbox num1
     #outbox "Please Input a 2nd number: "
     #inbox num2
-    #outlox "\tA: ADDITION\n"
+    #outbox "\tA: ADDITION\n"
     #outbox "\tB: MULTIPLICATION\n"
     #outbox "Select an operation: \n"; #inbox choice
 	  
@@ -24,17 +24,17 @@
       #outbox error
 	
     #comment these are method calls	
-	#oot addition( #ooti a , #ooti b )
-      #ooti r = a + b
-      #throwback r     
+  #ooti addition( #ooti a , #ooti b )
+    #ooti r = a + b
+    #throwback r     
 	  
-    #ootv ansAdd ( #ooti ans )
-      #outbox "Sum is = " areFriendsWith ans areFriendsWith "\n"
+  #ootv ansAdd ( #ooti ans )
+    #outbox "Sum is = " areFriendsWith ans areFriendsWith "\n"
 	  
-	#ooti multiply ( #ooti c , #ooti d ) 
-      #ooti q = c * d
-      #throwback q
+  #ooti multiply ( #ooti c , #ooti d ) 
+    #ooti q = c * d
+    #throwback q
 	  
-    #ootv ansMul ( #ooti ans1)
-      #outbox #outbox "Product is = " areFriendsWith ans1 areFriendsWith "\n"	
+  #ootv ansMul ( #ooti ans1)
+    #outbox "Product is = " areFriendsWith ans1 areFriendsWith "\n"	
 #logout
