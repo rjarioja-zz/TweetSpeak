@@ -18,6 +18,7 @@ public class Error extends Token{
 		setStartIndex(nextIndex - lexeme.length());
 		setNextIndex(nextIndex);
 	}
+	
 	//setters
 	public void setErrorMessage (String errorMessage) { this.errorMessage = errorMessage; }
 		

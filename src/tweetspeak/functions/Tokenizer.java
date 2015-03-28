@@ -15,7 +15,9 @@ public class Tokenizer {
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
 	private HashMap<String, Token> reserveWordSymbolTable;
 	private HashMap<String, Token> identifierSymbolTable;
+	private Stack<Token> indentStack = new Stack<Token>();
 	
+	//constructors
 	public Tokenizer () {
 		reserveWordSymbolTable = new HashMap<>(100);
 		reserveWordSymbolTable.put("areFriendsWith", new Token("areFriendsWith", TokenName.ASSIGN_OP.toString(),TokenType.RESERVED_WORD.toString()));
@@ -59,10 +61,10 @@ public class Tokenizer {
 		for (CodeLine line : Code.getLineList()) {
 			Token token;
 			String code = line.getLineCode(), buffer = "";
-			int index = 0, prevNestCount = 0, currNestCount = 0;
+			int index = 0, previousIndent = 0, currentIndent = 0;
 			
 			while (index < code.length()) {
-				token = null; currNestCount = 0;
+				token = null; currentIndent = 0;
 				switch (code.charAt(index)) {
 					case ' ': 
 						if (index == 0) {
@@ -78,7 +80,7 @@ public class Tokenizer {
 									line.addToken(token);
 									tokenizedCode += token.printToken();
 									index = token.getNextIndex();
-									currNestCount++;
+									currentIndent++;
 								}
 								continue;
 							} else {
@@ -120,6 +122,7 @@ public class Tokenizer {
 						
 					case '#':
 						token = getReservedWords(line, index);
+						if (token instanceof Error) token = getComments(line, index);
 						Tokenizer.tokens.add(token);
 						line.addToken(token);
 						tokenizedCode += token.printToken();
@@ -172,7 +175,7 @@ public class Tokenizer {
 				}
 			}
 			tokenizedCode += "\n";
-			prevNestCount = currNestCount;
+			previousIndent = currentIndent;
 		}
 	}
 
@@ -332,7 +335,7 @@ public class Tokenizer {
 								if (sourceCode.charAt(index) == 'e') {
 									token += sourceCode.charAt(index++);
 									if (index == sourceCode.length()
-									 || sourceCode.charAt(index) == '#' 
+									 || sourceCode.charAt(index) == ';' 
 									 || Character.isWhitespace(sourceCode.charAt(index)))
 										return new Token(token, TokenName.DO.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
 									else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -513,8 +516,7 @@ public class Tokenizer {
 											if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 											if (sourceCode.charAt(index) == 't') {
 												token += sourceCode.charAt(index++);
-												if (index == sourceCode.length()
-												 || sourceCode.charAt(index) == ' '
+												if (sourceCode.charAt(index) == ' '
 												 || sourceCode.charAt(index) == '(')
 													return new Token(token, TokenName.ELSE_IF.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
 												else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -561,10 +563,133 @@ public class Tokenizer {
 										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 										if (sourceCode.charAt(index) == 's') {
 											token += sourceCode.charAt(index++);
-											if (index == sourceCode.length()
+											if (sourceCode.charAt(index) == '('
 											 || sourceCode.charAt(index) == ' ')
-												return new Token(token, TokenName.WHILE.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+												return new Token(token, TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
 											else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						
+					// throwback, trending, tweet
+					case 't':
+						token += sourceCode.charAt(index++);
+						if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+						if (sourceCode.charAt(index) == 'h') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'r') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'o') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 'w') {
+										token += sourceCode.charAt(index++);
+										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+										if (sourceCode.charAt(index) == 'b') {
+											token += sourceCode.charAt(index++);
+											if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+											if (sourceCode.charAt(index) == 'a') {
+												token += sourceCode.charAt(index++);
+												if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+												if (sourceCode.charAt(index) == 'c') {
+													token += sourceCode.charAt(index++);
+													if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+													if (sourceCode.charAt(index) == 'k') {
+														token += sourceCode.charAt(index++);
+														if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+														if (sourceCode.charAt(index) == ' ')
+															return new Token(token, TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+														else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+													} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+												} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+											} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						} else if (sourceCode.charAt(index) == 'r') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'e') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'n') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 'd') {
+										token += sourceCode.charAt(index++);
+										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+										if (sourceCode.charAt(index) == 'i') {
+											token += sourceCode.charAt(index++);
+											if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+											if (sourceCode.charAt(index) == 'n') {
+												token += sourceCode.charAt(index++);
+												if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+												if (sourceCode.charAt(index) == 'g') {
+													token += sourceCode.charAt(index++);
+													if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+													if (sourceCode.charAt(index) == ' ')
+														return new Token(token, TokenName.PROC_CALL.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+													else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+												} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+											} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						} else if (sourceCode.charAt(index) == 'w') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'e') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'e') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 't') {
+										token += sourceCode.charAt(index++);
+										if (sourceCode.charAt(index) == ' ')
+											return new Token(token, TokenName.IF.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+										else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+							
+					case 'u':
+						token += sourceCode.charAt(index++);
+						if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+						if (sourceCode.charAt(index) == 'n') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'f') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'o') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 'l') {
+										token += sourceCode.charAt(index++);
+										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+										if (sourceCode.charAt(index) == 'l') {
+											token += sourceCode.charAt(index++);
+											if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+											if (sourceCode.charAt(index) == 'o') {
+												token += sourceCode.charAt(index++);
+												if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+												if (sourceCode.charAt(index) == 'w') {
+													token += sourceCode.charAt(index++);
+													if (index == sourceCode.length()
+													 || sourceCode.charAt(index) == ' ' 
+													 || sourceCode.charAt(index) == ';') 
+														return new Token(token, TokenName.CONTINUE.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+													else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+												} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+											} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 								} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -572,21 +697,61 @@ public class Tokenizer {
 						} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 				}
 		}
-		 return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+		return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+	}
+	
+	public static Token getComments(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+		String token = "";
+		
+		if (sourceCode.charAt(index) == '#') {
+			token += sourceCode.charAt(index++);
+			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+			if (sourceCode.charAt(index) == 'c') {
+				token += sourceCode.charAt(index++);
+				if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+				if (sourceCode.charAt(index) == 'o') {
+					token += sourceCode.charAt(index++);
+					if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+					if (sourceCode.charAt(index) == 'm') {
+						token += sourceCode.charAt(index++);
+						if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+						if (sourceCode.charAt(index) == 'm') {
+							token += sourceCode.charAt(index++);
+							if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+							if (sourceCode.charAt(index) == 'e') {
+								token += sourceCode.charAt(index++);
+								if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+								if (sourceCode.charAt(index) == 'n') {
+									token += sourceCode.charAt(index++);
+									if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+									if (sourceCode.charAt(index) == 't') {
+										token += sourceCode.charAt(index++);
+										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
+										if (sourceCode.charAt(index++) == ' ') {
+											return new Comment(token, sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());
+										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+									} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+								} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+							} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+						} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+					} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+				} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+			} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+		} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 	}
 	
 	public static Token getCharConstant(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
 		String token = "";
-		if(sourceCode.charAt(index) == '\'');
-		{
+		
+		if(sourceCode.charAt(index) == '\'') {
 			index++;
+			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 			token += sourceCode.charAt(index++);
 			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 			if(sourceCode.charAt(index++) == '\'')
-				{
-					return new Token(token, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
-				} 
+				return new Token(token, TokenName.CHAR_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index); 
 		} return new Error(token, "INVALID TOKEN - "  + token, lineCode.getLineNumber(), index);
 	}
 	
@@ -611,6 +776,7 @@ public class Tokenizer {
 			return new Token(token, TokenName.STRING_CONST.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 		}  
 	}
+	
 	public static Token getNumConstant(CodeLine lineCode, int index) {
 		String sourceCode = lineCode.getLineCode();
 		String token = "";
@@ -657,7 +823,6 @@ public class Tokenizer {
 	}
 	
 	private static Token getBoolConstant(CodeLine lineCode, int index) {
-		int indexi = index;
 		String sourceCode = lineCode.getLineCode();
 		String token = "";
 		
@@ -759,5 +924,3 @@ public class Tokenizer {
   		return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 	}
 }
-
-	

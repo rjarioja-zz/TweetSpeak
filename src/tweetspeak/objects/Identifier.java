@@ -56,5 +56,13 @@ public class Identifier extends Token {
 	public String getStringVal() { return stringVal; }
 	public boolean isBoolean() { return boolVal; }
 	public boolean isVoid() { return voidFlag; }
-
+	
+	//methods
+	public String printToken() {
+		return "[IDENTIFIER type = " + getDataType() + ", value = " + getValue() + "]";
+	}
+	
+	public String toString() {
+		return "[\"" + getLexeme()  + "\", " + getType() + ", " + getDataType() + ", " + getValue() + ", " + "]";
+	}
 }

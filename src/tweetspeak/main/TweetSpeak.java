@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class Test implements ActionListener {
+public class TweetSpeak implements ActionListener {
 
 	private String title = "TweetSpeak Test";
 	private String filename = "new.tsp";
@@ -31,6 +31,7 @@ public class Test implements ActionListener {
 	private JMenuItem saveAs;
 	private JMenuItem exit;
 	private JMenuItem tokenize;
+	private JMenuItem parser;
 	
 	//nested class
 	class CloseHandler extends WindowAdapter {
@@ -40,7 +41,7 @@ public class Test implements ActionListener {
 	}
 	
 	//constructors
-	public Test() {
+	public TweetSpeak() {
 		frame = new JFrame(title + " - " + filename);
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -94,6 +95,11 @@ public class Test implements ActionListener {
 		tokenize = new JMenuItem("Tokenize              ");
 		tokenize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
 		tokenize.addActionListener(this);
+		compiler.add(tokenize);
+		
+		parser = new JMenuItem("Parse              ");
+		parser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		parser.addActionListener(this);
 		compiler.add(tokenize);
 		
 		panel1.setLayout(new BorderLayout());
@@ -150,7 +156,8 @@ public class Test implements ActionListener {
 				if (filename.equals("new.tsp")) {
 					saveBox.showSaveDialog(frame);
 					sourceFile = saveBox.getSelectedFile();
-					frame.setTitle(title + " - " + sourceFile);
+					filename = saveBox.getSelectedFile().getName();
+					frame.setTitle(title + " - " + filename);
 				}
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
@@ -185,8 +192,8 @@ public class Test implements ActionListener {
 	}
 
 	public static void main(String args[]) {
-		Test test = new Test();
-		test.launchApp();
+		TweetSpeak main = new TweetSpeak();
+		main.launchApp();
 	}
 
 }
