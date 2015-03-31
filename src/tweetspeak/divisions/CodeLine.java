@@ -39,6 +39,11 @@ public class CodeLine {
 		}
 		return str;
 	}
+	
+	public void clearTokens() {
+		tokens.clear();
+	}
+	
 	public String toString() {
 		String lineNumber = "";
 		lineNumber += this.lineNumber;

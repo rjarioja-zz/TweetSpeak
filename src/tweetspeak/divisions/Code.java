@@ -46,4 +46,8 @@ public class Code {
 		for (CodeLine l : Code.lines) toLines += l.toString() + "\n";
 		return toLines;
 	}
+	
+	public static void clearTokens() {
+		for (CodeLine l : Code.lines) l.clearTokens();
+	}
 }

@@ -91,20 +91,22 @@ public class TokenOutput implements ActionListener {
 			String outputBuffer = "";
 			while (t != null) {
 				outputBuffer += t.toString();
-//				outputBuffer += "\n";
-				if (Tokenizer.getIndex() >= Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
+				if (t.getName().equals("NEWLINE") 
+						|| Tokenizer.getIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
 					System.out.println("tokenoutput - newline");
 					outputBuffer += "\n";
 				}
-//				
-				//System.out.println(t.toString() + " "+ t.getNextIndex());
-
 				t = Tokenizer.getToken();
 			}
 			textArea.setText(outputBuffer);
 			
 		} else if (source == buttonTokenList) {
 			Tokenizer.clearTokenizedCode();
+			Code.clearTokens();
+			
+			Token t = Tokenizer.getToken();
+			while (t != null) t = Tokenizer.getToken();
+			
 			for (CodeLine line : Code.getLineList()) {
 				String lineNumber = Integer.toString(line.getLineNumber());
 				if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";
