@@ -100,6 +100,28 @@ public class Tokenizer {
 			code = line.getLineCode();
 		}
 		
+		if (getIndex() == 0) {
+			if (code.charAt(getIndex()) == ' ') {
+				token = getIndents(line, getIndex());
+				if (token == null) {
+					setIndex(getIndex() + 1);
+					//break;
+				}
+				Tokenizer.tokens.add(token);
+				line.addToken(token);
+				//tokenizedCode += token.printToken();
+				setIndex(token.getNextIndex());
+				return token;
+			} else {
+				currentIndent = 0;
+			}
+				
+		} else {
+			setIndex(getIndex() + 1);
+			System.out.println("space" + getIndex());
+			//break;						
+		}
+		
 		System.out.println(code);
 		while (getIndex() < code.length()) {
 			System.out.println("in loop");
