@@ -8,6 +8,7 @@ import javax.swing.*;
 import tweetspeak.divisions.Code;
 import tweetspeak.divisions.CodeLine;
 import tweetspeak.functions.Tokenizer;
+import tweetspeak.objects.Token;
 
 public class TokenOutput implements ActionListener {
 
@@ -42,6 +43,7 @@ public class TokenOutput implements ActionListener {
 		/*textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);*/
 		textArea.setText(Code.toLines());
+		textArea.setEditable(false);
 		
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(640, 480));
@@ -80,22 +82,29 @@ public class TokenOutput implements ActionListener {
 			buttonTokenized.setEnabled(true);
 			buttonTokenList.setEnabled(true);
 		} else if (source == buttonTokenized) {
-			textArea.setText(Tokenizer.getTokenizedCode());
 			buttonSource.setEnabled(true);
 			buttonTokenized.setEnabled(false);
 			buttonTokenList.setEnabled(true);
-			/*for (CodeLine line : Code.getLineList()) {
-				String lineNumber = Integer.toString(line.getLineNumber());
-				if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";
-				else lineNumber += "\t";
-				
-				text += lineNumber;
-				int index = 0;
-				
+			Tokenizer.clearTokenizedCode();
+			
+			Token t = Tokenizer.getToken();
+			String outputBuffer = "";
+			while (t != null) {
+				outputBuffer += t.toString();
+//				outputBuffer += "\n";
+				if (Tokenizer.getIndex() >= Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
+					System.out.println("tokenoutput - newline");
+					outputBuffer += "\n";
+				}
+//				
+				//System.out.println(t.toString() + " "+ t.getNextIndex());
+
+				t = Tokenizer.getToken();
 			}
-			textArea.setText(text);
-			*/
+			textArea.setText(outputBuffer);
+			
 		} else if (source == buttonTokenList) {
+			Tokenizer.clearTokenizedCode();
 			for (CodeLine line : Code.getLineList()) {
 				String lineNumber = Integer.toString(line.getLineNumber());
 				if (lineNumber.length() == 1) lineNumber = 0 + lineNumber + "\t";

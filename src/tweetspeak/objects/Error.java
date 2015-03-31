@@ -31,6 +31,6 @@ public class Error extends Token{
 	}
 	
 	public String toString() {
-		return "[\"" + getLexeme()  + "\", " + getType() + ", " + getErrorMessage() + "]";
+		return "[\"" + getLexeme()  + "\", " + getType() + ", " + getErrorMessage() + ", " + getLineNumber() + ", " + getNextIndex() + "]";
 	}
 }
