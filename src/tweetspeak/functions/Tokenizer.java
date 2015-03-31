@@ -14,7 +14,7 @@ public class Tokenizer {
 	private static String tokenizedCode = "";
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
 	private HashMap<String, Token> reserveWordSymbolTable;
-	private HashMap<String, Token> identifierSymbolTable;
+	private static HashMap<String, Token> identifierSymbolTable;
 	private Stack<Token> indentStack = new Stack<Token>();
 	
 	//constructors
@@ -157,13 +157,13 @@ public class Tokenizer {
 						index = token.getNextIndex();
 						continue;
 						
-					case 'a': case 'd':
-						token = getBoolConstant(line, index);
-						Tokenizer.tokens.add(token);
-						line.addToken(token);
-						tokenizedCode += token.printToken();
-						index = token.getNextIndex();
-						continue;
+//					case 'a': case 'd':
+//						token = getBoolConstant(line, index);
+//						Tokenizer.tokens.add(token);
+//						line.addToken(token);
+//						tokenizedCode += token.printToken();
+//						index = token.getNextIndex();
+//						continue;
 						
 					default:
 						token = getIdentifier(line, index);
@@ -914,11 +914,8 @@ public class Tokenizer {
 					System.out.println(token);
 				}else if(Character.isWhitespace(sourceCode.charAt(index)))
 					{
-						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
-					}else if(sourceCode.charAt(index) == ';')
-					{
-						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
-					}else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);
+					}else return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);;
 			}
 		} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
   		return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
