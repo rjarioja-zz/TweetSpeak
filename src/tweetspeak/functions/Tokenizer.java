@@ -912,10 +912,13 @@ public class Tokenizer {
 				{
 					token += sourceCode.charAt(index++);
 					System.out.println(token);
-				}else if(Character.isWhitespace(sourceCode.charAt(index)))
-					{
+					if(index==sourceCode.length() || index >= sourceCode.length()) {
 						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);
-					}else return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);;
+					}
+				} else if(Character.isWhitespace(sourceCode.charAt(index)) || sourceCode.charAt(index++) == ';')
+				{
+					return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);
+				}else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 			}
 		} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
   		return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
