@@ -967,7 +967,6 @@ public class Tokenizer {
 		
 		switch(sourceCode.charAt(index))
 		{
-		//accept
 		case 'a':
 			token += sourceCode.charAt(index++);
 			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
@@ -988,7 +987,7 @@ public class Tokenizer {
 									if (index == sourceCode.length()){ return new Token(token, TokenName.BOOL_CONST_TRUE.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
 									} else if(sourceCode.charAt(index) == ';'){
 											return new Token(token, TokenName.BOOL_CONST_TRUE.toString(), TokenType.CONSTANT.toString(), lineCode.getLineNumber(), index);
-										} //return code balik check kasi bakaaa identifier or whatever
+										} getIdentifier(lineCode, index);
 								}else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 							} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 					} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -997,6 +996,7 @@ public class Tokenizer {
 			
 			//decline
 		case 'd':
+		if (sourceCode.charAt(index) == 'd') {
 			token += sourceCode.charAt(index++);
 			if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 			if (sourceCode.charAt(index) == 'e') {
@@ -1026,6 +1026,40 @@ public class Tokenizer {
 					} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 				} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 			} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
-		} return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+		} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+	 return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+		default:
+			getIdentifier(lineCode, index);
+		}
+		return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);	
+	}
+	
+
+	public static Token getIdentifier(CodeLine lineCode, int index) {
+		String sourceCode = lineCode.getLineCode();
+  		String token = "";
+  		
+  		if(Character.isLetter(sourceCode.charAt(index)) || sourceCode.charAt(index) == '_')
+		{
+			token += sourceCode.charAt(index++);
+			System.out.println(token);
+			while(index < sourceCode.length())
+			{
+				if(Character.isLetter(sourceCode.charAt(index)) 
+						|| sourceCode.charAt(index) == '_' 
+						|| Character.isDigit(sourceCode.charAt(index)))
+				{
+					token += sourceCode.charAt(index++);
+					System.out.println(token);
+				}else if(Character.isWhitespace(sourceCode.charAt(index)))
+					{
+						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
+					}else if(sourceCode.charAt(index) == ';')
+					{
+						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
+					}else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+			}
+		} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
+  		return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 	}
 }
