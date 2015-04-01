@@ -75,9 +75,13 @@ public class TokenOutput implements ActionListener {
 	
 	public void actionPerformed(ActionEvent ae) {
 		Object source = ae.getSource();
-		String text = "";
+		
 		if (source == buttonSource) {
-			textArea.setText(Code.toLines());
+			String text = "";
+			text += Code.getCode();
+			text += "==========";
+			text += Code.toLines();
+			textArea.setText(text);
 			buttonSource.setEnabled(false);
 			buttonTokenized.setEnabled(true);
 			buttonTokenList.setEnabled(true);
@@ -101,6 +105,7 @@ public class TokenOutput implements ActionListener {
 			textArea.setText(outputBuffer);
 			
 		} else if (source == buttonTokenList) {
+			String text = "";
 			Tokenizer.clearTokenizedCode();
 			Code.clearTokens();
 			

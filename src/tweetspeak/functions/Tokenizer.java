@@ -45,8 +45,6 @@ public class Tokenizer {
 		reserveWordSymbolTable.put("#throwback", new Token("#throwback", TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString()));
 		reserveWordSymbolTable.put("#tweet", new Token("#tweet", TokenName.IF.toString(), TokenType.RESERVED_WORD.toString()));
 		reserveWordSymbolTable.put("#unfollow", new Token("#unfollow", TokenName.BREAK.toString(), TokenType.RESERVED_WORD.toString()));
-		
-		indentStack.push(0);
 	}
 	
 	//setters
@@ -68,6 +66,7 @@ public class Tokenizer {
 		setLineNumber(0);
 		currentIndent = 0; 
 		previousIndent = 0;
+		indentStack.push(0);
 		//for (CodeLine line : Code.getLineList()) { line.}
 	}
 	
@@ -78,20 +77,74 @@ public class Tokenizer {
 		
 		code = line.getLineCode();
 		System.out.println("NEW CALL: code:" + code + ","+ getIndex() + "," + getLineNumber());
+		System.out.println("before = currentIndent: " + currentIndent + ", previousIndent: " + previousIndent
+				 			+ ", indentStackTop: " + indentStack.peek());
 		
 		if (code.isEmpty()) {
 			setLineNumber(getLineNumber() + 1);
 			line = Code.getLineList().get(getLineNumber());
-			
-			return new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString());
+			token = new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString());
+			Tokenizer.tokens.add(token);
+			line.addToken(token);
+			return token;
 		}
 		
-		if (getIndex() >= code.length()) {
-			System.out.println("is " + (getLineNumber() + 1) + " < " + Code.getLineList().size() + "?");
-			if (getLineNumber() + 1>= Code.getLineList().size()) {
-				System.out.println((getLineNumber() + 1) + " return null");
-				return null;
+		System.out.println("1 is " + (getLineNumber() + 1) + " < " + Code.getLineList().size() + "?");
+		if (getLineNumber() + 1>= Code.getLineList().size()) {
+			System.out.println((getLineNumber() + 1) + " return null");
+			return null;
+		}
+		
+		if (getIndex() == 0) {
+			if (code.charAt(getIndex()) == ' ') {
+				token = getIndents(line, getIndex());
+				System.out.println("after = currentIndent: " + currentIndent + ", previousIndent: " + previousIndent
+									+ ", indentStackTop: " + indentStack.peek());
+				if (token == null) {
+					System.out.print("null ");
+					System.out.println("currentIndent: " + currentIndent + ", previousIndent: " + previousIndent);
+					
+					if (indentStack.peek() != currentIndent * 2) {
+						indentStack.pop();
+						token = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), line.getLineNumber(), getIndex());
+						System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
+						Tokenizer.tokens.add(token);
+						line.addToken(token);
+						return token;
+					}
+					setIndex(getIndex() + 1);
+					previousIndent = currentIndent;
+					//break;
+				} else {
+					System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
+					Tokenizer.tokens.add(token);
+					line.addToken(token);
+					//tokenizedCode += token.printToken();
+					setIndex(token.getNextIndex());
+					previousIndent = currentIndent;
+					return token;
+				}
+				
+			} else {
+				if (indentStack.peek() != currentIndent * 2) {
+					indentStack.pop();
+					token = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), line.getLineNumber(), getIndex());
+					System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
+					Tokenizer.tokens.add(token);
+					line.addToken(token);
+					return token;
+				}
+				previousIndent = currentIndent;
+				currentIndent = 0;
 			}
+				
+		} else {
+			//setIndex(getIndex() + 1);
+			System.out.println("space " + getIndex());
+			//break;						
+		}
+		
+		if (getIndex() == code.length()) {
 			setLineNumber(getLineNumber() + 1);
 			setIndex(0);
 			tokenizedCode += "\n";
@@ -100,54 +153,63 @@ public class Tokenizer {
 			code = line.getLineCode();
 		}
 		
-		if (getIndex() == 0) {
-			if (code.charAt(getIndex()) == ' ') {
-				token = getIndents(line, getIndex());
-				if (token == null) {
-					setIndex(getIndex() + 1);
-					//break;
-				}
-				Tokenizer.tokens.add(token);
-				line.addToken(token);
-				//tokenizedCode += token.printToken();
-				setIndex(token.getNextIndex());
-				return token;
-			} else {
-				currentIndent = 0;
-			}
-				
-		} else {
-			setIndex(getIndex() + 1);
-			System.out.println("space" + getIndex());
-			//break;						
-		}
-		
 		System.out.println(code);
 		while (getIndex() < code.length()) {
 			System.out.println("in loop");
 			//System.out.println(sourceCode.charAt(index));
-			token = null; currentIndent = 0;
-			System.out.println("before switch");
-			switch (code.charAt(getIndex())) {
-				case ' ': 
-					if (getIndex() == 0) {
-						token = getIndents(line, getIndex());
-						if (token == null) {
-							setIndex(getIndex() + 1);
-							break;
+			
+			if (getIndex() == 0) {
+				if (code.charAt(getIndex()) == ' ') {
+					token = getIndents(line, getIndex());
+					System.out.println("after = currentIndent: " + currentIndent + ", previousIndent: " + previousIndent
+										+ ", indentStackTop: " + indentStack.peek());
+					if (token == null) {
+						System.out.print("null ");
+						System.out.println("currentIndent: " + currentIndent + ", previousIndent: " + previousIndent);
+						
+						if (indentStack.peek() != currentIndent * 2) {
+							indentStack.pop();
+							token = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), line.getLineNumber(), getIndex());
+							System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
+							Tokenizer.tokens.add(token);
+							line.addToken(token);
+							return token;
 						}
+						setIndex(getIndex() + 1);
+						previousIndent = currentIndent;
+						//break;
+					} else {
+						System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
 						Tokenizer.tokens.add(token);
 						line.addToken(token);
-						tokenizedCode += token.printToken();
+						//tokenizedCode += token.printToken();
 						setIndex(token.getNextIndex());
+						previousIndent = currentIndent;
 						return token;
-					} else {
-						setIndex(getIndex() + 1);
-						System.out.println("space" + getIndex());
-						break;						
 					}
 					
-				
+				} else {
+					if (indentStack.peek() != currentIndent * 2) {
+						indentStack.pop();
+						token = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), line.getLineNumber(), getIndex());
+						System.out.println("-= INDENT CREATED =- " + token.toString() + " " + token.getNextIndex());
+						Tokenizer.tokens.add(token);
+						line.addToken(token);
+						return token;
+					}
+					previousIndent = currentIndent;
+					currentIndent = 0;
+				}
+					
+			} else {
+				//setIndex(getIndex() + 1);
+				System.out.println("space " + getIndex());
+				//break;						
+			}
+			
+			
+			System.out.println("before switch");
+			switch (code.charAt(getIndex())) {
 				case '+': case '-':
 				case '*': case '/':
 				case '%': case '^':
@@ -230,7 +292,7 @@ public class Tokenizer {
 			System.out.println("exit switch");
 			//index = token.getNextIndex();
 			if (getIndex() >= code.length()) {
-				System.out.println("is " + (getLineNumber() + 1) + " < " + Code.getLineList().size() + "?");
+				System.out.println("2 is " + (getLineNumber() + 1) + " < " + Code.getLineList().size() + "?");
 				if (getLineNumber() + 1 >= Code.getLineList().size()) {
 					System.out.println((getLineNumber() + 1) + " return null");
 					return null;
@@ -892,30 +954,11 @@ public class Tokenizer {
 				currentIndent = token.length() / 2;
 				if (currentIndent > previousIndent) {
 					indentStack.push(currentIndent * 2);
-					previousIndent = currentIndent;
 					return new Token("  ", "INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
-				} else if (currentIndent == previousIndent) return null;
+				} else return null;
 			} else return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
 		} else return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
-		return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
-	}
-	
-	public static Token getDedents(CodeLine lineCode, int index) {
-		String sourceCode = lineCode.getLineCode();
-		String token = "";
-		
-		if (sourceCode.charAt(index) == ' ' && index == 0) {
-			while (index < sourceCode.length() && sourceCode.charAt(index) == ' ') token += sourceCode.charAt(index++);
-			if (token.length() % 2 == 0 && !token.isEmpty()) {
-				currentIndent = token.length() / 2;
-				if (currentIndent > previousIndent) {
-					indentStack.push(currentIndent * 2);
-					previousIndent = currentIndent;
-					return new Token("  ", "INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
-				}
-			} else return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
-		} else return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
-		return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
+		//return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
 	}
 	
 	private static Token getBoolConstant(CodeLine lineCode, int index) {
