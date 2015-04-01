@@ -60,6 +60,9 @@ public class Tokenizer {
 	public static int getIndex() { return index; }
 	
 	//methods
+	public static void initialize() {
+		
+	}
 	public static void clearTokenizedCode() { 
 		Tokenizer.tokenizedCode = ""; 
 		setIndex(0); 
@@ -287,12 +290,17 @@ public class Tokenizer {
 					//continue;
 */					
 				default:
-					setIndex(getIndex() + 1);
-					System.out.println("default " + getIndex() + "," + getLineNumber());
+					token = getBoolConstant(line, index);
+					if (token instanceof Error) token = getIdentifier(line, index);
+					Tokenizer.tokens.add(token);
+					line.addToken(token);
+					setIndex(token.getNextIndex());
+					
+					return token;
 			}
-			System.out.println("exit switch");
+//			System.out.println("exit switch");
 			//index = token.getNextIndex();
-			if (getIndex() >= code.length()) {
+			/*if (getIndex() >= code.length()) {
 				System.out.println("2 is " + (getLineNumber() + 1) + " < " + Code.getLineList().size() + "?");
 				if (getLineNumber() + 1 >= Code.getLineList().size()) {
 					System.out.println((getLineNumber() + 1) + " return null");
@@ -304,11 +312,11 @@ public class Tokenizer {
 				System.out.println("newline ");
 				line = Code.getLineList().get(getLineNumber());
 				code = line.getLineCode();
-			}
+			}*/
 		}
 		
 		previousIndent = currentIndent;
-		return null;
+		return token;
 	}
 
 	public static Token getArithmeticOperator(CodeLine lineCode, int index) {
