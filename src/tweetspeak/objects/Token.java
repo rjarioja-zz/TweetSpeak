@@ -44,7 +44,7 @@ public class Token {
 		
 	//methods
 	public String printToken() {
-		return "[" + name + "]";
+		return "[\"" + lexeme  + "\", " + name + ", " + type + "]";
 	}
 	
 	public String toString() {

@@ -94,7 +94,7 @@ public class TokenOutput implements ActionListener {
 			Token t = Tokenizer.getToken();
 			String outputBuffer = "";
 			while (t != null) {
-				outputBuffer += t.toString();
+				outputBuffer += t.printToken();
 				if (t.getName().equals("NEWLINE") 
 						|| Tokenizer.getIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
 					System.out.println("tokenoutput - newline");
