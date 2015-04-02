@@ -85,6 +85,7 @@ public class TokenOutput implements ActionListener {
 			buttonSource.setEnabled(false);
 			buttonTokenized.setEnabled(true);
 			buttonTokenList.setEnabled(true);
+			textArea.setWrapStyleWord(false);
 		} else if (source == buttonTokenized) {
 			buttonSource.setEnabled(true);
 			buttonTokenized.setEnabled(false);
@@ -106,6 +107,7 @@ public class TokenOutput implements ActionListener {
 				token = Tokenizer.getToken();
 			}
 			textArea.setText(output);
+			textArea.setWrapStyleWord(false);
 			
 		} else if (source == buttonTokenList) {
 			String text = "";
@@ -127,6 +129,7 @@ public class TokenOutput implements ActionListener {
 			text += "\nTOKEN STREAM	: \n============================================================================================================================================\n\n" 
 					+ Tokenizer.getTokens().toString();
 			textArea.setText(text);
+			textArea.setWrapStyleWord(true);
 			buttonSource.setEnabled(true);
 			buttonTokenized.setEnabled(true);
 			buttonTokenList.setEnabled(false);

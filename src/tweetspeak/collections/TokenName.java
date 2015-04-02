@@ -2,7 +2,7 @@ package tweetspeak.collections;
 
 public enum TokenName {
 	START, PROG_NAME, END, MAIN,
-	PROC_CALL, PROC_RET,
+	PROC_CALL, PROC_RET, PROC_NAME,
 	CONCAT, VAR,
 	ASSIGN, COMMENT, INPUT, OUTPUT, GIBBERISH,
 	IF, ELSE_IF, ELSE, 
