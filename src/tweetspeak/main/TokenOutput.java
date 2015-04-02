@@ -12,7 +12,7 @@ import tweetspeak.objects.Token;
 
 public class TokenOutput implements ActionListener {
 
-	private String title = "TweetSpeak Tokens";
+	private String title = "TweetSpeak Tokens", text = "";
 	private JFrame frame;
 	private JScrollPane scrollPane;
 	private JPanel panel1, panel2;
@@ -28,6 +28,10 @@ public class TokenOutput implements ActionListener {
 		buttonTokenized = new JButton("Tokens");
 		buttonTokenList = new JButton("Token list");
 		buttonClose = new JButton("Close");
+
+		text += "ORIGINAL SOURCE: \n============================================================================================================================================\n\n" 
+				+ Code.toLines();
+		text += "\n============================================================================================================================================\n\n";
 	}
 	
 	public TokenOutput(String filename) {
@@ -42,7 +46,7 @@ public class TokenOutput implements ActionListener {
 		textArea.setTabSize(2);
 		/*textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);*/
-		textArea.setText(Code.toLines());
+		textArea.setText(text);
 		textArea.setEditable(false);
 		
 		scrollPane = new JScrollPane(textArea);
@@ -77,10 +81,6 @@ public class TokenOutput implements ActionListener {
 		Object source = ae.getSource();
 		
 		if (source == buttonSource) {
-			String text = "";
-			text += Code.getCode();
-			text += "==========";
-			text += Code.toLines();
 			textArea.setText(text);
 			buttonSource.setEnabled(false);
 			buttonTokenized.setEnabled(true);
@@ -91,18 +91,21 @@ public class TokenOutput implements ActionListener {
 			buttonTokenList.setEnabled(true);
 			Tokenizer.clearTokenizedCode();
 			
-			Token t = Tokenizer.getToken();
-			String outputBuffer = "";
-			while (t != null) {
-				outputBuffer += t.printToken();
-				if (t.getName().equals("NEWLINE") 
-						|| Tokenizer.getIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
-					System.out.println("tokenoutput - newline");
-					outputBuffer += "\n";
+			Token token = Tokenizer.getToken();
+			String output = "";
+			while (token != null) {
+				if (!token.getName().equals("NO_INDENT") && !token.getName().equals("NEWLINE")) {
+					output += token.printToken();
 				}
-				t = Tokenizer.getToken();
+				if (token.getName().equals("NEWLINE") 
+						|| token.getNextIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
+						System.out.println("tokenoutput - newline");
+						output += "\n";
+					}
+				
+				token = Tokenizer.getToken();
 			}
-			textArea.setText(outputBuffer);
+			textArea.setText(output);
 			
 		} else if (source == buttonTokenList) {
 			String text = "";
@@ -120,6 +123,9 @@ public class TokenOutput implements ActionListener {
 				text += lineNumber;
 				text += !line.getTokens().isEmpty() ? line.getTokens() + "\n" : "\n";
 			}
+			
+			text += "\nTOKEN STREAM	: \n============================================================================================================================================\n\n" 
+					+ Tokenizer.getTokens().toString();
 			textArea.setText(text);
 			buttonSource.setEnabled(true);
 			buttonTokenized.setEnabled(true);
