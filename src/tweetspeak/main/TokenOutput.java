@@ -90,7 +90,7 @@ public class TokenOutput implements ActionListener {
 			buttonSource.setEnabled(true);
 			buttonTokenized.setEnabled(false);
 			buttonTokenList.setEnabled(true);
-			Tokenizer.clearTokenizedCode();
+			Tokenizer.reset();
 			
 			Token token = Tokenizer.getToken();
 			String output = "";
@@ -111,7 +111,7 @@ public class TokenOutput implements ActionListener {
 			
 		} else if (source == buttonTokenList) {
 			String text = "";
-			Tokenizer.clearTokenizedCode();
+			Tokenizer.reset();
 			Code.clearTokens();
 			
 			Token t = Tokenizer.getToken();
