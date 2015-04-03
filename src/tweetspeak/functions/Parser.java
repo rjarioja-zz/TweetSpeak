@@ -616,8 +616,8 @@ public class Parser {
 			case 55:
 				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
 					shift(56);
-				} else {
-					error();
+				} else{
+					errorMsg("Program Name");
 				} break;
 			case 56:
 				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
@@ -675,6 +675,54 @@ public class Parser {
 				} else {
 					error();
 				} break;
+			case 57: 
+				//wala pa
+				break;
+			case 58:
+				if(cToken.getName().equals("DEDENT")
+						|| cToken.getName().equals(TokenName.ASSIGN.toString())
+						|| cToken.getName().equals(TokenName.PROC_CALL.toString())
+						|| cToken.getName().equals(TokenName.BREAK.toString())
+						|| cToken.getName().equals(TokenName.CONTINUE.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_BOOL.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_CHAR.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_INT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_STRING.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_VOID.toString())
+						|| cToken.getName().equals(TokenName.INPUT.toString())
+						|| cToken.getName().equals(TokenName.OUTPUT.toString())
+						|| cToken.getName().equals(TokenName.IF.toString())
+						|| cToken.getName().equals(TokenName.DO.toString())
+						|| cToken.getName().equals(TokenName.WHILE.toString())
+				        || cToken.getName().equals(TokenName.INC_OP.toString())
+				        || cToken.getName().equals(TokenName.DEC_OP.toString())){
+					reduce(56);
+				} else if(cToken.getName().equals(TokenName.ADD_OP.toString())){
+					shift(70);
+				} else if(cToken.getName().equals(TokenName.DIF_OP.toString())){
+					shift(71);
+				} else {
+					error();
+				} break;
+			case 59:
+				//wala pa
+				break;
+			case 60:
+				if(cToken.getName().equals(TokenName.OR_OP.toString())){
+					shift(100);
+				} else{
+					error();
+				} break;
+			case 61: 
+				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
+					shift(62);
+				} else{
+					errorMsg("Program Name");
+				} break;
+				
+				
+				
 			}//end of switch
 		}
 		
