@@ -33,7 +33,72 @@ public class Parser {
 		//prepare for pagkahaba habang code :(
 		//please ganto nalang
 		//sorry
-		
+	    
+	    
+
+	    List<String> checkReduce1 = Arrays.asList(TokenName.PROG_NAME.toString(),
+	    		"DEDENT",
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(),
+	    		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(),
+	    		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),
+	    		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(),
+	    		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(),
+	    		TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(),
+	    		TokenName.IF.toString(),
+	    		TokenName.DO.toString(),
+	    		TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(),
+	    		TokenName.DEC_OP.toString());
+
+	    //States 28-33
+	    List<String> checkReduce2 = Arrays.asList(TokenName.PROG_NAME.toString(),
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(),
+	    		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(),
+	    		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),
+	    		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(),
+	    		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(),
+	    		TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(),
+	    		TokenName.IF.toString(),
+	    		TokenName.DO.toString(),
+	    		TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(),
+	    		TokenName.DEC_OP.toString());
+	    
+	    List<String> checkReduce3 = Arrays.asList("DEDENT",
+	    		TokenName.STMT_SEP.toString(),
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(),
+	    		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(),
+	    		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),
+	    		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(),
+	    		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(),
+	    		TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(),
+	    		TokenName.IF.toString(),
+	    		TokenName.DO.toString(),
+	    		TokenName.WHILE.toString(),
+	    		TokenName.CONCAT.toString(),
+	    		TokenName.INC_OP.toString(),
+	    		TokenName.DEC_OP.toString());
 		
 		while(true)
 		{
@@ -46,7 +111,7 @@ public class Parser {
 				if(stackTop.equals("<PROGRAM>") && tokenTop == null){
 					state = 1;
 					stateStack.push(state);
-				} else if(cToken.getName() == TokenName.START.toString())
+				} else if(cToken.getName().equals(TokenName.START.toString()))
 				{
 					shift(2);
 				} else {
@@ -57,20 +122,20 @@ public class Parser {
 				
 				break;
 			case 2:
-				if(cToken.getName() == TokenName.PROG_NAME.toString()){
+				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
 					shift(3);
 				} else{
 					//PROG NAME IS REQUIRED
 					errorMsg("Program Name");
 				} break;
 			case 3:
-				if(cToken.getName() == "INDENT"){
+				if(cToken.getName().equals("INDENT")){
 					shift(4);
 				}else{
 					errorMsg("an indent.");
 				} break;
 			case 4:
-				if(cToken.getName() == TokenName.MAIN.toString()){
+				if(cToken.getName().equals(TokenName.MAIN.toString())){
 					shift(10);
 				} else if(stackTop.equals("<FUNCTIONS>") && tokenTop == null){
 					state = 5;
@@ -82,21 +147,22 @@ public class Parser {
 					error();
 				} break;
 			case 5:
-				if(cToken.getName() == "DEDENT")
+				if(cToken.getName().equals("DEDENT"))
 				{
 					shift(6);
 				} else {
 					errorMsg("a dedent.");
 				} break;
 			case 6:
-				if(cToken.getName() == TokenName.END.toString()){
+				if(cToken.getName().equals(TokenName.END.toString())){
 					shift(7);
 				} else{
 					errorMsg("End of Program.");
 				} break;
 			case 7:
-/* 			IDK HOW? Pano i-identify if $ na
- *				same prob with case 2 
+/* 			
+*			IDK HOW? Pano i-identify if $ na
+ *			same prob with case 2 
  * 			if($) { 
  *				reduce(2); //state 2 
  * 			} else {
@@ -104,19 +170,19 @@ public class Parser {
  * 			} break;
   */
 			case 8:
-				if(cToken.getName() == "DEDENT"){
+				if(cToken.getName().equals("DEDENT")){
 					reduce(4);
-				} else if(cToken.getName() == TokenName.DATATYPE_INT.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_INT.toString())){
 					shift(28);
-				} else if(cToken.getName() == TokenName.DATATYPE_FLOAT.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())){
 					shift(29);
-				} else if(cToken.getName() == TokenName.DATATYPE_CHAR.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_CHAR.toString())){
 					shift(30);
-				} else if(cToken.getName() == TokenName.DATATYPE_STRING.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_STRING.toString())){
 					shift(31);
-				} else if(cToken.getName() == TokenName.DATATYPE_BOOL.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_BOOL.toString())){
 					shift(32);
-				} else if(cToken.getName() == TokenName.DATATYPE_VOID.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_VOID.toString())){
 					shift(33);
 				} else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null){
 					state = 9;
@@ -125,45 +191,45 @@ public class Parser {
 					error();
 				} break;
 			case 9:
-				if(cToken.getName() == "DEDENT"){
+				if(cToken.getName().equals("DEDENT")){
 					reduce(3);
 				} else {
 					error();
 				} break;
 			case 10:
-				if(cToken.getName() == "INDENT"){
+				if(cToken.getName().equals("INDENT")){
 					shift(11);
 				} else {
 					errorMsg("an indent.");
 				} break;
 			case 11:
-				if(cToken.getName() == TokenName.PROC_CALL.toString()){
+				if(cToken.getName().equals(TokenName.PROC_CALL.toString())){
 					shift(129);
-				} else if (cToken.getName() == TokenName.PROC_RET.toString()){
+				} else if (cToken.getName().equals(TokenName.PROC_RET.toString())){
 					shift(140);
-				} else if(cToken.getName() == TokenName.BREAK.toString()){
+				} else if(cToken.getName().equals(TokenName.BREAK.toString())){
 					shift(26);
-				} else if(cToken.getName() == TokenName.CONTINUE.toString()){
+				} else if(cToken.getName().equals(TokenName.CONTINUE.toString())){
 					shift(27);
-				} else if(cToken.getName() == TokenName.DATATYPE_INT.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_INT.toString())){
 					shift(28);
-				} else if(cToken.getName() == TokenName.DATATYPE_FLOAT.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())){
 					shift(29);
-				} else if(cToken.getName() == TokenName.DATATYPE_CHAR.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_CHAR.toString())){
 					shift(30);
-				} else if(cToken.getName() == TokenName.DATATYPE_STRING.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_STRING.toString())){
 					shift(31);
-				} else if(cToken.getName() == TokenName.DATATYPE_BOOL.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_BOOL.toString())){
 					shift(32);
-				} else if(cToken.getName() == TokenName.DATATYPE_VOID.toString()){
+				} else if(cToken.getName().equals(TokenName.DATATYPE_VOID.toString())){
 					shift(33);
-				} else if (cToken.getName() == TokenName.INPUT.toString()){
+				} else if (cToken.getName().equals(TokenName.INPUT.toString())){
 					shift(142);
-				} else if(cToken.getName() == TokenName.OUTPUT.toString()){
+				} else if(cToken.getName().equals(TokenName.OUTPUT.toString())){
 					shift(144);
-				} else if(cToken.getName() == TokenName.IF.toString()){
+				} else if(cToken.getName().equals(TokenName.IF.toString())){
 					shift(146);
-				} else if(cToken.getName() == TokenName.ELSE_IF.toString()){
+				} else if(cToken.getName().equals(TokenName.ELSE_IF.toString())){
 					shift(155);
 				} else if(stackTop.equals("<DECLARATION>") && tokenTop == null){
 					state = 12;
@@ -177,7 +243,438 @@ public class Parser {
 				} else if(stackTop.equals("<CONTROL_FLOW>") && tokenTop == null){
 					state = 15;
 					stateStack.push(state);
-				}
+				} else if(stackTop.equals("<EXPR_STATEMENTS>") && tokenTop == null){
+					state = 17;
+					stateStack.push(state);
+				} else if(stackTop.equals("<BRANCHING>") && tokenTop == null){
+					state = 18;
+					stateStack.push(state);
+				} else if(stackTop.equals("<RETURN>") && tokenTop == null){
+					state = 19;
+					stateStack.push(state);
+				} else if(stackTop.equals("<INPUT_STMT>") && tokenTop == null){
+					state = 20;
+					stateStack.push(state);
+				} else if(stackTop.equals("<OUTPUT_STMT>") && tokenTop == null){
+					state = 21;
+					stateStack.push(state);
+				} else if(stackTop.equals("<CONDITIONAL>") && tokenTop == null){
+					state = 22;
+					stateStack.push(state);
+				} else if(stackTop.equals("<LOOPING>") && tokenTop == null){
+					state = 23;
+					stateStack.push(state);
+				} else if(stackTop.equals("<INC_STMT>") && tokenTop == null){
+					state = 24;
+					stateStack.push(state);
+				} else if(stackTop.equals("<DEC_STMT>") && tokenTop == null){
+					state = 25;
+					stateStack.push(state);
+				} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
+					state = 34;
+					stateStack.push(state);
+				} else if(stackTop.equals("<IF_ELSEIF_STMT>") && tokenTop == null){
+					state = 35;
+					stateStack.push(state);
+				} else if(stackTop.equals("<IF_ELSE_STMT>") && tokenTop == null){
+					state = 36;
+					stateStack.push(state);
+				} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
+					state = 37;
+					stateStack.push(state);
+				} else if(stackTop.equals("<DO_WHILE>") && tokenTop == null){
+					state = 38;
+					stateStack.push(state);
+				} else if(stackTop.equals("<PRE_INC>") && tokenTop == null){
+					state = 39;
+					stateStack.push(state);
+				} else if(stackTop.equals("<POST_INC>") && tokenTop == null){
+					state = 40;
+					stateStack.push(state);
+				} else if(stackTop.equals("<PRE_DEC>") && tokenTop == null){
+					state = 41;
+					stateStack.push(state);
+				} else if(stackTop.equals("<POST_DEC>") && tokenTop == null){
+					state = 42;
+					stateStack.push(state);
+				} else if(stackTop.equals("<DATATYPE>") && tokenTop == null){
+					state = 43;
+					stateStack.push(state);
+				} else {
+					error();
+				} break;
+			case 12:
+				if(checkReduce1.contains(cToken.getName())){
+					reduce(19);
+				} else {
+					error();
+				} break;
+			case 13:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(20);
+				} else {
+			error();
+				} break;
+			case 14:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(21);
+				} else {
+					error();
+				} break;
+			case 15: 
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(22);
+				} else {
+					error();
+				} break;
+			case 16:
+			/*
+			 * WALA?
+			 */
+			case 17: 
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(24);
+				} else {
+					error();
+				} break;
+			case 18:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(25);
+				} else {
+					error();
+				} break;
+			case 19:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(26);
+				} else {
+					error();
+				} break;
+			case 20:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(30);
+				} else {
+					error();
+				} break;
+			case 21:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(31);
+				} else {
+					error();
+				} break;
+			case 22:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(32);
+				} else {
+					error();
+				} break;
+			case 23:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(33);
+				} else {
+					error();
+				} break;
+			case 24:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(36);
+				} else {
+					error();
+				} break;
+			case 25:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(37);
+				} else {
+					error();
+				} break;
+			case 26:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(39);
+				} else {
+					error();
+				} break;
+			case 27:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(40);
+				} else {
+					error();
+				} break;
+			case 28:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(43);
+				} else {
+					error();
+				} break;
+			case 29:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(44);
+				} else {
+					error();
+				} break;
+			case 30:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(45);
+				} else {
+					error();
+				} break;
+			case 31:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(46);
+				} else {
+					error();
+				} break;
+			case 32:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(47);
+				} else {
+					error();
+				} break;
+			case 33:
+				if(checkReduce2.contains(cToken.getName())){
+						reduce(48);
+				} else {
+					error();
+				} break;
+			case 34:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(51);
+				} else {
+					error();
+				} break;
+			case 35:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(52);
+				} else {
+					error();
+				} break;
+			case 36:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(53);
+				} else {
+					error();
+				} break;
+			case 37:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(54);
+				} else {
+					error();
+				} break;
+			case 38:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(55);
+				} else {
+					error();
+				} break;
+			case 39:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(77);
+				} else {
+					error();
+				} break;
+			case 40:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(78);
+				} else {
+					error();
+				} break;
+			case 41:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(79);
+				} else {
+					error();
+				} break;
+			case 42:
+				if(checkReduce1.contains(cToken.getName())){
+						reduce(80);
+				} else {
+					error();
+				} break;
+			case 43:
+				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
+					shift(44);
+				} else{
+					errorMsg("Program Name");
+				} break;
+			case 44:
+				if(cToken.getName().equals("DEDENT")
+						|| cToken.getName().equals(TokenName.ASSIGN.toString())
+						|| cToken.getName().equals(TokenName.PROC_CALL.toString())
+						|| cToken.getName().equals(TokenName.BREAK.toString())
+						|| cToken.getName().equals(TokenName.CONTINUE.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_BOOL.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_CHAR.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_INT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_STRING.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_VOID.toString())
+						|| cToken.getName().equals(TokenName.INPUT.toString())
+						|| cToken.getName().equals(TokenName.OUTPUT.toString())
+						|| cToken.getName().equals(TokenName.IF.toString())
+						|| cToken.getName().equals(TokenName.DO.toString())
+						|| cToken.getName().equals(TokenName.WHILE.toString())
+				        || cToken.getName().equals(TokenName.INC_OP.toString())
+				        || cToken.getName().equals(TokenName.DEC_OP.toString())){
+					reduce(27);
+				} else if(cToken.getName().equals(TokenName.ASSIGN_OP.toString())){
+					shift(45);
+				} else {
+					error();
+				} break;
+			case 45: 
+				if(cToken.getName().equals(TokenName.INT_CONST.toString())){
+					shift(47);
+				} else if(cToken.getName().equals(TokenName.FLOAT_CONST.toString())){
+					shift(48);
+				} else if(cToken.getName().equals(TokenName.CHAR_CONST.toString())){
+					shift(49);
+				} else if(cToken.getName().equals(TokenName.STRING_CONST.toString())){
+					shift(50);
+				} else if(cToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())){
+					shift(54);
+				} else if(cToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())){
+					shift(53);
+				} else if(cToken.getName().equals(null)){
+					shift(51);
+				} else if(stackTop.equals("<CONST>") && tokenTop == null){
+					state = 46;
+					stateStack.push(state);
+				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					state = 52;
+					stateStack.push(state);
+				} else {
+					error();
+				} break;
+			case 46:
+				if(cToken.getName().equals("DEDENT")
+						|| cToken.getName().equals(TokenName.ASSIGN.toString())
+						|| cToken.getName().equals(TokenName.PROC_CALL.toString())
+						|| cToken.getName().equals(TokenName.BREAK.toString())
+						|| cToken.getName().equals(TokenName.CONTINUE.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_BOOL.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_CHAR.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_INT.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_STRING.toString())
+						|| cToken.getName().equals(TokenName.DATATYPE_VOID.toString())
+						|| cToken.getName().equals(TokenName.INPUT.toString())
+						|| cToken.getName().equals(TokenName.OUTPUT.toString())
+						|| cToken.getName().equals(TokenName.IF.toString())
+						|| cToken.getName().equals(TokenName.DO.toString())
+						|| cToken.getName().equals(TokenName.WHILE.toString())
+				        || cToken.getName().equals(TokenName.INC_OP.toString())
+				        || cToken.getName().equals(TokenName.DEC_OP.toString())){
+					reduce(28);
+				} else {
+					error();
+				} break;
+			case 47:
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(114);
+				} else {
+					error();
+				} break;
+			case 48:
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(115);
+				} else {
+					error();
+				} break;
+			case 49: 
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(116);
+				} else {
+					error();
+				} break;
+			case 50: 
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(117);
+				} else {
+					error();
+				} break;
+			case 51: 
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(119);
+				} else {
+					error();
+				} break;
+			case 52: 
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(118);
+				} else {
+					error();
+				} break;
+			case 53:
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(120);
+				} else {
+					error();
+				} break;
+			case 54: 
+				if(checkReduce3.contains(cToken.getName())){
+					reduce(121);
+				} else {
+					error();
+				} break;
+			case 55:
+				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
+					shift(56);
+				} else {
+					error();
+				} break;
+			case 56:
+				if(cToken.getName().equals(TokenName.PROG_NAME.toString())){
+					shift(90);
+				} else if(cToken.getName().equals(TokenName.PROC_CALL.toString())){
+					shift(61);
+				} else if(cToken.getName().equals(TokenName.NOT_OP.toString())){
+					shift(124);
+				} else if(cToken.getName().equals(TokenName.INT_CONST.toString())){
+					shift(91);
+				} else if(cToken.getName().equals(TokenName.FLOAT_CONST.toString())){
+					shift(92);
+				} else if(cToken.getName().equals(TokenName.CHAR_CONST.toString())){
+					shift(93);
+				} else if(cToken.getName().equals(TokenName.STRING_CONST.toString())){
+					shift(94);
+				} else if(cToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())){
+					shift(98);
+				} else if(cToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())){
+					shift(97);
+				} else if(cToken.getName().equals(null)){
+					shift(96);
+				} else if(stackTop.equals("<EXPRESSIONS>") && tokenTop == null){
+					state = 57;
+					stateStack.push(state);
+				} else if(stackTop.equals("<MATH_EXPR>") && tokenTop == null){
+					state = 58;
+					stateStack.push(state);
+				} else if(stackTop.equals("<MATH_EXPR2>") && tokenTop == null){
+					state = 76;
+					stateStack.push(state);
+				} else if(stackTop.equals("<STRING_EXPR>") && tokenTop == null){
+					state = 59;
+					stateStack.push(state);
+				} else if(stackTop.equals("<REL_EXPR>") && tokenTop == null){
+					state = 60;
+					stateStack.push(state);
+				} else if(stackTop.equals("<REL_EXPR2>") && tokenTop == null){
+					state = 102;
+					stateStack.push(state);
+				} else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
+					state = 104;
+					stateStack.push(state);
+				} else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+					state = 110;
+					stateStack.push(state);
+				} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+					state = 123;
+					stateStack.push(state);
+				} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+					//state 86 OR 126 NOT SHO
+				} else if(stackTop.equals("<CONST>") && tokenTop == null){
+					state = 89;
+					stateStack.push(state);
+				} else {
+					error();
+				} break;
 			}//end of switch
 		}
 		
