@@ -29,7 +29,7 @@ public class TokenOutput implements ActionListener {
 		buttonTokenList = new JButton("Token list");
 		buttonClose = new JButton("Close");
 
-		text += "ORIGINAL SOURCE: \n============================================================================================================================================\n\n" 
+		text += "ORIGINAL SOURCE: \n===========================================================================================================================\n\n" 
 				+ Code.toLines();
 		text += "\n============================================================================================================================================\n\n";
 	}
@@ -94,18 +94,16 @@ public class TokenOutput implements ActionListener {
 			
 			Token token = Tokenizer.getToken();
 			String output = "";
+			
 			while (token != null) {
-				if (!token.getName().equals("NO_INDENT") && !token.getName().equals("NEWLINE")) {
+				if (!token.getName().equals("NO_INDENT") && !token.getName().equals("NEWLINE"))
 					output += token.printToken();
-				}
 				if (token.getName().equals("NEWLINE") 
-						|| token.getNextIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) {
-						System.out.println("tokenoutput - newline");
+						|| token.getNextIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) 
 						output += "\n";
-					}
-				
 				token = Tokenizer.getToken();
 			}
+			
 			textArea.setText(output);
 			textArea.setWrapStyleWord(false);
 			
@@ -114,8 +112,8 @@ public class TokenOutput implements ActionListener {
 			Tokenizer.reset();
 			Code.clearTokens();
 			
-			Token t = Tokenizer.getToken();
-			while (t != null) t = Tokenizer.getToken();
+			Token token = Tokenizer.getToken();
+			while (token != null) token = Tokenizer.getToken();
 			
 			for (CodeLine line : Code.getLineList()) {
 				String lineNumber = Integer.toString(line.getLineNumber());
@@ -126,8 +124,11 @@ public class TokenOutput implements ActionListener {
 				text += !line.getTokens().isEmpty() ? line.getTokens() + "\n" : "\n";
 			}
 			
-			text += "\nTOKEN STREAM	: \n============================================================================================================================================\n\n" 
-					+ Tokenizer.getTokens().toString();
+			text += "\nTOKEN STREAM	: \n===========================================================================================================================\n\n"; 
+			for (Token t : Tokenizer.getTokens()) text += t.toString() + "\n";
+			text += "\nIDENTIFIER SYMBOL TABLE : \n================================================================================================================\n\n"
+					+ Tokenizer.identifierSymbolTable.toString() + "\n";
+			text += "\n============================================================================================================================================\n\n";
 			textArea.setText(text);
 			textArea.setWrapStyleWord(true);
 			buttonSource.setEnabled(true);

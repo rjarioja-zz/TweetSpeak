@@ -13,10 +13,10 @@ public class Tokenizer {
 	private static String tokenizedCode = "";
 	private static LinkedList<Token> tokens = new LinkedList<Token>();
 	private static Stack<Integer> indentStack = new Stack<Integer>();
-	private static HashMap<String, Token> reserveWordSymbolTable;
-	private static HashMap<String, Token> identifierSymbolTable;
 	private static int index = 0, lineNumber = 0, currentIndent = 0, previousIndent = 0;
-	private static Token tokenBuffer = null;
+
+	public static HashMap<String, Token> reserveWordSymbolTable;
+	public static HashMap<String, Token> identifierSymbolTable;
 	
 	//constructors
 	public Tokenizer () {}
@@ -88,18 +88,15 @@ public class Tokenizer {
 		
 		code = line.getLineCode();
 		code = code.replace("\t", "  ");
-		System.out.println("NEW CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
-		System.out.println("before = currentIndent: " + currentIndent + ", previousIndent: " + previousIndent);
+		code = code.replaceFirst("\\s+$", "");
 		
 		// check if EOL, move to next line
 		if (getIndex() >= code.length()) {
-			System.out.print("first check if EOL: ");
 			// check if end of code, return null
 			if (getLineNumber() + 1 == Code.getLineList().size()) return null;
 
 			// check if line is empty
 			if (code.isEmpty()) {
-				System.out.println("code is empty");
 				token = new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString(), getLineNumber(), 0);
 				setLineNumber(getLineNumber() + 1);
 				line = Code.getLineList().get(getLineNumber());
@@ -111,14 +108,12 @@ public class Tokenizer {
 			line = Code.getLineList().get(getLineNumber());
 			code = line.getLineCode();
 			code = code.replace("\t", "  ");
-			System.out.println("EOL ");
-			System.out.println("NEXT CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
+			code = code.replaceFirst("\\s+$", "");
 			previousIndent = currentIndent;
 		}
 		
 		// check if line is empty, move to next line
 		if (code.isEmpty()) {
-			System.out.println("check code if empty");
 			token = new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString(), getLineNumber(), 0);
 			setLineNumber(getLineNumber() + 1);
 			line = Code.getLineList().get(getLineNumber());
@@ -127,22 +122,19 @@ public class Tokenizer {
 		
 		// check indents
 		if (getIndex() == 0) {
-			System.out.println("check indents code:" + code);
 			token = getIndents(line, getIndex());
 			if (token.getName().equals("NO_INDENT")) {
-				System.out.println("no indents");
 				// no indents, move to next character
 				setIndex(token.getNextIndex());
 			} else if (token.getName().equals("NEWLINE")) {
-				System.out.println("check indents newline line: " + getLineNumber() + ", size: " + Code.getLineList().size());
 				// EOL, move to next line
 				setLineNumber(getLineNumber() + 1);
 				setIndex(0);
 				line = Code.getLineList().get(getLineNumber());
 				code = line.getLineCode();
 				code = code.replace("\t", "  ");
+				code = code.replaceFirst("\\s+$", "");
 			} else {
-				System.out.println(token.toString());
 				// return indent/dedent
 				Tokenizer.getTokens().add(token);
 				line.addToken(token);
@@ -152,17 +144,13 @@ public class Tokenizer {
 		}
 		
 		while (getIndex() < code.length()) {
-			System.out.println("in loop");
-
 			// second check if EOL, move to next line
 				if (getIndex() >= code.length()) {
-					System.out.print("second check if EOL: ");
 					// check if end of code, return null
 					if (getLineNumber() + 1 == Code.getLineList().size()) return null;
 					
 					// check if empty
 					if (code.isEmpty()) {
-						System.out.println("code is empty");
 						token = new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString(), getLineNumber(), 0);
 						setLineNumber(getLineNumber() + 1);
 						line = Code.getLineList().get(getLineNumber());
@@ -174,14 +162,12 @@ public class Tokenizer {
 					line = Code.getLineList().get(getLineNumber());
 					code = line.getLineCode();
 					code = code.replace("\t", "  ");
-					System.out.println("EOL ");
-					System.out.println("NEXT CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
+					code = code.replaceFirst("\\s+$", "");
 					previousIndent = currentIndent;
 				}
 				
 				// check if line is empty, move to next line
 				if (code.isEmpty()) {
-					System.out.println("check code if empty");
 					token = new Token("\\n", "NEWLINE", TokenType.SPEC_SYMBOL.toString(), getLineNumber(), 0);
 					setLineNumber(getLineNumber() + 1);
 					line = Code.getLineList().get(getLineNumber());
@@ -190,22 +176,19 @@ public class Tokenizer {
 				
 				// check indents
 				if (getIndex() == 0) {
-					System.out.println("check indents code:" + code);
 					token = getIndents(line, getIndex());
 					if (token.getName().equals("NO_INDENT")) {
-						System.out.println("no indents");
 						// no indents, move to next char
 						setIndex(token.getNextIndex());
 					} else if (token.getName().equals("NEWLINE")) {
-						System.out.println("check indents newline line: " + getLineNumber() + ", size: " + Code.getLineList().size());
 						// EOL, move to next line 
 						setLineNumber(getLineNumber() + 1);
 						setIndex(0);
 						line = Code.getLineList().get(getLineNumber());
 						code = line.getLineCode();
 						code = code.replace("\t", "  ");
+						code = code.replaceFirst("\\s+$", "");
 					} else {
-						System.out.println(token.toString());
 						// return indent/dedent
 						Tokenizer.getTokens().add(token);
 						line.addToken(token);
@@ -214,12 +197,10 @@ public class Tokenizer {
 					}
 				}
 			
-			System.out.println("before switch");
 			switch (code.charAt(getIndex())) {
 
 				//skip spaces
 				case ' ':
-					System.out.print("space ");
 					setIndex(getIndex() + 1);
 					continue;
 			
@@ -230,11 +211,8 @@ public class Tokenizer {
 				case '(': case ')':
 					token = getArithmeticOperator(line, getIndex());
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 				
 				// relational operators
@@ -243,48 +221,34 @@ public class Tokenizer {
 				case '=': case '!':
 					token = getRelationalOperator(line, getIndex());
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 				
 				// reserved words
 				case '#':
 					token = getComments(line, getIndex());
 					if (token instanceof Error) token = getReservedWords(line, token.getStartIndex());
-					
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 					
 				// special tokens
 				case ';': case ',':
 					token = getOtherTokens(line, getIndex());
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 				
 				// char constants OR single quotes
 				case '\'':
 					token = getCharConstant(line, getIndex());
 					if (token instanceof Error) token = getOtherTokens(line, token.getStartIndex());
-					
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 					
 				// string contants OR double quotes
@@ -292,11 +256,8 @@ public class Tokenizer {
 					token = getStringConstant(line, getIndex());
 					if (token instanceof Error) token = getOtherTokens(line, token.getStartIndex());
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 					
 				// integer constants, float constants
@@ -307,28 +268,20 @@ public class Tokenizer {
 				case '8': case '9':
 					token = getNumConstant(line, getIndex());
 					setIndex(token.getNextIndex());
-					
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 
 				// block comments, string concat, boolean constants, identifiers
 				default:
-					System.out.println("default");
 					token = getComments(line, getIndex());
-					
 					if (token instanceof Error) token = getStringConcat(line, token.getStartIndex());
 					if (token instanceof Error) token = getBoolConstant(line, token.getStartIndex());
 					if (token instanceof Error) token = getIdentifier(line, getIndex());
 					setIndex(token.getNextIndex());
-					
 					if (token instanceof Identifier) identifierSymbolTable.put(token.getLexeme(), token);
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					
-					System.out.println("-= TOKEN CREATED =- " + token.getName());
 					return token;
 			}
 		}
@@ -979,8 +932,9 @@ public class Tokenizer {
 					} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 				} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 			} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
-		} else if (currentIndent >= previousIndent) {
+		} else if (currentIndent > previousIndent) {
 			if (getTokens().isEmpty()) return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+			if (getTokens().getLast().getName().equals("DEDENT")) return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 			if (getTokens().getLast().getName().equals("INDENT")) {
 				if (getTokens().get(getTokens().size() - 2).getName().equals("COMMENT")) 
 					return new Comment(sourceCode.substring(index), sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());

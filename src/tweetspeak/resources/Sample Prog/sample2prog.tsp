@@ -4,7 +4,7 @@
     #ootc response
     #ootc choice
     #oots error = "Not in the choices"
-
+    
     #outbox "For integer"
     #outbox "Please Input a 1st number: "
     #inbox num1
@@ -16,14 +16,14 @@
 
     #tweet (choice == 'A')
       #ooti sum #share #trending addition(num1, num2)
-      #trending ansAdd (sum)
+      #trending ansAdd(sum)
     #retweet (choice == 'B')
       #ooti prod #share #trending multiply(num1, num2)
       #trending ansSub(dif)
     #reply 
       #outbox error
 
-    #comment these are method calls	
+    #comment these are method calls
 
   #ooti addition(#ooti a, #ooti b)
     #ooti r = a + b
