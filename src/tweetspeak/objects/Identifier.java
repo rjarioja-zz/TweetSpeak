@@ -13,10 +13,26 @@ public class Identifier extends Token {
 	private boolean voidFlag = false;
 	
 	//constructors	
-	public Identifier(String lexeme, String dataType) {
+	public Identifier(String lexeme) {
 		super(lexeme, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString());
-		setDataType(dataType);
+		setDataType("");
 		setValue("");
+	}
+	
+	public Identifier(String lexeme, String dataType) {
+		this(lexeme);
+		setDataType(dataType);
+	}
+	
+	public Identifier(String lexeme, int lineNumber, int nextIndex) {
+		this(lexeme);
+		setLineNumber(lineNumber);
+		setNextIndex(nextIndex);
+	}
+	
+	public Identifier(String lexeme, String name, int lineNumber, int nextIndex) {
+		this(lexeme, lineNumber, nextIndex);
+		setName(name);
 	}
 	
 	public Identifier(String lexeme, String dataType, String value) {
@@ -38,7 +54,7 @@ public class Identifier extends Token {
 	}
 	
 	//setters
-	public void setDataType(String datatype) { this.dataType = datatype; }
+	public void setDataType(String dataType) { this.dataType = dataType; }
 	public void setValue(String value) { this.value = value; }
 	public void setIntVal(int intVal) { this.intVal = intVal; }
 	public void setCharVal(char charVal) { this.charVal = charVal; }
@@ -59,10 +75,10 @@ public class Identifier extends Token {
 	
 	//methods
 	public String printToken() {
-		return "[IDENTIFIER type = " + getDataType() + ", value = " + getValue() + "]";
+		return "[" + getName() + " " + getLexeme() + " type = " + getDataType() + ", value = " + getValue() + "]";
 	}
 	
 	public String toString() {
-		return "[\"" + getLexeme()  + "\", " + getType() + ", " + getDataType() + ", " + getValue() + ", " + "]";
+		return "[\"" + getLexeme()  + "\", " + getName() + ", " + getType() + ", " + getDataType() + ", " + getValue() + ", " + "]";
 	}
 }

@@ -31,7 +31,7 @@ public class TweetSpeak implements ActionListener {
 	private JMenuItem saveAs;
 	private JMenuItem exit;
 	private JMenuItem tokenize;
-	private JMenuItem parser;
+	private JMenuItem parse;
 	
 	//nested class
 	class CloseHandler extends WindowAdapter {
@@ -97,9 +97,9 @@ public class TweetSpeak implements ActionListener {
 		tokenize.addActionListener(this);
 		compiler.add(tokenize);
 		
-		parser = new JMenuItem("Parse              ");
-		parser.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
-		parser.addActionListener(this);
+		parse = new JMenuItem("Parse              ");
+		parse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		parse.addActionListener(this);
 		compiler.add(tokenize);
 		
 		panel1.setLayout(new BorderLayout());
@@ -187,7 +187,9 @@ public class TweetSpeak implements ActionListener {
 				Tokenizer.initialize();
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
-			} else if (source == exit) System.exit(0);
+			/*} else if (source == parse || source == buttonParser) {
+				// TODO: PARSER
+*/			} else if (source == exit) System.exit(0);
 		}
 	}
 
