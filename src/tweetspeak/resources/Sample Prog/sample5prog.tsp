@@ -26,5 +26,5 @@
         #outbox "Quotient is = " areFriendsWith quotient areFriendsWith "\n";
 
       #outbox "Again?: \n"; #inbox response
-    #status (response == 'y' | response =='Y')
+    #status (response == 'y' || response =='Y')
 #logout

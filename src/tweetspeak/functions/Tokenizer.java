@@ -303,8 +303,8 @@ public class Tokenizer {
 					if (token instanceof Error) token = getIdentifier(line, index);
 					Tokenizer.getTokens().add(token);
 					line.addToken(token);
-					setIndex(token.getNextIndex());
 					System.out.println("-= TOKEN CREATED =- " + token.getName());
+					setIndex(token.getNextIndex());
 					return token;
 			}
 		}
@@ -718,8 +718,8 @@ public class Tokenizer {
 										if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 										if (sourceCode.charAt(index) == 's') {
 											token += sourceCode.charAt(index++);
-											if (sourceCode.charAt(index) == '(') return new Token(token, TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
-											if (sourceCode.charAt(index) == ' ') return new Token(token, TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index + 1);	
+											if (sourceCode.charAt(index) == '(') return new Token(token, TokenName.WHILE.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+											if (sourceCode.charAt(index) == ' ') return new Token(token, TokenName.WHILE.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index + 1);	
 											else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 										} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 									} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -837,9 +837,9 @@ public class Tokenizer {
 												if (sourceCode.charAt(index) == 'w') {
 													token += sourceCode.charAt(index++);
 													if (index == sourceCode.length() 
-													 || sourceCode.charAt(index) == ';') 
-														return new Token(token, TokenName.CONTINUE.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
-													if (sourceCode.charAt(index) == ' ') return new Token(token, TokenName.PROC_RET.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+													 || sourceCode.charAt(index) == ';'
+													 || sourceCode.charAt(index) == ' ')
+														return new Token(token, TokenName.BREAK.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
 													else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 												} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 											} else return new Error(token + sourceCode.charAt(index), "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
@@ -890,11 +890,18 @@ public class Tokenizer {
 					} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 				} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
 			} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
-		} else if (currentIndent >= previousIndent && 
-				(tokens.get(tokens.size() - 2).getName().equals("COMMENT") || tokens.getLast().getName().equals("COMMENT"))) {
-			return new Comment(sourceCode.substring(index), sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());
-		//} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
-		} else return null;
+		} else if (currentIndent >= previousIndent) {
+			if (tokens.getLast().getName().equals("INDENT")) {
+				if (tokens.get(tokens.size() - 2).getName().equals("COMMENT")) 
+					return new Comment(sourceCode.substring(index), sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());
+				else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+			} 
+			if (tokens.getLast().getName().equals("COMMENT"))
+				return new Comment(sourceCode.substring(index), sourceCode.substring(index), lineCode.getLineNumber(), sourceCode.length());
+			else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+				
+		} else return new Error(token, "INVALID COMMENT" + token, lineCode.getLineNumber(), index);
+		//} else return null;
 	}
 	
 	private static Token getCharConstant(CodeLine lineCode, int index) {
@@ -985,14 +992,15 @@ public class Tokenizer {
 			while (index < sourceCode.length() && sourceCode.charAt(index) == ' ') token += sourceCode.charAt(index++);
 			if (token.length() % 2 == 0 && !token.isEmpty()) {
 				currentIndent = token.length() / 2;
+				if (currentIndent * 2 > previousIndent * 2 + 2) return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
 				if (currentIndent > previousIndent) {
 					indentStack.push(currentIndent * 2);
 					indent =  new Token("  ", "INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 				} else if (currentIndent == previousIndent)
 					indent =  new Token("", "NO_INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 				else {
-					if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index);
-					if (indentStack.peek().intValue() != currentIndent * 2) {
+					if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index + 1);
+					if (indentStack.peek().intValue() >= currentIndent * 2) {
 						indentStack.pop();
 						indent = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 					} else {
@@ -1006,7 +1014,7 @@ public class Tokenizer {
 			if (currentIndent == previousIndent)
 				indent =  new Token("", "NO_INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 			else {
-				if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index);
+				if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index + 1);
 				if (indentStack.peek().intValue() != currentIndent * 2) {
 					indentStack.pop();
 					indent = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
