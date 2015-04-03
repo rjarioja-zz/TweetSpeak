@@ -42,8 +42,6 @@ public class TokenOutput implements ActionListener {
 		textArea.setFont(new java.awt.Font("Consolas", 0, 14));
 		textArea.setForeground(Color.white);
 		textArea.setTabSize(2);
-		/*textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);*/
 		textArea.setText(text);
 		textArea.setEditable(false);
 		
