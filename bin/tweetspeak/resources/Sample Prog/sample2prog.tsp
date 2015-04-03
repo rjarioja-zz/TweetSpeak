@@ -1,8 +1,8 @@
 #login sample2
-  #newsfed
+  #newsfeed
     #ooti num1 ; #ooti num2
     #ootc response
-    #otc choice
+    #ootc choice
     #oots error = "Not in the choices"
 
     #outbox "For integer"
@@ -15,26 +15,28 @@
     #outbox "Select an operation: \n"; #inbox choice
 
     #tweet (choice == 'A')
-      #ooti sum #share #treding addition ( num1 , num2 )
-      #trending ansAdd ( sum )
+      #ooti sum #share #trending addition(num1, num2)
+      #trending ansAdd (sum)
     #retweet (choice == 'B')
-      #ooti prod #share #trending multiply ( num1 , num2 )
-      #trending ansSub ( dif )
+      #ooti prod #share #trending multiply(num1, num2)
+      #trending ansSub(dif)
     #reply 
       #outbox error
 
     #comment these are method calls	
-  #ooti addition( #ooti a , #ooti b )
-    #ooti r = a + b
-    #throwback r     
 
-  #ootv ansAdd ( #ooti ans )
+  #ooti addition(#ooti a, #ooti b)
+    #ooti r = a + b
+    #throwback r
+
+  #ootv ansAdd(#ooti ans)
     #outbox "Sum is = " areFriendsWith ans areFriendsWith "\n"
 
-  #ooti multiply ( #ooti c , #ooti d ) 
+  #ooti multiply(#ooti c, #ooti d)
     #ooti q = c * d
     #throwback q
 
-  #ootv ansMul ( #ooti ans1)
-    #outbox "Product is = " areFriendsWith ans1 areFriendsWith "\n"	
+  #ootv ansMul(#ooti ans1)
+    #outbox "Product is = " areFriendsWith ans1 areFriendsWith "\n"
+
 #logout
