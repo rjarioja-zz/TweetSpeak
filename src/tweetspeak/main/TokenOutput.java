@@ -2,9 +2,7 @@ package tweetspeak.main;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import tweetspeak.divisions.Code;
 import tweetspeak.divisions.CodeLine;
 import tweetspeak.functions.Tokenizer;
