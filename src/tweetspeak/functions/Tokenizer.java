@@ -87,6 +87,7 @@ public class Tokenizer {
 		Token token = null;		
 		
 		code = line.getLineCode();
+		code = code.replace("\t", "  ");
 		System.out.println("NEW CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
 		System.out.println("before = currentIndent: " + currentIndent + ", previousIndent: " + previousIndent);
 		
@@ -109,6 +110,7 @@ public class Tokenizer {
 			setIndex(0);
 			line = Code.getLineList().get(getLineNumber());
 			code = line.getLineCode();
+			code = code.replace("\t", "  ");
 			System.out.println("EOL ");
 			System.out.println("NEXT CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
 			previousIndent = currentIndent;
@@ -138,6 +140,7 @@ public class Tokenizer {
 				setIndex(0);
 				line = Code.getLineList().get(getLineNumber());
 				code = line.getLineCode();
+				code = code.replace("\t", "  ");
 			} else {
 				System.out.println(token.toString());
 				// return indent/dedent
@@ -170,6 +173,7 @@ public class Tokenizer {
 					setIndex(0);
 					line = Code.getLineList().get(getLineNumber());
 					code = line.getLineCode();
+					code = code.replace("\t", "  ");
 					System.out.println("EOL ");
 					System.out.println("NEXT CALL code:" + code + ","+ getIndex() + "," + getLineNumber() + " size:" + code.length());
 					previousIndent = currentIndent;
@@ -199,6 +203,7 @@ public class Tokenizer {
 						setIndex(0);
 						line = Code.getLineList().get(getLineNumber());
 						code = line.getLineCode();
+						code = code.replace("\t", "  ");
 					} else {
 						System.out.println(token.toString());
 						// return indent/dedent
