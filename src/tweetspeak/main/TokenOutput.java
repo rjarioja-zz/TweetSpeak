@@ -2,7 +2,13 @@ package tweetspeak.main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import javax.swing.*;
+
 import tweetspeak.divisions.Code;
 import tweetspeak.divisions.CodeLine;
 import tweetspeak.functions.Tokenizer;
@@ -122,8 +128,15 @@ public class TokenOutput implements ActionListener {
 			
 			text += "\nTOKEN STREAM	: \n===========================================================================================================================\n\n"; 
 			for (Token t : Tokenizer.getTokens()) text += t.toString() + "\n";
-			text += "\nIDENTIFIER SYMBOL TABLE : \n================================================================================================================\n\n"
-					+ Tokenizer.identifierSymbolTable.toString() + "\n";
+			text += "\nIDENTIFIER SYMBOL TABLE : \n================================================================================================================\n\n";
+
+			Set<Entry<String, Token>> set = Tokenizer.identifierSymbolTable.entrySet();
+			Iterator<Entry<String, Token>> iterator = set.iterator();
+			while(iterator.hasNext()) {
+			   Map.Entry mapEntry = iterator.next();
+			   text += "Key: "+ mapEntry.getKey() + ", Value:" + mapEntry.getValue() + "\n";
+			}
+
 			text += "\n============================================================================================================================================\n\n";
 			textArea.setText(text);
 			textArea.setWrapStyleWord(true);

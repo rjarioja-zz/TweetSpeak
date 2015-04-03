@@ -1153,23 +1153,22 @@ public class Tokenizer {
 						|| Character.isDigit(sourceCode.charAt(index))) {
 							token += sourceCode.charAt(index++);
 							if (index == sourceCode.length() || index >= sourceCode.length()) {
-								if (getTokens().getLast().getName().equals("START")) return new Token(token, TokenName.PROG_NAME.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index--);
-								return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
+								if (getTokens().getLast().getName().equals("START")) return new Identifier(token, TokenName.PROG_NAME.toString(), lineCode.getLineNumber(), index--);
+								return new Identifier(token, lineCode.getLineNumber(), index);
 						}
 					} else if (sourceCode.charAt(index) == ' ' || sourceCode.charAt(index) == ';'
 							|| sourceCode.charAt(index) == '+' || sourceCode.charAt(index) == '-'
 							|| sourceCode.charAt(index) == '*' || sourceCode.charAt(index) == '/'
 							|| sourceCode.charAt(index) == '%' || sourceCode.charAt(index) == '^'
 							|| sourceCode.charAt(index) == ',' || sourceCode.charAt(index) == ')')
-						return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
+						return new Identifier(token, lineCode.getLineNumber(), index);
 					else if (sourceCode.charAt(index) == '(') {
 						if (currentIndent == 1 || tokens.getLast().getName().equals("PROC_CALL"))
-							return new Token(token, TokenName.PROC_NAME.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
-						else return new Token(token, TokenName.VAR.toString(), TokenType.IDENTIFIER.toString(), lineCode.getLineNumber(), index);
+							return new Identifier(token, TokenName.PROC_NAME.toString(), lineCode.getLineNumber(), index);
+						else return new Identifier(token, lineCode.getLineNumber(), index);
 					} else return new Error(token + sourceCode.charAt(index), "INVALID IDENTIFIER - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 				}
   			} else return new Error(token + sourceCode.charAt(index), "INVALID IDENTIFIER - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
   		return new Error(token, "INVALID IDENTIFIER - " + token, lineCode.getLineNumber(), index);
 	}
-	
 }
