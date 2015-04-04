@@ -75,7 +75,15 @@ public class Parser {
 	    		TokenName.CONCAT.toString(), 		TokenName.INC_OP.toString(),
 	    		TokenName.DEC_OP.toString());
 		
-        getToken();
+        
+	    if (!(currentToken instanceof Comment)) getToken();
+	    else {
+	    	while (currentToken instanceof Comment || currentToken.getName().equals("COMMENT")) {
+	    		getToken();
+	    		if (!(currentToken instanceof Comment)) break;
+	    	}
+	    }
+	    
 		while (true) {
 			String stackTop = tokenStack.peek().getTokenData();
             Token tokenTop = tokenStack.peek().getToken();
@@ -749,7 +757,13 @@ public class Parser {
         state = nextState;
         stateStack.push(state);
 
-        getToken();
+        if (!(currentToken instanceof Comment)) getToken();
+        else {
+	    	while (currentToken instanceof Comment || currentToken.getName().equals("COMMENT")) {
+	    		getToken();
+	    		if (!(currentToken instanceof Comment)) break;
+	    	}
+	    }
     }
 	
 	private static void error() {
