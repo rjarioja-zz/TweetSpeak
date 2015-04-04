@@ -104,7 +104,7 @@ public class Parser {
                     break;
 					
 				case 2:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
+					if (currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
 						shift(3);
 					else 
 						// PROG_NAME required 
