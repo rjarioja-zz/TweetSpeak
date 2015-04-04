@@ -1,0 +1,68 @@
+BASED DUN SA CompilerC7:
+
+	Node has:
+		- Node parentNode; 				<== parent nya sa tree
+		- ArrayList<Node> child			<== list of children nya sa tree
+		- Token token = null;			<== token field
+		- TokenType tokenType;			<== tokentype daw ng token na dala nya
+		- TokenName tokenName;			<== tokenname daw ng token na dala nya (pwede naman kasing kunin na diretso sa token)
+		- String tokenData = "";		<== tokendata ?!? Some string shit to compare yata
+		- Object value;					<== wtf is this shit
+	
+REDUCE PROCESS:
+===================
+	1. Get left hand side (variable) from le production rulez
+	
+	2. Create node with that shit. 
+		> Eto daw yung code:
+			Node node = new Node(); // create instance
+	        String variable = ProductionRules.getRule(rule).get(0); // get left hand side nung production
+	        node.setData(variable); // setData lang.
+        > IT MEAANS:
+        	Variable node is:
+        		parentNode = null, at least sa creation
+        		child.isEmpty()
+        		token = null, WALA SYANG TOKEN SA LOOB.
+        > Kaya may code na:
+        	if (topOfTheStack.equalsIgnoreCase("Prog_Content") && topToken == null) {} 
+        	KASIII:
+        		topOfTheStack = nodes.peek().getData()	<== yung String tokenData shits
+        		topToken = nodes.peek().getToken()		<== yung Token value, which is null kasi
+        													WALA SYANG TOKEN SA LOOB
+
+	3. Pop n nodes into a temporary stack, where n = length of production rule - 1 (kasi daw wala na yung lefthandside).
+	   Pop also n states from states stack. Pero, walang sasalo sa kanila :(. Proof na walang forever.
+	   
+	4. Add popped nodes into le variable node.
+		> Eto daw yung code:
+			int poppedNodesSize = poppedNodes.size();
+	        for (int counter = 0; counter < poppedNodesSize; counter++) {
+	            Node poppedNode = poppedNodes.pop();
+	            node.addChild(poppedNode); // add to newly created node
+	            poppedNode.setParentNode(node);
+	            System.out.println("Children: " + poppedNode);
+	        }
+    
+    5. Set current state sa kung anumang natira sa state stack.
+    	> Eto daw yung code:
+    		currentState = states.peek();
+    		
+    6. FINALLY, push node into node stack.
+    
+    
+SHIFT PROCESS:
+===================
+	1. Create node.
+	
+	2. Set current token (yung galing kay lexer into node)
+		> Eto daw yung code:
+			node.setData(currentToken.getType().toString()); // sa atin, TokenName.
+															 // so, irrelevant si TokenType dito sa node kasi 
+															 // WALA NAMAN SYA TALAGANG SENSE 
+        	node.setToken(currentToken);
+
+	3. Push newly created node to node stack. Push current state into state stack.
+	
+	4. Get next token from Tokenizer.
+	
+	5. Set current state.
