@@ -1,8 +1,12 @@
 /**
+ * @author Ryan Arioja, Kim Leabres, Kevin Zurita, Ezekiel dela Pena
  * 
- */
-/**
- * @author Kevin
+ * tweetspeak/functions
+ * Contains analyzers for the compiler process.
+ * 
+ * Files:
+ * 	Tokenizer.java
+ * 	Parser.java
  *
  */
 package tweetspeak.functions;

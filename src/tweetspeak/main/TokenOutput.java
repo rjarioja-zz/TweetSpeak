@@ -3,7 +3,6 @@ package tweetspeak.main;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -133,7 +132,7 @@ public class TokenOutput implements ActionListener {
 			Set<Entry<String, Token>> set = Tokenizer.identifierSymbolTable.entrySet();
 			Iterator<Entry<String, Token>> iterator = set.iterator();
 			while(iterator.hasNext()) {
-			   Map.Entry mapEntry = iterator.next();
+			   Entry<String, Token> mapEntry = iterator.next();
 			   text += "Key: "+ mapEntry.getKey() + ", Value:" + mapEntry.getValue() + "\n";
 			}
 
