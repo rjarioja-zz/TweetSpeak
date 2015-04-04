@@ -1,5 +1,6 @@
 package tweetspeak.functions;
 
+import java.io.IOException;
 import java.util.*;
 import tweetspeak.collections.TokenName;
 import tweetspeak.objects.*;
@@ -10,18 +11,23 @@ public class Parser {
     private static Stack<Node> tokenStack;
     private static Stack<Integer> stateStack;
 	
-	
-	private static void getToken(){
-		currentToken = Tokenizer.getToken();
-	}
+	//constructors
+    public Parser() throws IOException {
+        tokenStack = new Stack<Node>();
+        stateStack = new Stack<Integer>();
+    }
+    
+    //methods
+	private static void getToken() { currentToken = Tokenizer.getToken(); }
 	
 	public static boolean parser(){
 		state = 0;
-		
-		Node nodes = new Node();
-	    nodes.setTokenData("$");
-	    tokenStack.push(nodes);
+		Node root = new Node();
+        
+	    root.setTokenData("$");
+	    tokenStack.push(root);
 	    stateStack.push(state);
+        
 	    Tokenizer.initialize();
 		
 		// PARSING TABLE IN SWITCH-CASE FORM
@@ -32,61 +38,43 @@ public class Parser {
 	    // kewl to kimpot :P
 	    
 	    List<String> checkReduce1 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), TokenName.DEDENT.toString(),
-	    		TokenName.ASSIGN.toString(), TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(), TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(), TokenName.DATATYPE_FLOAT.toString(),
-	    		TokenName.DATATYPE_INT.toString(), TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.PROG_NAME.toString(), 	TokenName.DEDENT.toString(),
+	    		TokenName.ASSIGN.toString(), 		TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 	TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),	TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 	TokenName.DATATYPE_STRING.toString(),
 	    		TokenName.DATATYPE_VOID.toString(), TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString(), TokenName.IF.toString(),
-	    		TokenName.DO.toString(), TokenName.WHILE.toString(),
-	    		TokenName.INC_OP.toString(), TokenName.DEC_OP.toString());
+	    		TokenName.OUTPUT.toString(), 		TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 		TokenName.DEC_OP.toString());
 
 	    // states 28-33
-	    List<String> checkReduce2 = Arrays.asList(TokenName.PROG_NAME.toString(),
-	    		TokenName.ASSIGN.toString(),
-	    		TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(),
-	    		TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(),
-	    		TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(),
-	    		TokenName.DATATYPE_FLOAT.toString(),
-	    		TokenName.DATATYPE_INT.toString(),
-	    		TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(),
-	    		TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString(),
-	    		TokenName.IF.toString(),
-	    		TokenName.DO.toString(),
-	    		TokenName.WHILE.toString(),
-	    		TokenName.INC_OP.toString(),
-	    		TokenName.DEC_OP.toString());
+	    List<String> checkReduce2 = Arrays.asList(
+	    		TokenName.PROG_NAME.toString(), 	TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 	TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(), TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 	TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(), 		TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 		TokenName.DEC_OP.toString());
 	    
 	    List<String> checkReduce3 = Arrays.asList(
-	    		TokenName.DEDENT.toString(),
-	    		TokenName.STMT_SEP.toString(),
-	    		TokenName.ASSIGN.toString(),
-	    		TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(),
-	    		TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(),
-	    		TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(),
-	    		TokenName.DATATYPE_FLOAT.toString(),
-	    		TokenName.DATATYPE_INT.toString(),
-	    		TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(),
-	    		TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString(),
-	    		TokenName.IF.toString(),
-	    		TokenName.DO.toString(),
-	    		TokenName.WHILE.toString(),
-	    		TokenName.CONCAT.toString(),
-	    		TokenName.INC_OP.toString(),
+	    		TokenName.DEDENT.toString(), 		TokenName.STMT_SEP.toString(),
+	    		TokenName.ASSIGN.toString(), 		TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 	TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 		TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(), TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 	TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(), 		TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
+	    		TokenName.CONCAT.toString(), 		TokenName.INC_OP.toString(),
 	    		TokenName.DEC_OP.toString());
 		
+        getToken();
 		while (true) {
 			String stackTop = tokenStack.peek().getTokenData();
             Token tokenTop = tokenStack.peek().getToken();
