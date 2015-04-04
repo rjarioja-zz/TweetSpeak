@@ -7,15 +7,22 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class GrammarRules {
-	private String path = "tweetspeak/resources/ProductionRules.cfg";
-	private File file = new File(path);
-	private Scanner scanner = new Scanner(file);
+	private static String path = "src/tweetspeak/resources/ProductionRules.cfg";
+	private static File file = new File(path);
+	private static Scanner scanner;
 	
 	private static ArrayList<ArrayList<String>> rules = new ArrayList<ArrayList<String>>();
 	private static ArrayList<String> productions;
 	
-	//constructors
-	public GrammarRules() throws FileNotFoundException {
+	//getters
+	public static ArrayList<ArrayList<String>> getRules() { return rules; }
+	
+	//setters
+	public static ArrayList<String> getRule(int rule) { return rules.get(rule); }
+	
+	//methods
+	public static void initialize() throws FileNotFoundException {
+		scanner = new Scanner(file);
 		while (scanner.hasNextLine()) {
 			productions = new ArrayList<String>();
 			String productionRule = scanner.nextLine();
@@ -26,20 +33,15 @@ public class GrammarRules {
 		}
 	}
 	
-	//getters
-	public static ArrayList<ArrayList<String>> getRules() { return rules; }
-	
-	//setters
-	public static ArrayList<String> getRule(int rule) { return rules.get(rule); }
-	
-	//methods
-	public static void printRules() {
+	public static String printRules() {
+		String text = "";
 		for (int counter = 0; counter < rules.size(); counter++) {
-			System.out.print(counter + " ");
-			for (int counter2 = 0; counter2 < rules.get(counter).size(); counter2++) {
-				System.out.print(rules.get(counter).get(counter2) + " ");
-			}
-			System.out.println("");
+			text += counter + " ";
+			for (int counter2 = 0; counter2 < rules.get(counter).size(); counter2++)
+				text += rules.get(counter).get(counter2) + " ";
+			
+			text += "\n";
 		}
+		return text;
 	}
 }
