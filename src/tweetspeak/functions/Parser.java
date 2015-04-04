@@ -11,12 +11,12 @@ import tweetspeak.objects.*;
 public class Parser {
 	private static int state;
 	private static Token currentToken;
-    private static Stack<Node> tokenStack;
+    private static Stack<TokenNode> tokenStack;
     private static Stack<Integer> stateStack;
 	
 	//constructors
     public Parser() throws IOException {
-        tokenStack = new Stack<Node>();
+        tokenStack = new Stack<TokenNode>();
         stateStack = new Stack<Integer>();
     }
     
@@ -38,9 +38,9 @@ public class Parser {
 	
 	public static boolean parser() {
 		state = 0;
-		Node root = new Node();
+		TokenNode root = new TokenNode();
         
-	    root.setTokenData("$");
+	    root.setData("$");
 	    tokenStack.push(root);
 	    stateStack.push(state);
         
@@ -78,22 +78,22 @@ public class Parser {
 	    		TokenName.INC_OP.toString(), 		TokenName.DEC_OP.toString());
 	    
 	    List<String> checkReduce3 = Arrays.asList(
-	    		TokenName.DEDENT.toString(), 		TokenName.STMT_SEP.toString(),
-	    		TokenName.ASSIGN.toString(), 		TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), 	TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(), 		TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(), TokenName.DATATYPE_FLOAT.toString(),
-	    		TokenName.DATATYPE_INT.toString(), 	TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(), TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString(), 		TokenName.IF.toString(),
-	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
-	    		TokenName.CONCAT.toString(), 		TokenName.INC_OP.toString(),
-	    		TokenName.DEC_OP.toString());
+	    		TokenName.DEDENT.toString(),			TokenName.INDENT.toString(), 		
+	    		TokenName.STMT_SEP.toString(),			TokenName.ASSIGN.toString(), 		
+	    		TokenName.ASSIGN.toString(),			TokenName.PROC_CALL.toString(), 	
+	    		TokenName.BREAK.toString(),				TokenName.CONTINUE.toString(), 		
+	    		TokenName.DATATYPE_BOOL.toString(),		TokenName.DATATYPE_CHAR.toString(), 
+	    		TokenName.DATATYPE_FLOAT.toString(),	TokenName.DATATYPE_INT.toString(), 	
+	    		TokenName.DATATYPE_STRING.toString(),	TokenName.DATATYPE_VOID.toString(), 
+	    		TokenName.INPUT.toString(),				TokenName.OUTPUT.toString(), 		
+	    		TokenName.IF.toString(),				TokenName.DO.toString(), 			
+	    		TokenName.WHILE.toString(),				TokenName.CONCAT.toString(), 		
+	    		TokenName.INC_OP.toString(),			TokenName.DEC_OP.toString());
 	    
 	    getToken();
 	    
 		while (true) {
-			String stackTop = tokenStack.peek().getTokenData();
+			String stackTop = tokenStack.peek().getData();
             Token tokenTop = tokenStack.peek().getToken();
             
 			switch (state) {
@@ -108,9 +108,9 @@ public class Parser {
 					break;
 					
 				case 1:
-					if (currentToken == null) {
+					if (currentToken.getName() == "$") {
 						// error
-                        if (tokenStack.get(1).getchild().size() == 0) {
+                        if (tokenStack.get(1).getChildren().size() == 0) {
                             System.err.println("Parse tree is broken!\nProbably a STATEMENT reduction problem.");
                             System.exit(0);
                         }
@@ -163,36 +163,34 @@ public class Parser {
 					break;
 					
 				case 7:
-	/* 			
-	*			IDK HOW? Pano i-identify if $ na
-	 *			same prob with case 2 
-	 * 			if($) { 
-	 *				reduce(2); //state 2 
-	 * 			} else {
-	 * 			errorMsg("end of file.");
-	 * 			} break;
-	  */
+					if (currentToken.getName() == "$") 
+						reduce(2);
+                    else
+                        System.out.println("End of file");
+                    break;
+                    
 				case 8:
 					if (currentToken.getName().equals("DEDENT"))
 						reduce(4);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
-						shift(28);
+						shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
+						shift(28);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString()))
 						shift(29);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString()))
 						shift(30);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString()))
 						shift(31);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
 						shift(32);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())){
-						shift(33);
-					} else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null){
+					else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null) {
 						state = 9;
 						stateStack.push(state);
-					} else {
+					} else
 						error();
-					} break;
+					break;
+					
 				case 9:
 					if(currentToken.getName().equals("DEDENT")){
 						reduce(3);
@@ -730,11 +728,11 @@ public class Parser {
 	private static void reduce(int rule) {
         int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
-        Node node = new Node();
+        TokenNode node = new TokenNode();
         String variable = GrammarRules.getRule(rule).get(0);
-        node.setTokenData(variable);
+        node.setData(variable);
 
-        Stack<Node> poppedNodes = new Stack<Node>();
+        Stack<TokenNode> poppedNodes = new Stack<TokenNode>();
 
         for (int i = 0; i < ruleLength; i++) {
             if (!tokenStack.empty()) {
@@ -747,9 +745,9 @@ public class Parser {
 
         int poppedNodesSize = poppedNodes.size();
         for (int i = 0; i < poppedNodesSize; i++) {
-            Node poppedNode = poppedNodes.pop();
+            TokenNode poppedNode = poppedNodes.pop();
             node.addChild(poppedNode);
-            poppedNode.setParentNode(node);
+            poppedNode.setParent(node);
         }
 
         state = stateStack.peek();
@@ -757,8 +755,8 @@ public class Parser {
     }
 	
 	private static void shift(int nextState) {
-        Node node = new Node();
-        node.setTokenData(currentToken.getName());
+        TokenNode node = new TokenNode();
+        node.setData(currentToken.getName());
         node.setToken(currentToken);
         tokenStack.push(node);
         
