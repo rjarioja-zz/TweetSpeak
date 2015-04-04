@@ -162,6 +162,7 @@ public class TweetSpeak implements ActionListener {
 					filename = saveBox.getSelectedFile().getName();
 					frame.setTitle(title + " - " + filename);
 				}
+				
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
 					sourceCode = textArea.getText();
@@ -193,10 +194,10 @@ public class TweetSpeak implements ActionListener {
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
 			} else if (source == parse || source == buttonParser) {
-				// TODO: PARSER
 				try {
 					GrammarRules.initialize();
-				} catch (FileNotFoundException fnfe) { System.out.println("File not found"); }
+				} catch (FileNotFoundException fnfe) {}
+				
 				ParseOutput parseOutput = new ParseOutput(filename);
 				parseOutput.launch();
 				
