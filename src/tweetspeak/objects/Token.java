@@ -48,6 +48,6 @@ public class Token {
 	}
 	
 	public String toString() {
-		return "[\"" + lexeme  + "\", " + name + ", " + type + ", " + lineNumber + ", " + nextIndex + "]";
+		return "[\"" + lexeme  + "\", " + name + ", " + type + ", " + lineNumber + ", " + startIndex + "]";
 	}
 }

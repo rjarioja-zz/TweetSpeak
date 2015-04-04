@@ -79,6 +79,6 @@ public class Identifier extends Token {
 	}
 	
 	public String toString() {
-		return "[\"" + getLexeme()  + "\", " + getName() + ", " + getType() + ", " + getDataType() + ", " + getValue() + ", " + "]";
+		return "[\"" + getLexeme()  + "\", " + getName() + ", " + getDataType() + ", " + getValue() + ", " + "]";
 	}
 }
