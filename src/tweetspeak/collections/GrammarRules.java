@@ -45,5 +45,4 @@ public class GrammarRules {
 		}
 		return text;
 	}
->>>>>>> 84ac0dbca86d1a4497d560e761634b44d8892588
 }
