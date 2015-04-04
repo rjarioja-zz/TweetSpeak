@@ -1037,14 +1037,14 @@ public class Tokenizer {
 				if (currentIndent * 2 > previousIndent * 2 + 2) return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
 				if (currentIndent > previousIndent) {
 					indentStack.push(currentIndent * 2);
-					indent =  new Token("  ", "INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
+					indent =  new Token("  ", TokenName.INDENT.toString(), TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 				} else if (currentIndent == previousIndent)
 					indent =  new Token("", "NO_INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 				else {
 					if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index + 1);
 					if (indentStack.peek().intValue() >= currentIndent * 2) {
 						indentStack.pop();
-						indent = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
+						indent = new Token("", TokenName.DEDENT.toString(), TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 					} else indent =  new Token("", "NO_INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index + 1);
 				}
 			} else return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
@@ -1057,12 +1057,10 @@ public class Tokenizer {
 				if (indentStack.isEmpty()) return new Error(token, "INVALID INDENTATION", lineCode.getLineNumber(), index + 1);
 				if (indentStack.peek().intValue() != currentIndent * 2) {
 					indentStack.pop();
-					indent = new Token("", "DEDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
+					indent = new Token("", TokenName.DEDENT.toString(), TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 				} else indent =  new Token("", "NO_INDENT", TokenType.SPEC_SYMBOL.toString(), lineCode.getLineNumber(), index);
 			}
-		}
-		return indent;
-		//return new Error(token, "INVALID INDENT", lineCode.getLineNumber(), index);
+		} return indent;
 	}
 	
 	private static Token getBoolConstant(CodeLine lineCode, int index) {

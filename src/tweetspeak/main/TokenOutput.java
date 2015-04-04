@@ -32,7 +32,7 @@ public class TokenOutput implements ActionListener {
 		buttonTokenList = new JButton("Token list");
 		buttonClose = new JButton("Close");
 
-		text += "ORIGINAL SOURCE: \n===========================================================================================================================\n\n" 
+		text += "ORIGINAL SOURCE: \n============================================================================================================================================\n\n" 
 				+ Code.toLines();
 		text += "\n============================================================================================================================================\n\n";
 	}
@@ -125,9 +125,9 @@ public class TokenOutput implements ActionListener {
 				text += !line.getTokens().isEmpty() ? line.getTokens() + "\n" : "\n";
 			}
 			
-			text += "\nTOKEN STREAM	: \n===========================================================================================================================\n\n"; 
+			text += "\nTOKEN STREAM	: \n============================================================================================================================================\n\n"; 
 			for (Token t : Tokenizer.getTokens()) text += t.toString() + "\n";
-			text += "\nIDENTIFIER SYMBOL TABLE : \n================================================================================================================\n\n";
+			text += "\nIDENTIFIER SYMBOL TABLE : \n============================================================================================================================================\n\n";
 
 			Set<Entry<String, Token>> set = Tokenizer.identifierSymbolTable.entrySet();
 			Iterator<Entry<String, Token>> iterator = set.iterator();
