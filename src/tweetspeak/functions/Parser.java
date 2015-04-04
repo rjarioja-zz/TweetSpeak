@@ -5,6 +5,7 @@ import java.util.*;
 
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
+import tweetspeak.collections.TokenType;
 import tweetspeak.objects.*;
 
 public class Parser {
@@ -20,7 +21,21 @@ public class Parser {
     }
     
     //methods
-	private static void getToken() { currentToken = Tokenizer.getToken(); }
+	private static void getToken() {
+		Token token = null;
+		token = Tokenizer.getToken();
+		
+		if (!(token instanceof Comment)) currentToken = token;
+	    else {
+	    	while (token instanceof Comment || token.getName().equals("COMMENT")) {
+	    		token = Tokenizer.getToken();
+	    		if (!(token instanceof Comment)) break;
+	    	}
+	    	currentToken = token;
+	    }
+		if (token == null) currentToken = new Token("$", "$", TokenType.SPEC_SYMBOL.toString());
+	}
+	
 	public static boolean parser() {
 		state = 0;
 		Node root = new Node();
@@ -74,15 +89,8 @@ public class Parser {
 	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
 	    		TokenName.CONCAT.toString(), 		TokenName.INC_OP.toString(),
 	    		TokenName.DEC_OP.toString());
-		
-        
-	    if (!(currentToken instanceof Comment)) getToken();
-	    else {
-	    	while (currentToken instanceof Comment || currentToken.getName().equals("COMMENT")) {
-	    		getToken();
-	    		if (!(currentToken instanceof Comment)) break;
-	    	}
-	    }
+	    
+	    getToken();
 	    
 		while (true) {
 			String stackTop = tokenStack.peek().getTokenData();
@@ -757,13 +765,7 @@ public class Parser {
         state = nextState;
         stateStack.push(state);
 
-        if (!(currentToken instanceof Comment)) getToken();
-        else {
-	    	while (currentToken instanceof Comment || currentToken.getName().equals("COMMENT")) {
-	    		getToken();
-	    		if (!(currentToken instanceof Comment)) break;
-	    	}
-	    }
+        getToken();
     }
 	
 	private static void error() {
