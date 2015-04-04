@@ -2,29 +2,45 @@ package tweetspeak.functions;
 
 import java.io.IOException;
 import java.util.*;
+
+import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
+import tweetspeak.collections.TokenType;
 import tweetspeak.objects.*;
 
 public class Parser {
 	private static int state;
 	private static Token currentToken;
-    private static Stack<Node> tokenStack;
+    private static Stack<TokenNode> tokenStack;
     private static Stack<Integer> stateStack;
 	
 	//constructors
     public Parser() throws IOException {
-        tokenStack = new Stack<Node>();
+        tokenStack = new Stack<TokenNode>();
         stateStack = new Stack<Integer>();
     }
     
     //methods
-	private static void getToken() { currentToken = Tokenizer.getToken(); }
+	private static void getToken() {
+		Token token = null;
+		token = Tokenizer.getToken();
+		
+		if (!(token instanceof Comment)) currentToken = token;
+	    else {
+	    	while (token instanceof Comment || token.getName().equals("COMMENT")) {
+	    		token = Tokenizer.getToken();
+	    		if (!(token instanceof Comment)) break;
+	    	}
+	    	currentToken = token;
+	    }
+		if (token == null) currentToken = new Token("$", "$", TokenType.SPEC_SYMBOL.toString());
+	}
 	
-	public static boolean parser(){
+	public static boolean parser() {
 		state = 0;
-		Node root = new Node();
+		TokenNode root = new TokenNode();
         
-	    root.setTokenData("$");
+	    root.setData("$");
 	    tokenStack.push(root);
 	    stateStack.push(state);
         
@@ -62,21 +78,22 @@ public class Parser {
 	    		TokenName.INC_OP.toString(), 		TokenName.DEC_OP.toString());
 	    
 	    List<String> checkReduce3 = Arrays.asList(
-	    		TokenName.DEDENT.toString(), 		TokenName.STMT_SEP.toString(),
-	    		TokenName.ASSIGN.toString(), 		TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), 	TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(), 		TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(), TokenName.DATATYPE_FLOAT.toString(),
-	    		TokenName.DATATYPE_INT.toString(), 	TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(), TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString(), 		TokenName.IF.toString(),
-	    		TokenName.DO.toString(), 			TokenName.WHILE.toString(),
-	    		TokenName.CONCAT.toString(), 		TokenName.INC_OP.toString(),
-	    		TokenName.DEC_OP.toString());
-		
-        getToken();
+	    		TokenName.DEDENT.toString(),			TokenName.INDENT.toString(), 		
+	    		TokenName.STMT_SEP.toString(),			TokenName.ASSIGN.toString(), 		
+	    		TokenName.ASSIGN.toString(),			TokenName.PROC_CALL.toString(), 	
+	    		TokenName.BREAK.toString(),				TokenName.CONTINUE.toString(), 		
+	    		TokenName.DATATYPE_BOOL.toString(),		TokenName.DATATYPE_CHAR.toString(), 
+	    		TokenName.DATATYPE_FLOAT.toString(),	TokenName.DATATYPE_INT.toString(), 	
+	    		TokenName.DATATYPE_STRING.toString(),	TokenName.DATATYPE_VOID.toString(), 
+	    		TokenName.INPUT.toString(),				TokenName.OUTPUT.toString(), 		
+	    		TokenName.IF.toString(),				TokenName.DO.toString(), 			
+	    		TokenName.WHILE.toString(),				TokenName.CONCAT.toString(), 		
+	    		TokenName.INC_OP.toString(),			TokenName.DEC_OP.toString());
+	    
+	    getToken();
+	    
 		while (true) {
-			String stackTop = tokenStack.peek().getTokenData();
+			String stackTop = tokenStack.peek().getData();
             Token tokenTop = tokenStack.peek().getToken();
             
 			switch (state) {
@@ -91,9 +108,9 @@ public class Parser {
 					break;
 					
 				case 1:
-					if (currentToken == null) {
+					if (currentToken.getName() == "$") {
 						// error
-                        if (tokenStack.get(1).getchild().size() == 0) {
+                        if (tokenStack.get(1).getChildren().size() == 0) {
                             System.err.println("Parse tree is broken!\nProbably a STATEMENT reduction problem.");
                             System.exit(0);
                         }
@@ -146,36 +163,34 @@ public class Parser {
 					break;
 					
 				case 7:
-	/* 			
-	*			IDK HOW? Pano i-identify if $ na
-	 *			same prob with case 2 
-	 * 			if($) { 
-	 *				reduce(2); //state 2 
-	 * 			} else {
-	 * 			errorMsg("end of file.");
-	 * 			} break;
-	  */
+					if (currentToken.getName() == "$") 
+						reduce(2);
+                    else
+                        System.out.println("End of file");
+                    break;
+                    
 				case 8:
 					if (currentToken.getName().equals("DEDENT"))
 						reduce(4);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
-						shift(28);
+						shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
+						shift(28);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString()))
 						shift(29);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString()))
 						shift(30);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString()))
 						shift(31);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())){
+					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
 						shift(32);
-					} else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())){
-						shift(33);
-					} else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null){
+					else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null) {
 						state = 9;
 						stateStack.push(state);
-					} else {
+					} else
 						error();
-					} break;
+					break;
+					
 				case 9:
 					if(currentToken.getName().equals("DEDENT")){
 						reduce(3);
@@ -705,95 +720,57 @@ public class Parser {
 						shift(62);
 					} else{
 						errorMsg("Program Name");
-					} break;
-					
-					
-					
-			}//end of switch
+					} break;	
+			} // end of switch
 		}
-		
 	}
 	
-/*	private static void reduce(int rule) {
-        // Get rule length. Reduce it by one because the first entry is the
-        // variable.
-        int ruleLength = ProductionRules.getRule(rule).size() - 1;
+	private static void reduce(int rule) {
+        int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
-        // Create a new node with the first element of the rule, which is the
-        // variable.
-        Node node = new Node();
-        String variable = ProductionRules.getRule(rule).get(0);
+        TokenNode node = new TokenNode();
+        String variable = GrammarRules.getRule(rule).get(0);
         node.setData(variable);
 
-        Stack<Node> poppedNodes = new Stack<Node>();
+        Stack<TokenNode> poppedNodes = new Stack<TokenNode>();
 
-        System.out.println("###########################################################");
-        System.out.println("States before reduction: " + states);
-        System.out.println("Nodes before reduction: " + nodes);
-
-        // Remove states and nodes equivalent to size of rule. Store nodes to
-        // temporary stack.
-        for (int counter = 0; counter < ruleLength; counter++) {
-            if (!nodes.empty()) {
-                poppedNodes.push(nodes.pop());
-                states.pop();
+        for (int i = 0; i < ruleLength; i++) {
+            if (!tokenStack.empty()) {
+                poppedNodes.push(tokenStack.pop());
+                stateStack.pop();
             } else {
-                System.err.println("Nodes on stack are less than elements in rule \""
-                        + rule + "\"");
-                System.exit(0);
+                // TODO: Output Error
             }
         }
 
-        // Add child(ren) to node before pushing the new node into the stack
         int poppedNodesSize = poppedNodes.size();
-        for (int counter = 0; counter < poppedNodesSize; counter++) {
-            Node poppedNode = poppedNodes.pop();
+        for (int i = 0; i < poppedNodesSize; i++) {
+            TokenNode poppedNode = poppedNodes.pop();
             node.addChild(poppedNode);
-            poppedNode.setParentNode(node);
-            System.out.println("Children: " + poppedNode);
+            poppedNode.setParent(node);
         }
 
-        // Set next state into what is currently on top of states stack
-        currentState = states.peek();
-
-        // Finally push new node into nodes stack.
-        nodes.push(node);
-
-        System.out.println("Rule: " + ProductionRules.getRule(rule));
-        System.out.println("Reduced by " + variable);
-        System.out.println("Go to " + currentState);
-        System.out.println("Stack after reduction:" + states);
-        System.out.println("Nodes after reduction: " + nodes);
-        System.out.println("###########################################################");
-    }*/
+        state = stateStack.peek();
+        tokenStack.push(node);
+    }
 	
-	private static void reduce(int newState) {
-		// TODO Reduce method in Parser
-		
-	}
-
-	private static void error() {
-		// TODO ERROR MESSAGE or sumthin
-	}
-
-	private static void errorMsg(String errormsg){
-		System.out.println("Error at line " + currentToken.getLineNumber() + ". Expecting: " + errormsg);
-	}
-	
-	private static void shift(int newState) {
-        Node newNode = new Node();
-        newNode.setTokenData(currentToken.getName());
-        newNode.setToken(currentToken);
-        tokenStack.push(newNode);
+	private static void shift(int nextState) {
+        TokenNode node = new TokenNode();
+        node.setData(currentToken.getName());
+        node.setToken(currentToken);
+        tokenStack.push(node);
         
-        state = newState;
+        state = nextState;
         stateStack.push(state);
 
         getToken();
-
-        System.out.println("-----SHIFT-----");
-        System.out.println("'" + newNode.getTokenData() + "' shifted. Shift to state " + newState );
-        System.out.println("Current stack contents: " + stateStack);
     }
 	
+	private static void error() {
+		// TODO: ERROR MESSAGE or sumthin
+	}
+
+	private static void errorMsg (String errormsg) {
+		System.out.println("Error at line " + currentToken.getLineNumber() + ". Expecting: " + errormsg);
+	}
 }

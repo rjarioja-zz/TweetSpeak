@@ -1,5 +1,6 @@
 package tweetspeak.main;
 
+import tweetspeak.collections.GrammarRules;
 import tweetspeak.divisions.*;
 import tweetspeak.functions.Tokenizer;
 
@@ -100,7 +101,7 @@ public class TweetSpeak implements ActionListener {
 		parse = new JMenuItem("Parse              ");
 		parse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
 		parse.addActionListener(this);
-		compiler.add(tokenize);
+		compiler.add(parse);
 		
 		panel1.setLayout(new BorderLayout());
 		panel1.add(scrollPane, BorderLayout.CENTER);
@@ -121,6 +122,7 @@ public class TweetSpeak implements ActionListener {
 		
 		buttonTokenizer.addActionListener(this);
 		buttonTokenizer.setEnabled(false);
+		buttonParser.addActionListener(this);
 		buttonParser.setEnabled(false);
 		buttonInterpreter.setEnabled(false);
 	}
@@ -149,6 +151,7 @@ public class TweetSpeak implements ActionListener {
 					save.setEnabled(true);
 					saveAs.setEnabled(true);
 					buttonTokenizer.setEnabled(true);
+					buttonParser.setEnabled(true);
 				}
 				catch (FileNotFoundException fnfe) {}
 				catch (IOException ie) {}
@@ -159,6 +162,7 @@ public class TweetSpeak implements ActionListener {
 					filename = saveBox.getSelectedFile().getName();
 					frame.setTitle(title + " - " + filename);
 				}
+				
 				try {
 					PrintWriter write = new PrintWriter(new FileWriter(sourceFile, false));
 					sourceCode = textArea.getText();
@@ -166,6 +170,7 @@ public class TweetSpeak implements ActionListener {
 					write.print(sourceCode);
 					write.close();
 					buttonTokenizer.setEnabled(true);
+					buttonParser.setEnabled(true);
 				}
 				catch (IOException ie) {}				
 			} else if (source == saveAs) {
@@ -180,6 +185,7 @@ public class TweetSpeak implements ActionListener {
 					write.print(textArea.getText());
 					write.close();
 					buttonTokenizer.setEnabled(true);
+					buttonParser.setEnabled(true);
 				}
 				catch (IOException ie) {}
 			} else if (source == tokenize || source == buttonTokenizer) {
@@ -187,9 +193,15 @@ public class TweetSpeak implements ActionListener {
 				Tokenizer.initialize();
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
-			/*} else if (source == parse || source == buttonParser) {
-				// TODO: PARSER
-*/			} else if (source == exit) System.exit(0);
+			} else if (source == parse || source == buttonParser) {
+				try {
+					GrammarRules.initialize();
+				} catch (FileNotFoundException fnfe) {}
+				
+				ParseOutput parseOutput = new ParseOutput(filename);
+				parseOutput.launch();
+				
+			} else if (source == exit) System.exit(0);
 		}
 	}
 

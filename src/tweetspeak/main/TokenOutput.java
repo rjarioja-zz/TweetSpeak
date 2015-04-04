@@ -109,11 +109,12 @@ public class TokenOutput implements ActionListener {
 			textArea.setWrapStyleWord(false);
 			
 		} else if (source == buttonTokenList) {
-			String text = "";
+			String text = "TOKEN LIST PER LINE : \n============================================================================================================================================\n\n"; 
+			
 			Tokenizer.reset();
 			Code.clearTokens();
-			
 			Token token = Tokenizer.getToken();
+			
 			while (token != null) token = Tokenizer.getToken();
 			
 			for (CodeLine line : Code.getLineList()) {
