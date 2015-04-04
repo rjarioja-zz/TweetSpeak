@@ -2,6 +2,8 @@ package tweetspeak.functions;
 
 import java.io.IOException;
 import java.util.*;
+
+import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
 import tweetspeak.objects.*;
 
@@ -19,8 +21,7 @@ public class Parser {
     
     //methods
 	private static void getToken() { currentToken = Tokenizer.getToken(); }
-	
-	public static boolean parser(){
+	public static boolean parser() {
 		state = 0;
 		Node root = new Node();
         
@@ -705,95 +706,57 @@ public class Parser {
 						shift(62);
 					} else{
 						errorMsg("Program Name");
-					} break;
-					
-					
-					
-			}//end of switch
+					} break;	
+			} // end of switch
 		}
-		
 	}
 	
-/*	private static void reduce(int rule) {
-        // Get rule length. Reduce it by one because the first entry is the
-        // variable.
-        int ruleLength = ProductionRules.getRule(rule).size() - 1;
+	private static void reduce(int rule) {
+        int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
-        // Create a new node with the first element of the rule, which is the
-        // variable.
         Node node = new Node();
-        String variable = ProductionRules.getRule(rule).get(0);
-        node.setData(variable);
+        String variable = GrammarRules.getRule(rule).get(0);
+        node.setTokenData(variable);
 
         Stack<Node> poppedNodes = new Stack<Node>();
 
-        System.out.println("###########################################################");
-        System.out.println("States before reduction: " + states);
-        System.out.println("Nodes before reduction: " + nodes);
-
-        // Remove states and nodes equivalent to size of rule. Store nodes to
-        // temporary stack.
-        for (int counter = 0; counter < ruleLength; counter++) {
-            if (!nodes.empty()) {
-                poppedNodes.push(nodes.pop());
-                states.pop();
+        for (int i = 0; i < ruleLength; i++) {
+            if (!tokenStack.empty()) {
+                poppedNodes.push(tokenStack.pop());
+                stateStack.pop();
             } else {
-                System.err.println("Nodes on stack are less than elements in rule \""
-                        + rule + "\"");
-                System.exit(0);
+                // TODO: Output Error
             }
         }
 
-        // Add child(ren) to node before pushing the new node into the stack
         int poppedNodesSize = poppedNodes.size();
-        for (int counter = 0; counter < poppedNodesSize; counter++) {
+        for (int i = 0; i < poppedNodesSize; i++) {
             Node poppedNode = poppedNodes.pop();
             node.addChild(poppedNode);
             poppedNode.setParentNode(node);
-            System.out.println("Children: " + poppedNode);
         }
 
-        // Set next state into what is currently on top of states stack
-        currentState = states.peek();
-
-        // Finally push new node into nodes stack.
-        nodes.push(node);
-
-        System.out.println("Rule: " + ProductionRules.getRule(rule));
-        System.out.println("Reduced by " + variable);
-        System.out.println("Go to " + currentState);
-        System.out.println("Stack after reduction:" + states);
-        System.out.println("Nodes after reduction: " + nodes);
-        System.out.println("###########################################################");
-    }*/
+        state = stateStack.peek();
+        tokenStack.push(node);
+    }
 	
-	private static void reduce(int newState) {
-		// TODO Reduce method in Parser
-		
-	}
-
-	private static void error() {
-		// TODO ERROR MESSAGE or sumthin
-	}
-
-	private static void errorMsg(String errormsg){
-		System.out.println("Error at line " + currentToken.getLineNumber() + ". Expecting: " + errormsg);
-	}
-	
-	private static void shift(int newState) {
-        Node newNode = new Node();
-        newNode.setTokenData(currentToken.getName());
-        newNode.setToken(currentToken);
-        tokenStack.push(newNode);
+	private static void shift(int nextState) {
+        Node node = new Node();
+        node.setTokenData(currentToken.getName());
+        node.setToken(currentToken);
+        tokenStack.push(node);
         
-        state = newState;
+        state = nextState;
         stateStack.push(state);
 
         getToken();
-
-        System.out.println("-----SHIFT-----");
-        System.out.println("'" + newNode.getTokenData() + "' shifted. Shift to state " + newState );
-        System.out.println("Current stack contents: " + stateStack);
     }
 	
+	private static void error() {
+		// TODO: ERROR MESSAGE or sumthin
+	}
+
+	private static void errorMsg (String errormsg) {
+		System.out.println("Error at line " + currentToken.getLineNumber() + ". Expecting: " + errormsg);
+	}
 }
