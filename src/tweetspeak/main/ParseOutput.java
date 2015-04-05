@@ -81,45 +81,48 @@ public class ParseOutput implements ActionListener {
 		if (source == buttonSource) {
 			textArea.setText(text);
 			textArea.setLineWrap(false);
+			textArea.setWrapStyleWord(false);
 			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 			buttonSource.setEnabled(false);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(true);
-			textArea.setWrapStyleWord(false);
 		} else if (source == buttonParsed) {
 			Tokenizer.reset();
 			
 			String text = "";
 			try {
 				new Parser();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (IOException e) {}
+			
 			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
 			if (Parser.parser()) text += Parser.getRoot().toString()  + "\n";
 			else text += "Parser failed";
 			text += "\n============================================================================================================================================\n\n";
 			
-			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+			
 			textArea.setText(text);
 			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+			
 			buttonSource.setEnabled(true);
 			buttonParsed.setEnabled(false);
 			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonProductionRules) {
-			
 			String text = "";
 			text += "GRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
 			text += GrammarRules.printRules();
 			text += "\n============================================================================================================================================\n\n";
+			
 			textArea.setText(text);
 			textArea.setLineWrap(false);
+			textArea.setWrapStyleWord(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 			buttonSource.setEnabled(true);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(false);
-			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			
 		} else if (source == buttonClose) frame.dispose();
 	}
 }
