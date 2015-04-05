@@ -2,6 +2,7 @@ package tweetspeak.main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 import static javax.swing.ScrollPaneConstants.*;
@@ -110,6 +111,11 @@ public class ParseOutput implements ActionListener {
 			buttonParsed.setEnabled(false);
 			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonProductionRules) {
+			try {
+				GrammarRules.initialize();
+			} catch (FileNotFoundException fnfe) {}
+			
+			
 			String text = "";
 			text += "GRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
 			text += GrammarRules.printRules();

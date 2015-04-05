@@ -2,7 +2,6 @@ package tweetspeak.functions;
 
 import java.io.IOException;
 import java.util.*;
-
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
 import tweetspeak.collections.TokenType;
@@ -53,6 +52,7 @@ public class Parser {
 	    
 	    // kewl to kimpot :P
 	    
+	    /* TO: KIM, para saan tong mga list na to? -r */
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
 	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
