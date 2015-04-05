@@ -126,7 +126,7 @@ public class Parser {
 	    
 	    getToken();
 	    System.out.println("START PARSE WITH: " + currentToken.toString());
-	    
+
 		while (true) {
 			String stackTop = tokenStack.peek().getData();
             Token tokenTop = tokenStack.peek().getToken();
@@ -632,10 +632,12 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 56:
 					if(checkReduce.contains(currentToken.getName())) reduce(29);  
 					else error();
 					break;
+
 				case 57: 
 					if(currentToken.getName().equals(TokenName.ADD_OP.toString()))
 						shift(66);
@@ -643,10 +645,12 @@ public class Parser {
 						shift(85);
 					else error();
 					break;
+
 				case 58:
 					if(checkReduce.contains(currentToken.getName())) reduce(57);  
 					else error();
 					break;
+					
 				case 59:
 					if(checkReduce.contains(currentToken.getName())) reduce(58);  
 					else error();
