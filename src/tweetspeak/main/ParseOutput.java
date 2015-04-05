@@ -2,6 +2,7 @@ package tweetspeak.main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 import static javax.swing.ScrollPaneConstants.*;
@@ -80,40 +81,51 @@ public class ParseOutput implements ActionListener {
 		
 		if (source == buttonSource) {
 			textArea.setText(text);
+			textArea.setLineWrap(false);
+			textArea.setWrapStyleWord(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 			buttonSource.setEnabled(false);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(true);
-			textArea.setWrapStyleWord(false);
 		} else if (source == buttonParsed) {
-			buttonSource.setEnabled(true);
-			buttonParsed.setEnabled(false);
-			buttonProductionRules.setEnabled(true);
 			Tokenizer.reset();
 			
 			String text = "";
 			try {
 				new Parser();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			text += "\nPARSE TREE: \n============================================================================================================================================\n\n"; 
+			} catch (IOException e) {}
+			
+			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
 			if (Parser.parser()) text += Parser.getRoot().toString()  + "\n";
 			else text += "Parser failed";
 			text += "\n============================================================================================================================================\n\n";
 			
-			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+			
 			textArea.setText(text);
 			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 			
+			buttonSource.setEnabled(true);
+			buttonParsed.setEnabled(false);
+			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonProductionRules) {
+			try {
+				GrammarRules.initialize();
+			} catch (FileNotFoundException fnfe) {}
+			
 			
 			String text = "";
-			text += "\nGRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
+			text += "GRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
 			text += GrammarRules.printRules();
 			text += "\n============================================================================================================================================\n\n";
+			
 			textArea.setText(text);
-			textArea.setWrapStyleWord(true);
+			textArea.setLineWrap(false);
+			textArea.setWrapStyleWord(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 			buttonSource.setEnabled(true);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(false);

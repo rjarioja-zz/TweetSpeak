@@ -2,7 +2,6 @@ package tweetspeak.functions;
 
 import java.io.IOException;
 import java.util.*;
-
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
 import tweetspeak.collections.TokenType;
@@ -53,6 +52,7 @@ public class Parser {
 	    
 	    // kewl to kimpot :P
 	    
+	    /* TO: KIM, para saan tong mga list na to? -r */
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
 	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
@@ -287,143 +287,176 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+					
 				case 12:
 					if(checkReduce.contains(currentToken.getName())) reduce(19);
 					else error();
 					break;
+					
 				case 13:
 					if(checkReduce.contains(currentToken.getName())) reduce(20);
 					else error();
 					break;
+					
 				case 14:
 					if(checkReduce.contains(currentToken.getName())) reduce(21);
 					else error();
 					break;
+					
 				case 15: 
 					if(checkReduce.contains(currentToken.getName())) reduce(22);
 					else error();
 					break;
+					
 				case 16:
 					if(checkReduce.contains(currentToken.getName())) reduce(24);
 					else error();
 					break;
+					
 				case 17: 
 					if(checkReduce.contains(currentToken.getName())) reduce(25);
 					else error();
 					break;
+					
 				case 18:
 					if(checkReduce.contains(currentToken.getName())) reduce(26);
 					else error();
 					break;
+					
 				case 19:
 					if(checkReduce.contains(currentToken.getName())) reduce(30);
 					else error();
 					break;
+					
 				case 20:
 					if(checkReduce.contains(currentToken.getName())) reduce(31);
 					else error();
 					break;
+					
 				case 21:
 					if(checkReduce.contains(currentToken.getName())) reduce(32);
 					else error();
 					break;
+					
 				case 22:
 					if(checkReduce.contains(currentToken.getName())) reduce(33);
 					else error();
 					break;
+					
 				case 23:
 					if(checkReduce.contains(currentToken.getName())) reduce(36);
 					else error();
 					break;
+					
 				case 24:
 					if(checkReduce.contains(currentToken.getName())) reduce(37);
 					else error();
 					break;
+					
 				case 25:
 					if(checkReduce.contains(currentToken.getName())) reduce(39);
 					else error();
 					break;
+					
 				case 26:
 					if(checkReduce.contains(currentToken.getName())) reduce(40);
 					else error();
 					break;
+					
 				case 27:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(43);
 					else error();
 					break;
+					
 				case 28:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(44);
 					else error();
 					break;
+					
 				case 29:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(45);
 					else error();
 					break;
+					
 				case 30:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(46);
 					else error();
 					break;
+					
 				case 31:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(47);
 					else error();
 					break;
+					
 				case 32:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						reduce(48);
 					else error();
 					break;
+					
 				case 33:
 					if(checkReduce.contains(currentToken.getName())) reduce(51); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 34:
 					if(checkReduce.contains(currentToken.getName())) reduce(52); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 35:
 					if(checkReduce.contains(currentToken.getName())) reduce(53); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 36:
 					if(checkReduce.contains(currentToken.getName())) reduce(54); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 37:
 					if(checkReduce.contains(currentToken.getName())) reduce(5); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 38:
 					if(checkReduce.contains(currentToken.getName())) reduce(77); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 39: 
 					if(checkReduce.contains(currentToken.getName())) reduce(78); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 40:
 					if(checkReduce.contains(currentToken.getName())) reduce(79); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 41:
 					if(checkReduce.contains(currentToken.getName())) reduce(80); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 42:
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						shift(43);
 					else error();
 					break;
+					
 				case 43:
 					if(checkReduce.contains(currentToken.getName())) reduce(27); //WITH CALL_PARAM DI PA NALAGYAN
 					else if(currentToken.getName().equals(TokenName.ASSIGN_OP.toString()))
 						shift(44);
 					else error();
 					break;
+					
 				case 44:
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(46);
@@ -448,47 +481,58 @@ public class Parser {
 					} else {
 						error();
 					} break;
+					
 				case 45: 
 					if(checkReduce.contains(currentToken.getName())) reduce(28); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 46:
 					if(checkReduce.contains(currentToken.getName())) reduce(114); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 47:
 					if(checkReduce.contains(currentToken.getName())) reduce(115); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 48:
 					if(checkReduce.contains(currentToken.getName())) reduce(116); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 49: 
 					if(checkReduce.contains(currentToken.getName())) reduce(117); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 50: 
 					if(checkReduce.contains(currentToken.getName())) reduce(119); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 51: 
 					if(checkReduce.contains(currentToken.getName())) reduce(118); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 52: 
 					if(checkReduce.contains(currentToken.getName())) reduce(120); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 53:
 					if(checkReduce.contains(currentToken.getName())) reduce(121); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 54: 
 					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
 						shift(55);
 					else error();
 					break;
+					
 				case 55:
 					if(currentToken.getName().equals(TokenName.PROC_CALL.toString()))
 						shift(60);
@@ -506,10 +550,12 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+					
 				case 56:
 					if(checkReduce.contains(currentToken.getName())) reduce(29); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 57: 
 					if(currentToken.getName().equals(TokenName.ADD_OP.toString()))
 						shift(66);
@@ -517,43 +563,52 @@ public class Parser {
 						shift(85);
 					else error();
 					break;
+					
 				case 58:
 					if(checkReduce.contains(currentToken.getName())) reduce(57); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 59:
 					if(checkReduce.contains(currentToken.getName())) reduce(58); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 60:
 					if(currentToken.getName().equals(TokenName.PROC_NAME.toString()))
 						shift(61);
 					else error();
 					break;
+					
 				case 61: 
 					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) 
 						shift(62);
 					else error();
 					break;
+					
 				case 62: 
 					if(stackTop.equals("<CALL_PARAMS>") && tokenTop == null){
 						state = 63;
 						stateStack.push(state);
 					} else error();
 					break;
+					
 				case 63:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
 						shift(64);
 					else error();
 					break;
+					
 				case 64:
 					if(checkReduce.contains(currentToken.getName())) reduce(59); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 65:
 					if(checkReduce.contains(currentToken.getName())) reduce(60); //WITH CALL_PARAM DI PA NALAGYAN
 					else error();
 					break;
+					
 				case 66: 
 					if(stackTop.equals("<MATH_EXPR2>") && tokenTop == null){
 						state = 67;
@@ -563,6 +618,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+					
 				case 67: 
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(81);
@@ -574,6 +630,7 @@ public class Parser {
 						shift(71);
 					else error();
 					break;
+					
 				case 68:
 					if(checkReduce2.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.MUL_OP.toString())
@@ -582,12 +639,16 @@ public class Parser {
 						reduce(87);
 					else error();
 					break;
+					
 				case 69: 
 					break;
+					
 				case 70:
 					break;
+					
 				case 71:
 					break;
+					
 				case 72:
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(83);
@@ -599,6 +660,7 @@ public class Parser {
 						shift(71);
 					else error();
 					break;
+					
 				case 73:
 					if(checkReduce3.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.MUL_OP.toString())
@@ -609,20 +671,28 @@ public class Parser {
 						shift(74);
 					else error();
 					break;
+					
 				case 74:
 					break;
+					
 				case 75:
 					break;
+					
 				case 76:
 					break;
+					
 				case 77:
 					break;
+					
 				case 78:
 					break;
+					
 				case 79:
 					break;
+					
 				case 80:
 					break;
+					
 			} // end of switch
 		}
 	}

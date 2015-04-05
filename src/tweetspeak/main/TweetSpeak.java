@@ -1,13 +1,10 @@
 package tweetspeak.main;
 
-import tweetspeak.collections.GrammarRules;
 import tweetspeak.divisions.*;
 import tweetspeak.functions.Tokenizer;
-
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 public class TweetSpeak implements ActionListener {
@@ -194,10 +191,6 @@ public class TweetSpeak implements ActionListener {
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
 			} else if (source == parse || source == buttonParser) {				
-				try {
-					GrammarRules.initialize();
-				} catch (FileNotFoundException fnfe) {}
-				
 				ParseOutput parseOutput = new ParseOutput(filename);
 				parseOutput.launch();
 				
