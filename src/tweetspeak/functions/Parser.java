@@ -126,6 +126,7 @@ public class Parser {
 	    
 	    getToken();
 	    System.out.println("START PARSE WITH: " + currentToken.toString());
+	    
 		while (true) {
 			String stackTop = tokenStack.peek().getData();
             Token tokenTop = tokenStack.peek().getToken();
