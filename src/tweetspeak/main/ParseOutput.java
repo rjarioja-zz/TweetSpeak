@@ -80,14 +80,13 @@ public class ParseOutput implements ActionListener {
 		
 		if (source == buttonSource) {
 			textArea.setText(text);
+			textArea.setLineWrap(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			buttonSource.setEnabled(false);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(true);
 			textArea.setWrapStyleWord(false);
 		} else if (source == buttonParsed) {
-			buttonSource.setEnabled(true);
-			buttonParsed.setEnabled(false);
-			buttonProductionRules.setEnabled(true);
 			Tokenizer.reset();
 			
 			String text = "";
@@ -96,7 +95,7 @@ public class ParseOutput implements ActionListener {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			text += "\nPARSE TREE: \n============================================================================================================================================\n\n"; 
+			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
 			if (Parser.parser()) text += Parser.getRoot().toString()  + "\n";
 			else text += "Parser failed";
 			text += "\n============================================================================================================================================\n\n";
@@ -105,18 +104,22 @@ public class ParseOutput implements ActionListener {
 			textArea.setText(text);
 			textArea.setLineWrap(true);
 			textArea.setWrapStyleWord(true);
-			
+			buttonSource.setEnabled(true);
+			buttonParsed.setEnabled(false);
+			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonProductionRules) {
 			
 			String text = "";
-			text += "\nGRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
+			text += "GRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
 			text += GrammarRules.printRules();
 			text += "\n============================================================================================================================================\n\n";
 			textArea.setText(text);
-			textArea.setWrapStyleWord(true);
+			textArea.setLineWrap(false);
 			buttonSource.setEnabled(true);
 			buttonParsed.setEnabled(true);
 			buttonProductionRules.setEnabled(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 		} else if (source == buttonClose) frame.dispose();
 	}
 }
