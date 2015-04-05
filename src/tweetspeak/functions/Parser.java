@@ -650,21 +650,24 @@ public class Parser {
 					if(checkReduce.contains(currentToken.getName())) reduce(57);  
 					else error();
 					break;
-					
+
 				case 59:
 					if(checkReduce.contains(currentToken.getName())) reduce(58);  
 					else error();
 					break;
+
 				case 60:
 					if(currentToken.getName().equals(TokenName.PROC_NAME.toString()))
 						shift(61);
 					else error();
 					break;
+
 				case 61: 
 					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) 
 						shift(62);
 					else error();
 					break;
+
 				case 62: 
 					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
 						shift(76);
@@ -698,19 +701,23 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 63:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
 						shift(64);
 					else error();
 					break;
+
 				case 64:
 					if(checkReduce.contains(currentToken.getName())) reduce(59);  
 					else error();
 					break;
+
 				case 65:
 					if(checkReduce.contains(currentToken.getName())) reduce(60);  
 					else error();
 					break;
+
 				case 66: 
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
@@ -737,6 +744,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 67: 
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(81);
@@ -748,11 +756,13 @@ public class Parser {
 						shift(71);
 					else error();
 					break;
+
 				case 68:
 					if(checkReduce3.contains(currentToken.getName()))
 						reduce(87);
 					else error();
 					break;
+
 				case 69:
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
@@ -773,6 +783,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 70:
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
@@ -814,6 +825,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 72:
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(83);
@@ -825,6 +837,7 @@ public class Parser {
 						shift(71);
 					else error();
 					break;
+
 				case 73:
 					if(checkReduce3.contains(currentToken.getName()))
 						reduce(89);
@@ -832,6 +845,7 @@ public class Parser {
 						shift(74);
 					else error();
 					break;
+
 				case 74:
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
@@ -852,46 +866,57 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 75:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(112);
 					else error();
 					break;
+
 				case 76:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(113);
 					else error();
 					break;
+
 				case 77:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(114);
 					else error();
 					break;
+
 				case 78:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(115);
 					else error();
 					break;
+
 				case 79:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(116);
 					else error();
 					break;
+
 				case 80:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(117);
 					else error();
 					break;
+
 				case 81:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(118);
 					else error();
 					break;
+
 				case 82:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(119);
 					else error();
 					break;
+
 				case 83:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(120);
 					else error();
 					break;
+
 				case 84:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(121);
 					else error();
 					break;
+
 				case 85:
 					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
@@ -912,6 +937,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+
 				case 86:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString()))
 						reduce(62);
@@ -919,6 +945,7 @@ public class Parser {
 						shift(87);
 					else error();
 					break;
+					
 				case 87: 
 					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
 						shift(76);
