@@ -202,6 +202,10 @@ public class Parser {
 						shift(25);
 					else if(currentToken.getName().equals(TokenName.CONTINUE.toString()))
 						shift(26);
+					else if(currentToken.getName().equals(TokenName.INPUT.toString()))
+						shift(88);
+					else if(currentToken.getName().equals(TokenName.OUTPUT.toString()))
+						shift(90);
 					else if(stackTop.equals("<DECLARATION>") && tokenTop == null){
 						state = 12;
 						stateStack.push(state);
