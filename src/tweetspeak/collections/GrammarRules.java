@@ -8,13 +8,21 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class GrammarRules {
-	private static String path = "src/tweetspeak/resources/ProductionRules.cfg";
+	/*
+	 * Change to this
+	 * private static String path = "src/tweetspeak/resources/ProductionRules.cfg";
+	 * 
+	 */
+	
+	// test rules
+	private static String path = "src/tweetspeak/resources/TestProductionRules.cfg";
 	private static File file = new File(path);
 	private static Scanner scanner;
 	
 	private static ArrayList<ArrayList<String>> rules = new ArrayList<ArrayList<String>>();
 	private static ArrayList<String> productions;
 	
+	static String text = "";
 	//getters
 	public static ArrayList<ArrayList<String>> getRules() { return rules; }
 	
@@ -35,7 +43,7 @@ public class GrammarRules {
 	}
 	
 	public static String printRules() {
-		String text = "";
+		text = "";
 		for (int counter = 0; counter < rules.size(); counter++) {
 			text += counter + " ";
 			for (int counter2 = 0; counter2 < rules.get(counter).size(); counter2++)

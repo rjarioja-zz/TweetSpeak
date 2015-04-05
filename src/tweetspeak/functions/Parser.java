@@ -38,9 +38,9 @@ public class Parser {
 	
 	public static boolean parser() {
 		state = 0;
-		TokenNode root = new TokenNode();
+		TokenNode root = new TokenNode("$");
         
-	    root.setData("$");
+	    //root.setData("$");
 	    tokenStack.push(root);
 	    stateStack.push(state);
         
@@ -92,7 +92,7 @@ public class Parser {
 	    		TokenName.IF.toString());		
 	    
 	    getToken();
-	    
+	    System.out.println("START PARSE WITH: " + currentToken.toString());
 		while (true) {
 			String stackTop = tokenStack.peek().getData();
             Token tokenTop = tokenStack.peek().getToken();
@@ -109,6 +109,8 @@ public class Parser {
 					
 				case 1:
 					if (currentToken.getName() == "$") {
+						System.out.println("before if else + currentToken:" + currentToken.toString());
+						
 						// error
                         if (tokenStack.get(1).getChildren().size() == 0) {
                             System.err.println("Parse tree is broken!\nProbably a STATEMENT reduction problem.");
@@ -116,7 +118,10 @@ public class Parser {
                         }
                         // accept
                         //truly ba return true?
-                        return true;
+                        else {
+                        	System.out.println("ACCEPT");
+                        	return true;
+                        }
                     } else
                         System.out.println("End of file");
                     break;
@@ -158,6 +163,7 @@ public class Parser {
 					break;
 					
 				case 7:
+					System.out.println("FINAL TOKEN = " + currentToken.toString());
 					if (currentToken.getName() == "$") 
 						reduce(2);
                     else System.out.println("End of file");
@@ -190,11 +196,15 @@ public class Parser {
 						reduce(3);
 					else error(); 
 					break;
+					
 				case 10:
 					if(currentToken.getName().equals("INDENT"))
 						shift(11);
+					else if(currentToken.getName().equals("DEDENT"))
+						shift(6);
 					else errorMsg("an indent.");
 					break;
+					
 				case 11:
 					if (currentToken.getName().equals(TokenName.ASSIGN.toString()))
 						shift(54);
@@ -618,6 +628,7 @@ public class Parser {
 	}
 	
 	private static void reduce(int rule) {
+		System.out.println("Reduce: " + currentToken.toString());
         int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
         TokenNode node = new TokenNode();
@@ -642,11 +653,17 @@ public class Parser {
             poppedNode.setParent(node);
         }
 
+        System.out.println("Reduced to: " + node.toString());
+        
         state = stateStack.peek();
         tokenStack.push(node);
+        
+        System.out.println("top of stack = " + tokenStack.peek().toString());
+        System.out.println("stack top " + tokenStack.peek().getData());
     }
 	
 	private static void shift(int nextState) {
+		System.out.println("Shift to state " + nextState + ": " + currentToken.toString());
         TokenNode node = new TokenNode();
         node.setData(currentToken.getName());
         node.setToken(currentToken);
@@ -656,6 +673,10 @@ public class Parser {
         stateStack.push(state);
 
         getToken();
+    }
+	
+	public static TokenNode getRoot() {
+        return tokenStack.get(1);
     }
 	
 	private static void error() {

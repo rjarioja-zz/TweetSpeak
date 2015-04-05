@@ -1,0 +1,3 @@
+#login ParserTest
+  #newsfeed
+#logout

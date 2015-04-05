@@ -193,7 +193,7 @@ public class TweetSpeak implements ActionListener {
 				Tokenizer.initialize();
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
-			} else if (source == parse || source == buttonParser) {
+			} else if (source == parse || source == buttonParser) {				
 				try {
 					GrammarRules.initialize();
 				} catch (FileNotFoundException fnfe) {}

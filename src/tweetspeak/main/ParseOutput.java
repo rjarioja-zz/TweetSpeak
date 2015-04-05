@@ -2,9 +2,13 @@ package tweetspeak.main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
+import static javax.swing.ScrollPaneConstants.*;
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.divisions.Code;
+import tweetspeak.functions.Parser;
+import tweetspeak.functions.Tokenizer;
 
 public class ParseOutput implements ActionListener {
 
@@ -84,25 +88,26 @@ public class ParseOutput implements ActionListener {
 			buttonSource.setEnabled(true);
 			buttonParsed.setEnabled(false);
 			buttonProductionRules.setEnabled(true);
-			/*Tokenizer.reset();
+			Tokenizer.reset();
 			
-			Token token = Tokenizer.getToken();
-			String output = "";
-			
-			while (token != null) {
-				if (!token.getName().equals("NO_INDENT") && !token.getName().equals("NEWLINE"))
-					output += token.printToken();
-				if (token.getName().equals("NEWLINE") 
-						|| token.getNextIndex() == Code.getLine(Tokenizer.getLineNumber()).getLineCode().length()) 
-						output += "\n";
-				token = Tokenizer.getToken();
+			String text = "";
+			try {
+				new Parser();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			text += "\nPARSE TREE: \n============================================================================================================================================\n\n"; 
+			if (Parser.parser()) text += Parser.getRoot().toString()  + "\n";
+			else text += "Parser failed";
+			text += "\n============================================================================================================================================\n\n";
 			
-			textArea.setText(output);
-			*/
-			textArea.setWrapStyleWord(false);
+			scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+			textArea.setText(text);
+			textArea.setLineWrap(true);
+			textArea.setWrapStyleWord(true);
 			
 		} else if (source == buttonProductionRules) {
+			
 			String text = "";
 			text += "\nGRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
 			text += GrammarRules.printRules();
