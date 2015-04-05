@@ -16,10 +16,8 @@
 
     #tweet (choice == 'A')
       #ooti sum #share #trending addition(num1, num2)
-      #trending ansAdd(sum)
     #retweet (choice == 'B')
       #ooti prod #share #trending multiply(num1, num2)
-      #trending ansSub(dif)
     #reply 
       #outbox error
 

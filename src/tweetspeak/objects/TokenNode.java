@@ -1,8 +1,6 @@
 package tweetspeak.objects;
 
 import java.util.ArrayList;
-import tweetspeak.collections.TokenType;
-import tweetspeak.collections.TokenName;
 
 public class TokenNode {
 
@@ -61,7 +59,7 @@ public class TokenNode {
 	
 	@Override
 	public String toString() {
-		String tree = "Node[" + data + "] Child[";
+		String tree = "Node[" + data + "] Children{";
 
 		for (int ctr = 0; ctr < children.size(); ctr++) {
 			if (ctr > 0) {
@@ -69,7 +67,7 @@ public class TokenNode {
 			}
 			tree += children.get(ctr).toString();
 		}
-		tree += "]";
+		tree += "}";
 		return tree;
 	}
 }
