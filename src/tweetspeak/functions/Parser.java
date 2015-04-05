@@ -55,37 +55,37 @@ public class Parser {
 	    
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 			TokenName.DEDENT.toString(),
-	    		TokenName.STMT_SEP.toString(), 				TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), 				TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(), 				TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(),	TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
 	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(), 		TokenName.IF.toString(),
-	    		TokenName.DO.toString(), 								TokenName.WHILE.toString(),
-	    		TokenName.INC_OP.toString(), 					TokenName.DEC_OP.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 				TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
 	    		TokenName.PROC_RET.toString());
 	    
 	    //state 67 at 72
 	    List<String> checkReduce2 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 			TokenName.DEDENT.toString(),
-	    		TokenName.STMT_SEP.toString(), 				TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), 				TokenName.BREAK.toString(),
-	    		TokenName.CONTINUE.toString(), 				TokenName.DATATYPE_BOOL.toString(),
-	    		TokenName.DATATYPE_CHAR.toString(),	TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
 	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.DATATYPE_VOID.toString(), 		TokenName.IF.toString(),
-	    		TokenName.DO.toString(), 								TokenName.WHILE.toString(),
-	    		TokenName.INC_OP.toString(), 					TokenName.DEC_OP.toString(),
-	    		TokenName.PROC_RET.toString(),				TokenName.ADD_OP.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 				TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
+	    		TokenName.PROC_RET.toString(),			TokenName.ADD_OP.toString(),
 	    		TokenName.DIF_OP.toString());
 	    
 	    List<String> checkReduce3 = Arrays.asList(
 	    		TokenName.PROG_NAME.toString(),			TokenName.DEDENT.toString(), 		
-	    		TokenName.STMT_SEP.toString(),					TokenName.ASSIGN.toString(),
-	    		TokenName.PROC_CALL.toString(), 				TokenName.PROC_RET.toString(),
-	    		TokenName.DO.toString(),								TokenName.CONTINUE.toString(), 			
-	    		TokenName.BREAK.toString(),						TokenName.DATATYPE_BOOL.toString(),		
+	    		TokenName.STMT_SEP.toString(),			TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 		TokenName.PROC_RET.toString(),
+	    		TokenName.DO.toString(),				TokenName.CONTINUE.toString(), 			
+	    		TokenName.BREAK.toString(),				TokenName.DATATYPE_BOOL.toString(),		
 	    		TokenName.DATATYPE_CHAR.toString(),   	TokenName.WHILE.toString(),
 	    		TokenName.DATATYPE_FLOAT.toString(),	TokenName.DATATYPE_INT.toString(), 	
 	    		TokenName.DATATYPE_STRING.toString(),	TokenName.DATATYPE_VOID.toString(), 
