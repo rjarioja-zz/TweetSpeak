@@ -595,6 +595,20 @@ public class Parser {
 						shift(74);
 					else error();
 					break;
+				case 74:
+					break;
+				case 75:
+					break;
+				case 76:
+					break;
+				case 77:
+					break;
+				case 78:
+					break;
+				case 79:
+					break;
+				case 80:
+					break;
 			} // end of switch
 		}
 	}
