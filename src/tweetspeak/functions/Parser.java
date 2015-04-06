@@ -60,6 +60,8 @@ public class Parser {
 	    // same goes with 67, 72, etc
 	    // pag redundant lang lol
 	    //-
+	    
+	    /* AHHHHHHHHHHH OKIE :D */
 
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
