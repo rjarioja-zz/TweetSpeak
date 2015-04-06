@@ -60,6 +60,8 @@ public class Parser {
 	    // same goes with 67, 72, etc
 	    // pag redundant lang lol
 	    //-
+	    
+	    /* AHHHHHHHHHHH OKIE :D */
 
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
@@ -1092,7 +1094,11 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+<<<<<<< HEAD
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
+=======
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString()))
+>>>>>>> 6097ba29b5332f70ef6118e6da2c6917137bb943
 						reduce(113);
 					else error();
 					break;
