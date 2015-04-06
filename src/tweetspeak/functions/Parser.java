@@ -588,6 +588,8 @@ public class Parser {
 						shift(91);
 					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString()))
 						shift(60);
+					else if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
+						shift(107);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
@@ -623,6 +625,18 @@ public class Parser {
 					} else if(stackTop.equals("<REL_EXPR>") && tokenTop == null){
 						state = 59;
 						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR2>") && tokenTop == null){
+						state = 103;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
+						state = 104;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+						state = 105;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+						state = 106;
+						stateStack.push(state);
 					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
 						state = 92;
 						stateStack.push(state);
@@ -654,7 +668,9 @@ public class Parser {
 					break;
 
 				case 59:
-					if(checkReduce.contains(currentToken.getName())) reduce(58);  
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())) 
+							reduce(58);  
 					else error();
 					break;
 
@@ -721,7 +737,11 @@ public class Parser {
 					break;
 
 				case 66: 
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+						shift(95);
+					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(95);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -740,6 +760,15 @@ public class Parser {
 						stateStack.push(state);
 					} else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
 						state = 68;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
 						stateStack.push(state);
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
@@ -766,7 +795,9 @@ public class Parser {
 					break;
 
 				case 69:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -780,14 +811,28 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+						state = 111;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
 					break;
 
 				case 70:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -801,14 +846,28 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+						state = 111;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
 					break;
 
 				case 71:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -822,7 +881,19 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+						state = 111;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
@@ -849,7 +920,9 @@ public class Parser {
 					break;
 
 				case 74:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -863,7 +936,19 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+						state = 111;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
@@ -920,7 +1005,9 @@ public class Parser {
 					break;
 
 				case 85:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -934,7 +1021,22 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR2>") && tokenTop == null){
+						state = 67;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+						state = 68;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
@@ -1029,11 +1131,20 @@ public class Parser {
 					} else if(stackTop.equals("<REL_EXPR>") && tokenTop == null){
 						state = 59;
 						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR2>") && tokenTop == null){
+						state = 103;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
+						state = 104;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+						state = 105;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+						state = 106;
+						stateStack.push(state);
 					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
 						state = 92;
-						stateStack.push(state);
-					} else if(stackTop.equals("<CONST>") && tokenTop == null){
-						state = 93;
 						stateStack.push(state);
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
@@ -1042,7 +1153,9 @@ public class Parser {
 					break;
 
 				case 91:
-					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
+						shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
 						shift(96);
@@ -1056,7 +1169,16 @@ public class Parser {
 						shift(101);
 					else if(currentToken.getName().equals(null))
 						shift(100);
-					else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+					else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
+						state = 73;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 109;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
 					} else error();
@@ -1094,11 +1216,7 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
-<<<<<<< HEAD
-						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
-=======
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString()))
->>>>>>> 6097ba29b5332f70ef6118e6da2c6917137bb943
 						reduce(113);
 					else error();
 					break;
@@ -1142,7 +1260,102 @@ public class Parser {
 					if(checkReduce4.contains(currentToken.getName())) reduce(121);
 					else error();
 					break;
-					
+
+				case 103:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())) 
+							reduce(95);
+					else error();
+					break;
+
+				case 104:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())) 
+							reduce(97);
+					else error();
+					break;
+
+				case 105:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) 
+							reduce(100);
+					else error();
+					break;
+
+				case 106:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) 
+							reduce(105);
+					else error();
+					break;
+				
+				case 107:
+					if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
+						shift(107);
+					else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+						state = 105;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+						state = 106;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 92;
+						stateStack.push(state);
+					} else error();
+					break;
+
+				case 108:
+					if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
+						shift(107);
+					else if(stackTop.equals("<REL_EXPR2>") && tokenTop == null){
+						state = 103;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
+						state = 104;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+						state = 105;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+						state = 106;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 93;
+						stateStack.push(state);
+					} else error();
+					break;
+
+				case 109:
+					if(checkReduce4.contains(currentToken.getName())) reduce(112);
+					else error();
+					break;
+
+				case 110:
+					if(checkReduce4.contains(currentToken.getName())) reduce(113);
+					else error();
+					break;
+
+				case 111:
+					if(checkReduce3.contains(currentToken.getName()))
+						reduce(84);
+					else error();
+					break;
+
 			} // end of switch
 		}
 	}
