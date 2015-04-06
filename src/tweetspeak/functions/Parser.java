@@ -1074,9 +1074,9 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
 						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString()
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()
-						|| currentToken.getName().equals(TokenName.NOT_OP.toString()) 
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(112);
 					else error();
 					break;
@@ -1090,50 +1090,50 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
 						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString()
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()
-						|| currentToken.getName().equals(TokenName.NOT_OP.toString()) 
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(113);
 					else error();
 					break;
 
 				case 95: 
-					if(checkReduce4.contains(currentToken.getName()) reduce(114);
+					if(checkReduce4.contains(currentToken.getName())) reduce(114);
 					else error();
 					break;
 
 				case 96:
-					if(checkReduce4.contains(currentToken.getName()) reduce(115);
+					if(checkReduce4.contains(currentToken.getName())) reduce(115);
 					else error();
 					break;
 					
 				case 97:
-					if(checkReduce4.contains(currentToken.getName()) reduce(116);
+					if(checkReduce4.contains(currentToken.getName())) reduce(116);
 					else error();
 					break;
 					
 				case 98:
-					if(checkReduce4.contains(currentToken.getName()) reduce(117);
+					if(checkReduce4.contains(currentToken.getName())) reduce(117);
 					else error();
 					break;
 					
 				case 99:
-					if(checkReduce4.contains(currentToken.getName()) reduce(118);
+					if(checkReduce4.contains(currentToken.getName())) reduce(118);
 					else error();
 					break;
 					
 				case 100:
-					if(checkReduce4.contains(currentToken.getName()) reduce(119);
+					if(checkReduce4.contains(currentToken.getName())) reduce(119);
 					else error();
 					break;
 					
 				case 101:
-					if(checkReduce4.contains(currentToken.getName()) reduce(120);
+					if(checkReduce4.contains(currentToken.getName())) reduce(120);
 					else error();
 					break;
 				
 				case 102:
-					if(checkReduce4.contains(currentToken.getName()) reduce(121);
+					if(checkReduce4.contains(currentToken.getName())) reduce(121);
 					else error();
 					break;
 					
