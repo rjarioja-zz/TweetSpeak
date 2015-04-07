@@ -1221,7 +1221,7 @@ public class Parser {
 
 				case 92:
 					if(checkReduce4.contains(currentToken.getName())) reduce(91);
-					else if(currentToken.getName().equals(TokenName.CONCAT.toString()) shift(116);
+					else if(currentToken.getName().equals(TokenName.CONCAT.toString())) shift(116);
 					else error();
 					break;
 
