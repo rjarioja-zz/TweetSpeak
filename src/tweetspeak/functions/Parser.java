@@ -1684,7 +1684,6 @@ public class Parser {
     }
 	
 	private static void shift(int nextState) {
-		System.out.println("Shift to state " + nextState + ": " + currentToken.toString());
         TokenNode node = new TokenNode();
         node.setData(currentToken.getName());
         node.setToken(currentToken);
@@ -1694,6 +1693,7 @@ public class Parser {
         stateStack.push(state);
 
         getToken();
+        System.out.println("Shift to state " + nextState + ": " + currentToken.toString());
     }
 	
 	public static TokenNode getRoot() {

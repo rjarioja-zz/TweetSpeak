@@ -98,7 +98,7 @@ public class ParseOutput implements ActionListener {
 			
 			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
 			if (Parser.parse()) text += Parser.getRoot().toString()  + "\n";
-			else text += "Parser failed";
+			else JOptionPane.showMessageDialog(null, "Parser failed :(");
 			text += "\n============================================================================================================================================\n\n";
 			
 			textArea.setText(text);
