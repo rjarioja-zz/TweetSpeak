@@ -35,7 +35,7 @@ public class Parser {
 		if (token == null) currentToken = new Token("$", "$", TokenType.SPEC_SYMBOL.toString());
 	}
 	
-	public static boolean parser() {
+	public static boolean parse() {
 		state = 0;
 		TokenNode root = new TokenNode("$");
         

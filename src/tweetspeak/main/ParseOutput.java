@@ -97,10 +97,9 @@ public class ParseOutput implements ActionListener {
 			} catch (IOException e) {}
 			
 			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
-			if (Parser.parser()) text += Parser.getRoot().toString()  + "\n";
+			if (Parser.parse()) text += Parser.getRoot().toString()  + "\n";
 			else text += "Parser failed";
 			text += "\n============================================================================================================================================\n\n";
-			
 			
 			textArea.setText(text);
 			textArea.setLineWrap(true);
@@ -114,7 +113,6 @@ public class ParseOutput implements ActionListener {
 			try {
 				GrammarRules.initialize();
 			} catch (FileNotFoundException fnfe) {}
-			
 			
 			String text = "";
 			text += "GRAMMAR  RULES: \n============================================================================================================================================\n\n"; 
