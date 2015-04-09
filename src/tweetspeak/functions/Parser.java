@@ -1491,6 +1491,7 @@ public class Parser {
 
 				case 115:
 					if(checkReduce5.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OUTPUT.toString())
 						|| currentToken.getName().equals(TokenName.ADD_OP.toString())
 						|| currentToken.getName().equals(TokenName.DIF_OP.toString())
 						|| currentToken.getName().equals(TokenName.MUL_OP.toString())
@@ -1512,13 +1513,17 @@ public class Parser {
 					break;
 
 				case 117:
-					if(checkReduce4.contains(currentToken.getName())) reduce(93);
+					if(checkReduce5.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OUTPUT.toString())) 
+							reduce(93);
 					else error();
 					break;
 
 				case 118:
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
+					else if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
+						shift(107);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
@@ -1533,8 +1538,6 @@ public class Parser {
 						shift(132);
 					else if(currentToken.getName().equals(null))
 						shift(131);
-					else if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
-						shift(107);
 					else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
 						state = 104;
 						stateStack.push(state);
