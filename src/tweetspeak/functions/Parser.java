@@ -134,6 +134,23 @@ public class Parser {
 	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
 	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString());
 
+	    List<String> checkReduce6 = Arrays.asList(
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
+	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
+	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
+	    		TokenName.DO.toString(), 				TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
+	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString(),			TokenName.LESS_EQ_OP.toString(),
+				TokenName.OR_OP.toString(),				TokenName.AND_OP.toString(),
+				TokenName.EQUAL_OP.toString(),			TokenName.NOT_EQUAL_OP.toString(),
+				TokenName.GREAT_OP.toString(),			TokenName.LESS_OP.toString(),
+				TokenName.GREAT_EQ_OP.toString());
+
 	    List<String> rightParenParamSep = Arrays.asList(
 	    		TokenName.RIGHT_PAREN.toString(), 		TokenName.PARAM_SEP.toString());
 	    
@@ -1732,141 +1749,61 @@ public class Parser {
 					break;
 
 				case 124:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(112);
 					else error();
 					break;
 
 				case 125:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(113);
 					else error();
 					break;
 
 				case 126:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(114);
 					else error();
 					break;
 
 				case 127:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(115);
 					else error();
 					break;
 
 				case 128:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(116);
 					else error();
 					break;
 
 				case 129:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(117);
 					else error();
 					break;
 
 				case 130:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(118);
 					else error();
 					break;
 
 				case 131:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(119);
 					else error();
 					break;
 
 				case 132:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(120);
 					else error();
 					break;
 
 				case 133:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())
-						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+					if(checkReduce6.contains(currentToken.getName()))
 						reduce(121);
 					else error();
 					break;
