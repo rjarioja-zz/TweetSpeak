@@ -1343,6 +1343,7 @@ public class Parser {
 				// 			reduce(97);
 				// 	else error();
 				// 	break;
+					//double reduce
 
 				// case 105:
 				// 	if(checkReduce.contains(currentToken.getName())
@@ -1357,6 +1358,7 @@ public class Parser {
 				// 			reduce(100);
 				// 	else error();
 				// 	break;
+					//double reduce
 
 				// case 106:
 				// 	if(checkReduce.contains(currentToken.getName())
@@ -1371,6 +1373,8 @@ public class Parser {
 				// 			reduce(105);
 				// 	else error();
 				// 	break;
+
+					//triple reduce
 				
 				case 107:
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
