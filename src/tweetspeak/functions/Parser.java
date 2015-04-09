@@ -65,7 +65,7 @@ public class Parser {
 
 	    //12 - 26
 	    List<String> checkReduce = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
 	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
@@ -79,7 +79,7 @@ public class Parser {
 	    
 	    //state 67 at 72
 	    List<String> checkReduce2 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
 	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
@@ -93,7 +93,7 @@ public class Parser {
 	    		TokenName.OUTPUT.toString());
 	    
 	    List<String> checkReduce3 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
 	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
@@ -108,7 +108,7 @@ public class Parser {
 	    		TokenName.DIV_OP.toString(),			TokenName.MOD_OP.toString());
 
 	    List<String> checkReduce4 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
 	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
@@ -124,7 +124,7 @@ public class Parser {
 	    		TokenName.EXP_OP.toString());
 
 	    List<String> checkReduce5 = Arrays.asList(
-	    		TokenName.PROG_NAME.toString(), 		TokenName.DEDENT.toString(),
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
 	    		TokenName.CONTINUE.toString(), 			TokenName.DATATYPE_BOOL.toString(),
@@ -423,37 +423,37 @@ public class Parser {
 					break;
 					
 				case 27:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(43);
 					else error();
 					break;
 					
 				case 28:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(44);
 					else error();
 					break;
 					
 				case 29:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(45);
 					else error();
 					break;
 					
 				case 30:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(46);
 					else error();
 					break;
 					
 				case 31:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(47);
 					else error();
 					break;
 					
 				case 32:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(48);
 					else error();
 					break;
@@ -504,7 +504,7 @@ public class Parser {
 					break;
 					
 				case 42:
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(43);
 					else error();
 					break;
@@ -587,13 +587,13 @@ public class Parser {
 					break;
 					
 				case 54: 
-					if (currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(55);
 					else error();
 					break;
 					
 				case 55:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(94);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -698,7 +698,7 @@ public class Parser {
 					break;
 
 				case 62: 
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
+					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(76);
 					else if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
 						shift(65);
@@ -748,7 +748,7 @@ public class Parser {
 					break;
 
 				case 66: 
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(95);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(95);
@@ -806,7 +806,7 @@ public class Parser {
 					break;
 
 				case 69:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(110);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -843,7 +843,7 @@ public class Parser {
 					break;
 
 				case 70:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(110);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -880,7 +880,7 @@ public class Parser {
 					break;
 
 				case 71:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(110);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -937,7 +937,7 @@ public class Parser {
 					break;
 
 				case 74:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(110);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -1024,7 +1024,7 @@ public class Parser {
 					break;
 
 				case 85:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(110);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -1072,7 +1072,7 @@ public class Parser {
 					break;
 					
 				case 87: 
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
+					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(76);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(77);
@@ -1107,7 +1107,7 @@ public class Parser {
 					break;
 
 				case 88: 
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
+					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(89);
 					else error();
 					break;
@@ -1177,7 +1177,7 @@ public class Parser {
 					break;
 
 				case 91:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString())) 
+					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(76);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 						shift(91);
@@ -1432,7 +1432,7 @@ public class Parser {
 					break;
 
 				case 118:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
@@ -1472,7 +1472,7 @@ public class Parser {
 					break;
 
 				case 119:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
@@ -1508,7 +1508,7 @@ public class Parser {
 					} else error();
 					break;
 
-				case 120:if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+				case 120:if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
@@ -1542,7 +1542,7 @@ public class Parser {
 					break;
 
 				case 121:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
@@ -1576,7 +1576,7 @@ public class Parser {
 					break;
 
 				case 122:
-					if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
@@ -1610,7 +1610,7 @@ public class Parser {
 					break;
 
 				case 123:
-				 	if(currentToken.getName().equals(TokenName.PROG_NAME.toString()))
+				 	if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
 						shift(126);
