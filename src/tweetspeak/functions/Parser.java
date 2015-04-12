@@ -1900,7 +1900,7 @@ public class Parser {
 
 				case 146:
 					if(checkReduce.contains(currentToken.getName()))
-						reduce(38);
+						reduce(36);
 					else error();
 					break;
 
@@ -2524,6 +2524,7 @@ public class Parser {
 						stateStack.push(state);
 					} else error();
 					break;
+				
 			} // end of switch
 		}
 	}
