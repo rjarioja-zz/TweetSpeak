@@ -441,68 +441,73 @@ public class Parser {
 					break;
 					
 				case 23:
-					if(checkReduce.contains(currentToken.getName())) reduce(36);
+					if(checkReduce.contains(currentToken.getName())) reduce(34);
 					else error();
 					break;
 					
 				case 24:
-					if(checkReduce.contains(currentToken.getName())) reduce(37);
+					if(checkReduce.contains(currentToken.getName())) reduce(35);
 					else error();
 					break;
 					
 				case 25:
-					if(checkReduce.contains(currentToken.getName())) reduce(39);
+					if(checkReduce.contains(currentToken.getName())) reduce(37);
 					else error();
 					break;
 					
 				case 26:
-					if(checkReduce.contains(currentToken.getName())) reduce(40);
+					if(checkReduce.contains(currentToken.getName())) reduce(38);
 					else error();
 					break;
 					
 				case 27:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(43);
+						reduce(41);
 					else error();
 					break;
 					
 				case 28:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(44);
+						reduce(42);
 					else error();
 					break;
 					
 				case 29:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(45);
+						reduce(43);
 					else error();
 					break;
 					
 				case 30:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(46);
+						reduce(44);
 					else error();
 					break;
 					
 				case 31:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(47);
+						reduce(43);
 					else error();
 					break;
 					
 				case 32:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(48);
+						reduce(46);
 					else error();
 					break;
 
+				case 33:
+					if(checkReduce.contains(currentToken.getName())) reduce(49);
+					else error();
+					break;
+					
 				case 34:
-					if(checkReduce.contains(currentToken.getName())) reduce(52);  
+					if(checkReduce.contains(currentToken.getName())) reduce(50);  
 					else error();
 					break;
 					
 				case 35:
-					if(checkReduce.contains(currentToken.getName())) reduce(53);  
+					if(checkReduce.contains(currentToken.getName())) reduce(51);  
 					else error();
 					break;
 					
