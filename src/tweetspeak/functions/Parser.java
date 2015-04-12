@@ -1304,7 +1304,7 @@ public class Parser {
 					break;
 					
 				case 98:
-					if(checkReduce4.contains(currentToken.getName())) reduce(117);
+					if(checkReduce4.contains(currentToken.getName())) reduce(115);
 					else error();
 					break;
 					
