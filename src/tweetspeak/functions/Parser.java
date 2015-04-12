@@ -512,32 +512,32 @@ public class Parser {
 					break;
 					
 				case 36:
-					if(checkReduce.contains(currentToken.getName())) reduce(54);  
+					if(checkReduce.contains(currentToken.getName())) reduce(52);  
 					else error();
 					break;
 					
 				case 37:
-					if(checkReduce.contains(currentToken.getName())) reduce(5);  
+					if(checkReduce.contains(currentToken.getName())) reduce(53);  
 					else error();
 					break;
 					
 				case 38:
-					if(checkReduce.contains(currentToken.getName())) reduce(77);  
+					if(checkReduce.contains(currentToken.getName())) reduce(75);  
 					else error();
 					break;
 					
 				case 39: 
-					if(checkReduce.contains(currentToken.getName())) reduce(78);  
+					if(checkReduce.contains(currentToken.getName())) reduce(76);  
 					else error();
 					break;
 					
 				case 40:
-					if(checkReduce.contains(currentToken.getName())) reduce(79);  
+					if(checkReduce.contains(currentToken.getName())) reduce(77);  
 					else error();
 					break;
 					
 				case 41:
-					if(checkReduce.contains(currentToken.getName())) reduce(80);  
+					if(checkReduce.contains(currentToken.getName())) reduce(78);  
 					else error();
 					break;
 					
@@ -585,42 +585,42 @@ public class Parser {
 					break;
 					
 				case 46:
-					if(checkReduce.contains(currentToken.getName())) reduce(114);  
+					if(checkReduce.contains(currentToken.getName())) reduce(112);  
 					else error();
 					break;
 					
 				case 47:
-					if(checkReduce.contains(currentToken.getName())) reduce(115);  
+					if(checkReduce.contains(currentToken.getName())) reduce(113);  
 					else error();
 					break;
 					
 				case 48:
-					if(checkReduce.contains(currentToken.getName())) reduce(116);  
+					if(checkReduce.contains(currentToken.getName())) reduce(114);  
 					else error();
 					break;
 					
 				case 49: 
-					if(checkReduce.contains(currentToken.getName())) reduce(117);  
+					if(checkReduce.contains(currentToken.getName())) reduce(115);  
 					else error();
 					break;
 					
 				case 50: 
-					if(checkReduce.contains(currentToken.getName())) reduce(119);  
+					if(checkReduce.contains(currentToken.getName())) reduce(116);  
 					else error();
 					break;
 					
 				case 51: 
-					if(checkReduce.contains(currentToken.getName())) reduce(118);  
+					if(checkReduce.contains(currentToken.getName())) reduce(117);  
 					else error();
 					break;
 					
 				case 52: 
-					if(checkReduce.contains(currentToken.getName())) reduce(120);  
+					if(checkReduce.contains(currentToken.getName())) reduce(118);  
 					else error();
 					break;
 					
 				case 53:
-					if(checkReduce.contains(currentToken.getName())) reduce(121);  
+					if(checkReduce.contains(currentToken.getName())) reduce(119);  
 					else error();
 					break;
 					
@@ -631,6 +631,7 @@ public class Parser {
 					break;
 					
 				case 55:
+					/* missing entries in le parsing table */
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(94);
 					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
@@ -710,18 +711,18 @@ public class Parser {
 						shift(66);
 					else if(currentToken.getName().equals(TokenName.DIF_OP.toString()))
 						shift(85);
+					else if(checkReduce.contains(currentToken.getName())) reduce(54);
 					else error();
 					break;
 
 				case 58:
-					if(checkReduce.contains(currentToken.getName())) reduce(57);  
+					if(checkReduce.contains(currentToken.getName())) reduce(55);  
 					else error();
 					break;
 
 				case 59:
-					if(checkReduce.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())) 
-							reduce(58);  
+					if(checkReduce.contains(currentToken.getName())) reduce(56);
+					else if (currentToken.getName().equals(TokenName.OR_OP.toString())) shift(108);
 					else error();
 					break;
 
@@ -738,6 +739,7 @@ public class Parser {
 					break;
 
 				case 62: 
+					/* confusing shits */
 					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(76);
 					else if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
