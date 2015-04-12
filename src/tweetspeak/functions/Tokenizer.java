@@ -68,10 +68,12 @@ public class Tokenizer {
 		previousIndent = 0;
 		indentStack.clear(); 
 		indentStack.push(0);
+		tokens.clear();
 	}
 	
 	public static void reset() { 
-		Tokenizer.tokenizedCode = ""; 
+		Tokenizer.tokenizedCode = "";
+		tokens.clear();
 		setIndex(0);
 		setLineNumber(0);
 		setLineNumber(0);

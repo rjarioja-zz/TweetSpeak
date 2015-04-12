@@ -42,6 +42,8 @@ public class GrammarRules {
 		}
 	}
 	
+	public static void clear() { rules.clear(); }
+	
 	public static String printRules() {
 		text = "";
 		for (int counter = 0; counter < rules.size(); counter++) {

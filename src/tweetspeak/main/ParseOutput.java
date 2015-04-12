@@ -110,6 +110,7 @@ public class ParseOutput implements ActionListener {
 			buttonParsed.setEnabled(false);
 			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonProductionRules) {
+			GrammarRules.clear();
 			try {
 				GrammarRules.initialize();
 			} catch (FileNotFoundException fnfe) {}

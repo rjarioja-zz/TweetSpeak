@@ -182,6 +182,7 @@ public class Parser {
                         }
                         // accept
                         //truly ba return true?
+                        /* YEAP, kasi boolean return neto. Binubuo nya lang yung tree*/
                         else {
                         	System.out.println("ACCEPT");
                         	return true;
@@ -269,9 +270,10 @@ public class Parser {
 					
 				case 11:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						shift(137);
+						shift(144);
 					else if (currentToken.getName().equals(TokenName.ASSIGN.toString()))
 						shift(54);
+					/* di ko sure kung may procedure calls,  wala sa table eh*/
 					else if (currentToken.getName().equals(TokenName.PROC_CALL.toString()))
 						shift(142);
 					else if(currentToken.getName().equals(TokenName.BREAK.toString()))
@@ -294,20 +296,22 @@ public class Parser {
 						shift(88);
 					else if(currentToken.getName().equals(TokenName.OUTPUT.toString()))
 						shift(90);
+					/*
 					else if(currentToken.getName().equals(TokenName.DO.toString()))
 						shift(159);
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString()))
 						shift(135);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString()))
 						shift(140);
+					*/
 					else if(stackTop.equals("<STATEMENTS>") && tokenTop == null){
 						state = 134;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MORE_STATEMENTS>") && tokenTop == null){
-						state = 149;
+						state = 138;
 						stateStack.push(state);
 					} else if(stackTop.equals("<STATEMENT>") && tokenTop == null){
-						state = 147;
+						state = 136;
 						stateStack.push(state);
 					} else if(stackTop.equals("<DECLARATION>") && tokenTop == null){
 						state = 12;
@@ -355,7 +359,7 @@ public class Parser {
 						state = 35;
 						stateStack.push(state);
 					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
-						state = 151;
+						state = 33;
 						stateStack.push(state);
 					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
 						state = 36;
@@ -382,57 +386,57 @@ public class Parser {
 					break;
 					
 				case 12:
-					if(checkReduce.contains(currentToken.getName())) reduce(19);
+					if(checkReduce.contains(currentToken.getName())) reduce(17);
 					else error();
 					break;
 					
 				case 13:
-					if(checkReduce.contains(currentToken.getName())) reduce(20);
+					if(checkReduce.contains(currentToken.getName())) reduce(18);
 					else error();
 					break;
 					
 				case 14:
-					if(checkReduce.contains(currentToken.getName())) reduce(21);
+					if(checkReduce.contains(currentToken.getName())) reduce(19);
 					else error();
 					break;
 					
 				case 15: 
-					if(checkReduce.contains(currentToken.getName())) reduce(22);
+					if(checkReduce.contains(currentToken.getName())) reduce(20);
 					else error();
 					break;
 					
 				case 16:
-					if(checkReduce.contains(currentToken.getName())) reduce(24);
+					if(checkReduce.contains(currentToken.getName())) reduce(22);
 					else error();
 					break;
 					
 				case 17: 
-					if(checkReduce.contains(currentToken.getName())) reduce(25);
+					if(checkReduce.contains(currentToken.getName())) reduce(23);
 					else error();
 					break;
 					
 				case 18:
-					if(checkReduce.contains(currentToken.getName())) reduce(26);
+					if(checkReduce.contains(currentToken.getName())) reduce(24);
 					else error();
 					break;
 					
 				case 19:
-					if(checkReduce.contains(currentToken.getName())) reduce(30);
+					if(checkReduce.contains(currentToken.getName())) reduce(28);
 					else error();
 					break;
 					
 				case 20:
-					if(checkReduce.contains(currentToken.getName())) reduce(31);
+					if(checkReduce.contains(currentToken.getName())) reduce(29);
 					else error();
 					break;
 					
 				case 21:
-					if(checkReduce.contains(currentToken.getName())) reduce(32);
+					if(checkReduce.contains(currentToken.getName())) reduce(30);
 					else error();
 					break;
 					
 				case 22:
-					if(checkReduce.contains(currentToken.getName())) reduce(33);
+					if(checkReduce.contains(currentToken.getName())) reduce(31);
 					else error();
 					break;
 					
@@ -539,7 +543,7 @@ public class Parser {
 					break;
 					
 				case 43:
-					if(checkReduce.contains(currentToken.getName())) reduce(27);  
+					if(checkReduce.contains(currentToken.getName())) reduce(25);  
 					else if(currentToken.getName().equals(TokenName.ASSIGN_OP.toString()))
 						shift(44);
 					else error();
@@ -571,7 +575,7 @@ public class Parser {
 					} break;
 					
 				case 45: 
-					if(checkReduce.contains(currentToken.getName())) reduce(28);  
+					if(checkReduce.contains(currentToken.getName())) reduce(26);  
 					else error();
 					break;
 					
@@ -690,7 +694,7 @@ public class Parser {
 					break;
 
 				case 56:
-					if(checkReduce.contains(currentToken.getName())) reduce(29);  
+					if(checkReduce.contains(currentToken.getName())) reduce(27);  
 					else error();
 					break;
 
@@ -1895,7 +1899,7 @@ public class Parser {
 
 				case 147:
 					if(currentToken.getName().equals(TokenName.DEDENT.toString()))
-						reduce(20);
+						reduce(18);
 					else if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(137);
 					else if(currentToken.getName().equals(TokenName.ASSIGN.toString()))

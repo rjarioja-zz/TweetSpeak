@@ -187,10 +187,15 @@ public class TweetSpeak implements ActionListener {
 				catch (IOException ie) {}
 			} else if (source == tokenize || source == buttonTokenizer) {
 				Code.setCode(textArea.getText());
+				Code.clearTokens();
 				Tokenizer.initialize();
+				Tokenizer.reset();
 				TokenOutput tokenOutput = new TokenOutput(filename);
 				tokenOutput.launch();
 			} else if (source == parse || source == buttonParser) {				
+				Code.setCode(textArea.getText());
+				Code.clearTokens();
+				Tokenizer.reset();
 				ParseOutput parseOutput = new ParseOutput(filename);
 				parseOutput.launch();
 				
