@@ -90,10 +90,12 @@ public class ParseOutput implements ActionListener {
 			buttonProductionRules.setEnabled(true);
 		} else if (source == buttonParsed) {
 			Tokenizer.reset();
+			GrammarRules.clear();
 			
 			String text = "";
 			try {
 				new Parser();
+				GrammarRules.initialize();
 			} catch (IOException e) {}
 			
 			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 

@@ -65,7 +65,7 @@ public class TokenNode {
 			if (ctr > 0) {
 				tree += ", ";
 			}
-			tree += "\n\t" + children.get(ctr).toString();
+			tree += children.get(ctr).toString();
 		}
 		tree += "}";
 		return tree;
