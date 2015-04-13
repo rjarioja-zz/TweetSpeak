@@ -2438,11 +2438,54 @@ List<String> checkReduce7 = Arrays.asList(
 					else error();
 					break;
 
-				// case 166:
-				// 	break;
+				case 166:
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
+						shift(175);
+					if(currentToken.getName().equals(TokenName.NOT_OP.toString()))
+						shift(172);
+					if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+						shift(176);
+					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
+						shift(177);
+					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString()))
+						shift(178);
+					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString()))
+						shift(179);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString()))
+						shift(183);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString()))
+						shift(182);
+					else if(currentToken.getName().equals(null))
+						shift(181);
+					else if(stackTop.equals("<REL_EXPR>") && tokenTop == null){
+						state = 167;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR2>") && tokenTop == null){
+						state = 168;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR3>") && tokenTop == null){
+						state = 169;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+						state = 170;
+						stateStack.push(state);
+					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
+						state = 171;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 173;
+						stateStack.push(state);
+					}else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 174;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+						state = 180;
+						stateStack.push(state);
+					} else error();
+					break;
 
-				// case 167:
-				// 	break;
+				case 167:
+					break;
 
 				case 168:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString()))
