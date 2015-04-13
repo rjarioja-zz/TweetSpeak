@@ -227,7 +227,7 @@ public class Parser {
 					} else if (stackTop.equals("<MAIN_FUNCTION>") && tokenTop == null) {
 						state = 8;
 						stateStack.push(state);
-					} else error();
+					}//else error();
 					break;
 					
 				case 5:
@@ -284,7 +284,8 @@ public class Parser {
 					break;
 					
 				case 11:
-				
+					System.out.println("State 11 stack top: " + tokenStack.get(tokenStack.size() - 1).getData());
+					System.out.println("State 11 next top: " + tokenStack.get(tokenStack.size() - 2).getData());
 					/*
 					else if(currentToken.getName().equals(TokenName.DO.toString()))
 						shift(159);
@@ -294,7 +295,8 @@ public class Parser {
 						shift(140);
 					*/
 					if(stackTop.equals("<STATEMENTS>") && tokenTop == null){
-						state = 134;
+						if (tokenStack.get(tokenStack.size() - 2).getData().equals("<STATEMENT>")) state = 136;
+						else state = 134;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MORE_STATEMENTS>") && tokenTop == null){
 						state = 138;
@@ -1434,26 +1436,27 @@ public class Parser {
 					if(checkReduce.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.OR_OP.toString())
 						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
-						if (previousToken.getName().equals("AND_OP")) reduce(92);
-						else reduce(93);
-					} 
+						if (previousToken.getName().equals("AND_OP")) reduce(94);
+						else reduce(95);
+					} else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString()))
+						shift(114);
+					else if(currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString()))
+						shift(119);
 					else error();
 					break;
 
-				// case 105:
-				// 	if(checkReduce.contains(currentToken.getName())
-				// 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.AND_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) 
-				// 			reduce(100);
-				// 	else error();
-				// 	break;
-					//double reduce
+				case 105:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
+						if (previousToken.getName().equals("AND_OP")) reduce(94);
+						else reduce(95);
+					} else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString()))
+						shift(114);
+					else if(currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString()))
+						shift(119);
+					else error();
+					break;
 
 				// case 106:
 				// 	if(checkReduce.contains(currentToken.getName())
@@ -1904,6 +1907,7 @@ public class Parser {
 					break;
 
 				case 135:
+					System.out.println("State 135 stack top: " + tokenStack.get(tokenStack.size() - 1).getData());
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(136);
 					else if(currentToken.getName().equals(TokenName.DEDENT.toString()))
@@ -1923,6 +1927,9 @@ public class Parser {
 					if(stackTop.equals("<STATEMENTS>") && tokenTop == null) {
 						state = 137;
 						stateStack.push(state);
+					/*} else if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
+						state = 137;
+						stateStack.push(state);*/
 					} else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
 						state = 138;
 						stateStack.push(state);
@@ -2026,13 +2033,16 @@ public class Parser {
 					break;
 
 				case 137:
-					if(currentToken.getName().equals(TokenName.DEDENT.toString()))
-						reduce(11);
+					
+					if(currentToken.getName().equals(TokenName.DEDENT.toString())) {
+						if(stackTop.equals("<STATEMENTS>") && tokenTop == null) reduce(11);
+					}
+						
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString()))
 						shift(138);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())){
 						shift(139);
-					} else error();
+					}
 					break;
 
 				case 138:
@@ -2812,8 +2822,9 @@ public class Parser {
 	}
 	
 	private static void reduce(int rule) {
-		System.out.println("Reduce: " + previousToken.toString());
-        int ruleLength = GrammarRules.getRule(rule).size() - 1;
+		System.out.println("Currently on state " + stateStack.peek().toString() + ". Reduce: " + previousToken.toString());
+		System.out.println("State stack before" + stateStack.toString());
+		int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
         TokenNode node = new TokenNode();
         String variable = GrammarRules.getRule(rule).get(0);
@@ -2836,14 +2847,16 @@ public class Parser {
             node.addChild(poppedNode);
             poppedNode.setParent(node);
         }
-
+        
         System.out.println("Reduced to: " + node.toString());
         
         state = stateStack.peek();
         tokenStack.push(node);
         
+        
         System.out.println("top of stack = " + tokenStack.peek().getData());
         System.out.println("stack top " + tokenStack.peek().getData());
+        System.out.println("State stack after" + stateStack.toString());
         System.out.println("current state " + stateStack.peek().toString());
     }
 	
@@ -2866,7 +2879,7 @@ public class Parser {
 	
 	private static void error() {
 		// TODO: ERROR MESSAGE or sumthin
-		System.out.println("Parsing failed. Some error occured at " + currentToken.getLineNumber());
+		System.out.println("Parsing failed. Some error occured at " + state);
 	}
 
 	private static void errorMsg (String errormsg) {
