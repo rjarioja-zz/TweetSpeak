@@ -2336,26 +2336,51 @@ List<String> checkReduce7 = Arrays.asList(
 						error();
 					} break;
 
-				//case 152: RYAN PAKIGAWA REDUCE NA MAY OR OR PAG GINAWA MO TO PUPUTI KA HE HE
-					//break;
+				case 152: 
+					if (checkReduce7.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ASSIGN.toString()))
+						reduce(36);
+					else error();
+					break;
 
 				case 153:
-					if(checkReduce.contains(currentToken.getName()))
-						reduce(63);
+					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(60);
+					else if(currentToken.getName().equals(TokenName.PARAM_SEP.toString())) shift(154);
 					else error();
 					break;
 
 				case 154:
-					if(currentToken.getName().equals(TokenName.ELSE.toString()))
+					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(156);
-					else if(stackTop.equals("<ELSEIF_STMTS>") && tokenTop == null){
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString()))
+						shift(157);
+					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString()))
+						shift(158);
+					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString()))
+						shift(159);
+					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString()))
+						shift(160);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString()))
+						shift(163);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString()))
+						shift(164);
+					else if(currentToken.getName().equals(null))
+						shift(162);
+					else if(stackTop.equals("<CALL_PARAMS>") && tokenTop == null){
+						state = 199;
+						stateStack.push(state);
+					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
+						state = 153;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
 						state = 155;
 						stateStack.push(state);
-					} else if(stackTop.equals("<ELSE_STMT>") && tokenTop == null){
-						state = 152;
+					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
+						state = 161;
 						stateStack.push(state);
-					} else error();
-					break;
+					} else {
+						error();
+					} break;
 
 				case 155:
 					if(checkReduce.contains(currentToken.getName()))
