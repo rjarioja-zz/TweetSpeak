@@ -9,7 +9,7 @@ import tweetspeak.objects.*;
 
 public class Parser {
 	private static int state;
-	private static Token currentToken;
+	private static Token currentToken, previousToken;
     private static Stack<TokenNode> tokenStack;
     private static Stack<Integer> stateStack;
 	
@@ -24,6 +24,7 @@ public class Parser {
 		Token token = null;
 		token = Tokenizer.getToken();
 		
+		previousToken = currentToken;
 		if (!(token instanceof Comment)) currentToken = token;
 	    else {
 	    	while (token instanceof Comment || token.getName().equals("COMMENT")) {
@@ -154,6 +155,19 @@ public class Parser {
 	    List<String> rightParenParamSep = Arrays.asList(
 	    		TokenName.RIGHT_PAREN.toString(), 		TokenName.PARAM_SEP.toString());
 	    
+	    List<String> tripleReductionCCCCCOMBO = Arrays.asList(
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
+	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
+	    		TokenName.PROC_CALL.toString(), 		TokenName.PROC_RET.toString(),
+	    		TokenName.BREAK.toString(), 			TokenName.CONTINUE.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_BOOL.toString(), 	TokenName.DATATYPE_VOID.toString(),
+	    		TokenName.INPUT.toString(),				TokenName.OUTPUT.toString(),
+	    		TokenName.IF.toString(),				TokenName.INC_OP.toString(),
+	    		TokenName.DO.toString(), 				TokenName.WHILE.toString(),
+	    		TokenName.DEC_OP.toString());
+	    		
 	    getToken();
 	    System.out.println("START PARSE WITH: " + currentToken.toString());
 
@@ -200,7 +214,7 @@ public class Parser {
 				case 3:
 					if (currentToken.getName().equals(TokenName.INDENT.toString())) 
 						shift(4);
-					else errorMsg("an indent.");
+					//else errorMsg("an indent.");
 					break;
 					
 				case 4:
@@ -265,7 +279,7 @@ public class Parser {
 				case 10:
 					if(currentToken.getName().equals("INDENT"))
 						shift(11);
-					else errorMsg("an indent.");
+					//else errorMsg("an indent.");
 					break;
 					
 				case 11:
@@ -1271,7 +1285,48 @@ public class Parser {
 					break;
 
 				case 92:
-					if(checkReduce4.contains(currentToken.getName())) reduce(91);
+					if(tripleReductionCCCCCOMBO.contains(currentToken.getName())) {
+						Stack<TokenNode> tempStack = new Stack<TokenNode>();
+						tempStack = tokenStack;
+						System.out.println("top of temp stack " + tempStack.peek().toString());
+						System.out.println("previous token in stream " + previousToken.getName());
+						if (previousToken.getName().equals("STRING_CONST")
+						 || previousToken.getName().equals("CHAR_CONST")) {
+							reduce(90);
+							break;
+						}
+						
+						if (previousToken.getName().equals("INT_CONST")
+						 || previousToken.getName().equals("FLOAT_CONST")) {
+							reduce(89);
+							break;
+						}
+						
+						if (previousToken.getName().equals("BOOL_CONST_TRUE")
+						 || previousToken.getName().equals("BOOL_CONST_FALSE")) {
+							reduce(89);
+							break;
+						}
+						loop: while (!tempStack.isEmpty()) {
+							switch(tempStack.peek().getData()) {
+								case "ADD_OP": 		case "DIF_OP":
+								case "MUL_OP": 		case "DIV_OP":
+								case "MOD_OP": 		case "EX_OP":
+									reduce(89); break loop;
+								case "CONCAT": 	
+									reduce(90); break loop;
+								case "AND_OP": 		case "OR_OP":
+								case "EQUAL_OP": 	case "NOT_EQUAL_OP":
+								case "LESS_OP": 	case "LESS_EQ_OP":
+								case "GREAT_OP": 	case "GREAT_EQ_OP":
+								case "NOT_OP":
+									reduce(105); break loop;
+								default: 
+									System.out.println("popped from tempstack " + tempStack.peek().getData());
+									tempStack.pop();
+							}
+						}
+					}
 					else if(currentToken.getName().equals(TokenName.CONCAT.toString())) shift(116);
 					else error();
 					break;
@@ -1288,7 +1343,7 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
-						reduce(112);
+						reduce(111);
 					else error();
 					break;
 
@@ -1511,7 +1566,7 @@ public class Parser {
 					if(checkReduce5.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.DO.toString())
 						|| currentToken.getName().equals(TokenName.WHILE.toString()))
-						reduce(50);
+						reduce(48);
 					else error();
 					break;
 
@@ -1845,8 +1900,7 @@ public class Parser {
 					break;
 
 				case 136:
-					if(checkReduce.contains(currentToken.getName()))
-						reduce(108);
+					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
 					else error();
 					break;
 
@@ -2569,8 +2623,9 @@ public class Parser {
         state = stateStack.peek();
         tokenStack.push(node);
         
-        System.out.println("top of stack = " + tokenStack.peek().toString());
+        System.out.println("top of stack = " + tokenStack.peek().getData());
         System.out.println("stack top " + tokenStack.peek().getData());
+        System.out.println("current state " + stateStack.peek().toString());
     }
 	
 	private static void shift(int nextState) {
