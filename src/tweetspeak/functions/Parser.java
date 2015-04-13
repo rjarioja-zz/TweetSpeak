@@ -1909,28 +1909,58 @@ public class Parser {
 
 				case 134:
 					if(currentToken.getName().equals(TokenName.DEDENT.toString()))
-						shift(158);
+						shift(135);
 					else error();
 					break;
 
 				case 135:
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
 						shift(136);
+					else if(currentToken.getName().equals(TokenName.DEDENT.toString()))
+						reduce(5);
 					else error();
 					break;
 
 				case 136:
-					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
+					if(stackTop.equals("<STATEMENTS>") && tokenTop == null) {
+						state = 137;
+						stateStack.push(state);
+					} else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
+						state = 138;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DECLARATION>") && tokenTop == null) {
+						state = 12;
+						stateStack.push(state);
+					} else if(stackTop.equals("<ASSIGNMENT>") && tokenTop == null) {
+						state = 13;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IO>") && tokenTop == null) {
+						state = 14;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONTROL_FLOW>") && tokenTop == null) {
+						state = 15;
+						stateStack.push(state);
+					} else if(stackTop.equals("<EXPR_STATEMENTS>") && tokenTop == null) {
+						state = 16;
+						stateStack.push(state);
+					} else if(stackTop.equals("<RETURN>") && tokenTop == null) {
+						state = 17;
+						stateStack.push(state);
+					} else if(stackTop.equals("<INPUT_STMT>") && tokenTop == null) {
+						state = 19;
+						stateStack.push(state);
+					} else if(stackTop.equals("<OUTPUT_STMT>") && tokenTop == null) {
+						state = 20;
+						stateStack.push(state);
+					}
 					else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
+					else if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
 					else error();
 					break;
 
 				case 137:
-					if(currentToken.getName().equals(TokenName.INC_OP.toString()))
-						shift(138);
-					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())){
-						shift(139);
-					} else error();
+					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(11);
+					else error();
 					break;
 
 				case 138:
