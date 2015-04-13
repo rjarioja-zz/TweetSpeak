@@ -753,7 +753,6 @@ public class Parser {
 					break;
 
 				case 62: 
-					/* confusing shits */
 					if(currentToken.getName().equals(TokenName.VAR.toString())) 
 						shift(76);
 					else if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
@@ -1190,7 +1189,7 @@ public class Parser {
 						shift(97);
 					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString()))
 						shift(98);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE))
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString()))
 						shift(101);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString()))
 						shift(102);
@@ -1285,11 +1284,10 @@ public class Parser {
 					break;
 
 				case 92:
-					if(tripleReductionCCCCCOMBO.contains(currentToken.getName())) {
+					if (tripleReductionCCCCCOMBO.contains(currentToken.getName())) {
 						Stack<TokenNode> tempStack = new Stack<TokenNode>();
 						tempStack = tokenStack;
-						System.out.println("top of temp stack " + tempStack.peek().toString());
-						System.out.println("previous token in stream " + previousToken.getName());
+						
 						if (previousToken.getName().equals("STRING_CONST")
 						 || previousToken.getName().equals("CHAR_CONST")) {
 							reduce(90);
@@ -1304,9 +1302,10 @@ public class Parser {
 						
 						if (previousToken.getName().equals("BOOL_CONST_TRUE")
 						 || previousToken.getName().equals("BOOL_CONST_FALSE")) {
-							reduce(89);
+							reduce(105);
 							break;
 						}
+						
 						loop: while (!tempStack.isEmpty()) {
 							switch(tempStack.peek().getData()) {
 								case "ADD_OP": 		case "DIF_OP":
@@ -1328,6 +1327,21 @@ public class Parser {
 						}
 					}
 					else if(currentToken.getName().equals(TokenName.CONCAT.toString())) shift(116);
+					else if(currentToken.getName().equals(TokenName.ADD_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.DIF_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.MUL_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.DIV_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.MOD_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.EXP_OP.toString())) reduce(89);
+					else if(currentToken.getName().equals(TokenName.OR_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.AND_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.GREAT_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.LESS_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(105);
+					else if(currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(105);
+					//else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) reduce(105);
 					else error();
 					break;
 
@@ -1343,7 +1357,7 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
-						reduce(111);
+						reduce(110);
 					else error();
 					break;
 
@@ -1359,22 +1373,22 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString()))
-						reduce(113);
+						reduce(111);
 					else error();
 					break;
 
 				case 95: 
-					if(checkReduce4.contains(currentToken.getName())) reduce(114);
+					if(checkReduce4.contains(currentToken.getName())) reduce(112);
 					else error();
 					break;
 
 				case 96:
-					if(checkReduce4.contains(currentToken.getName())) reduce(115);
+					if(checkReduce4.contains(currentToken.getName())) reduce(113);
 					else error();
 					break;
 					
 				case 97:
-					if(checkReduce4.contains(currentToken.getName())) reduce(116);
+					if(checkReduce4.contains(currentToken.getName())) reduce(114);
 					else error();
 					break;
 					
@@ -1403,15 +1417,16 @@ public class Parser {
 					else error();
 					break;
 
-					// double reduce
-				// case 103:
-				// 	if(checkReduce.contains(currentToken.getName())
-				// 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.AND_OP.toString())) 
-				// 			reduce(95);
-				// 	else error();
-				// 	break;
-
+				case 103:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
+						if (previousToken.getName().equals("OR_OP")) reduce(92);
+						else reduce(93);
+					} 
+					else error();
+					break;
+					
 				// case 104:
 				// 	if(checkReduce.contains(currentToken.getName())
 				// 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
@@ -2793,7 +2808,7 @@ public class Parser {
 	}
 	
 	private static void reduce(int rule) {
-		System.out.println("Reduce: " + currentToken.toString());
+		System.out.println("Reduce: " + previousToken.toString());
         int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
         TokenNode node = new TokenNode();
