@@ -1458,21 +1458,28 @@ public class Parser {
 					else error();
 					break;
 
-				// case 106:
-				// 	if(checkReduce.contains(currentToken.getName())
-				// 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.AND_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) 
-				// 			reduce(105);
-				// 	else error();
-				// 	break;
-
-					//triple reduce
+				case 106:
+				 	if(checkReduce.contains(currentToken.getName())
+				 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.AND_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+				 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) {
+				 		if (previousToken.getName().equals(TokenName.GREAT_OP.toString()))
+				 			reduce(99);
+				 		else if (previousToken.getName().equals(TokenName.LESS_OP.toString()))
+				 			reduce(100);
+				 		else if (previousToken.getName().equals(TokenName.GREAT_EQ_OP.toString()))
+				 			reduce(101);
+				 		else if (previousToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
+				 			reduce(102);
+				 		else reduce(103);
+				 	}
+				 	else error();
+				 	break;
 				
 				case 107:
 					if(currentToken.getName().equals(TokenName.VAR.toString()))
