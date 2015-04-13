@@ -133,7 +133,8 @@ public class Parser {
 	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
 	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
 	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
-	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString());
+	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString(),
+	    		TokenName.OUTPUT.toString());
 
 	    List<String> checkReduce6 = Arrays.asList(
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
@@ -188,7 +189,7 @@ public class Parser {
 				case 1:
 					if (currentToken.getName() == "$") {
 						System.out.println("before if else + currentToken:" + currentToken.toString());
-						
+						System.out.println(tokenStack.get(0).toString());
 						// error
                         if (tokenStack.get(1).getChildren().size() == 0) {
                             System.err.println("Parse tree is broken!\nProbably a STATEMENT reduction problem.");
@@ -283,33 +284,7 @@ public class Parser {
 					break;
 					
 				case 11:
-					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						shift(144);
-					else if (currentToken.getName().equals(TokenName.ASSIGN.toString()))
-						shift(54);
-					/* di ko sure kung may procedure calls,  wala sa table eh*/
-					else if (currentToken.getName().equals(TokenName.PROC_CALL.toString()))
-						shift(142);
-					else if(currentToken.getName().equals(TokenName.BREAK.toString()))
-						shift(25);
-					else if(currentToken.getName().equals(TokenName.CONTINUE.toString()))
-						shift(26);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
-						shift(27);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
-						shift(28);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString()))
-						shift(29);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString()))
-						shift(30);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString()))
-						shift(31);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
-						shift(32);
-					else if(currentToken.getName().equals(TokenName.INPUT.toString()))
-						shift(88);
-					else if(currentToken.getName().equals(TokenName.OUTPUT.toString()))
-						shift(90);
+				
 					/*
 					else if(currentToken.getName().equals(TokenName.DO.toString()))
 						shift(159);
@@ -318,7 +293,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString()))
 						shift(140);
 					*/
-					else if(stackTop.equals("<STATEMENTS>") && tokenTop == null){
+					if(stackTop.equals("<STATEMENTS>") && tokenTop == null){
 						state = 134;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MORE_STATEMENTS>") && tokenTop == null){
@@ -396,7 +371,35 @@ public class Parser {
 					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null){
 						state = 42;
 						stateStack.push(state);
-					} else error();
+					} 
+					else if (currentToken.getName().equals(TokenName.VAR.toString()))
+						shift(144);
+					else if (currentToken.getName().equals(TokenName.ASSIGN.toString()))
+						shift(54);
+					/* di ko sure kung may procedure calls,  wala sa table eh*/
+					else if (currentToken.getName().equals(TokenName.PROC_CALL.toString()))
+						shift(142);
+					else if(currentToken.getName().equals(TokenName.BREAK.toString()))
+						shift(25);
+					else if(currentToken.getName().equals(TokenName.CONTINUE.toString()))
+						shift(26);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
+						shift(27);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
+						shift(28);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString()))
+						shift(29);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString()))
+						shift(30);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString()))
+						shift(31);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
+						shift(32);
+					else if(currentToken.getName().equals(TokenName.INPUT.toString()))
+						shift(88);
+					else if(currentToken.getName().equals(TokenName.OUTPUT.toString()))
+						shift(90);
+					else error();
 					break;
 					
 				case 12:
@@ -1427,14 +1430,15 @@ public class Parser {
 					else error();
 					break;
 
-				// case 104:
-				// 	if(checkReduce.contains(currentToken.getName())
-				// 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
-				// 		|| currentToken.getName().equals(TokenName.AND_OP.toString())) 
-				// 			reduce(97);
-				// 	else error();
-				// 	break;
-					//double reduce
+				case 104:
+					if(checkReduce.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
+						if (previousToken.getName().equals("AND_OP")) reduce(92);
+						else reduce(93);
+					} 
+					else error();
+					break;
 
 				// case 105:
 				// 	if(checkReduce.contains(currentToken.getName())
@@ -1557,7 +1561,7 @@ public class Parser {
 					break;
 
 				case 109:
-					if(checkReduce4.contains(currentToken.getName())) reduce(112);
+					if(checkReduce4.contains(currentToken.getName())) reduce(110);
 					else error();
 					break;
 
@@ -1917,6 +1921,7 @@ public class Parser {
 
 				case 136:
 					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
+					else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
 					else error();
 					break;
 
