@@ -1918,7 +1918,6 @@ public class Parser {
 
 					// may double reduce
 				case 136:
-<<<<<<< HEAD
 					// if(currentToken.getName().equals(TokenName.VAR.toString()))
 					// 	reduce(16);
 					// 	shift(114);
@@ -2024,11 +2023,6 @@ public class Parser {
 						state = 42;
 						stateStack.push(state);
 					} else error();
-=======
-					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
-					else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
-					else error();
->>>>>>> 21745ce3d1202fed0b95824f0e9b469141883037
 					break;
 
 				case 137:
