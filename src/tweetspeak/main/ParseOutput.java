@@ -96,6 +96,7 @@ public class ParseOutput implements ActionListener {
 			try {
 				GrammarRules.initialize();
 				new Parser();
+				GrammarRules.initialize();
 			} catch (IOException e) {}
 			text += "PARSE TREE: \n============================================================================================================================================\n\n"; 
 			if (Parser.parse()) text += Parser.getRoot().toString()  + "\n";

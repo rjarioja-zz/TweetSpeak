@@ -10,12 +10,12 @@ import java.util.StringTokenizer;
 public class GrammarRules {
 	/*
 	 * Change to this
-	 * private static String path = "grammar/ProductionRules.cfg";
-	 * 
+	 */ private static String path = "grammar/ProductionRules.cfg";
+	 /* 
 	 */
 	
 	// test rules
-	private static String path = "grammar/TestProductionRules.cfg";
+	// private static String path = "grammar/TestProductionRules.cfg";
 	private static File file = new File(path);
 	private static Scanner scanner;
 	

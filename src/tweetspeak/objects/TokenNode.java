@@ -57,15 +57,18 @@ public class TokenNode {
 		children.add(index, child); 
 	}
 	
-	@Override
 	public String toString() {
-		String tree = "Node[" + data + "] Children{";
+		String tree = "Node[" + data;
+		if (token != null && !(token.getName().equals("INDENT") || token.getName().equals("DEDENT"))) 
+			tree += " = " + getToken().getLexeme() + "]";
+		else tree += "]";
+		tree += ", Children{";
 
 		for (int ctr = 0; ctr < children.size(); ctr++) {
 			if (ctr > 0) {
 				tree += ", ";
 			}
-			tree += "\n\t" + children.get(ctr).toString();
+			tree += children.get(ctr).toString();
 		}
 		tree += "}";
 		return tree;
