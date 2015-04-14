@@ -1,7 +1,9 @@
 package tweetspeak.functions;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
 import tweetspeak.collections.TokenType;
@@ -200,7 +202,7 @@ public class Parser {
 				case 3:
 					if (currentToken.getName().equals(TokenName.INDENT.toString())) 
 						shift(4);
-					else errorMsg("an indent.");
+					//else errorMsg("an indent.");
 					break;
 					
 				case 4:
@@ -265,7 +267,7 @@ public class Parser {
 				case 10:
 					if(currentToken.getName().equals("INDENT"))
 						shift(11);
-					else errorMsg("an indent.");
+					//else errorMsg("an indent.");
 					break;
 					
 				case 11:
@@ -694,7 +696,7 @@ public class Parser {
 					break;
 
 				case 56:
-					if(checkReduce.contains(currentToken.getName())) reduce(27);  
+					if(checkReduce.contains(currentToken.getName())) reduce(29);  
 					else error();
 					break;
 
@@ -709,7 +711,7 @@ public class Parser {
 					break;
 
 				case 58:
-					if(checkReduce.contains(currentToken.getName())) reduce(57);  
+					if(checkReduce.contains(currentToken.getName())) reduce(55);  
 					else error();
 					break;
 
@@ -1205,6 +1207,9 @@ public class Parser {
 					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
 						state = 92;
 						stateStack.push(state);
+					} else if(stackTop.equals("<CONST>") && tokenTop == null){
+						state = 93;
+						stateStack.push(state);
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
@@ -1255,7 +1260,7 @@ public class Parser {
 					break;
 
 				case 92:
-					if(checkReduce4.contains(currentToken.getName())) reduce(91);
+					if(checkReduce4.contains(currentToken.getName())) reduce(90);
 					else if(currentToken.getName().equals(TokenName.CONCAT.toString())) shift(116);
 					else error();
 					break;
@@ -1272,7 +1277,7 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
-						reduce(112);
+						reduce(110);
 					else error();
 					break;
 
@@ -2522,7 +2527,8 @@ public class Parser {
 	}
 	
 	private static void reduce(int rule) {
-		System.out.println("Reduce: " + currentToken.toString());
+		System.out.print("Reduce: " + currentToken.toString());
+		System.out.println(" by " + GrammarRules.getRule(rule));
         int ruleLength = GrammarRules.getRule(rule).size() - 1;
 
         TokenNode node = new TokenNode();
@@ -2554,6 +2560,7 @@ public class Parser {
         
         System.out.println("top of stack = " + tokenStack.peek().toString());
         System.out.println("stack top " + tokenStack.peek().getData());
+        System.out.println("current state = " + stateStack.peek().toString());
     }
 	
 	private static void shift(int nextState) {
