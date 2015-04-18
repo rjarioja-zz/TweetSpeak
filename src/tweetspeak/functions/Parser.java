@@ -1,9 +1,7 @@
 package tweetspeak.functions;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-
 import tweetspeak.collections.GrammarRules;
 import tweetspeak.collections.TokenName;
 import tweetspeak.collections.TokenType;
