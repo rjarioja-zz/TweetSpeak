@@ -3071,6 +3071,7 @@ public class Parser {
 					} else error();
 					break;
 
+					//state 192 - 194 conflict
 				case 192:
 					if(currentToken.getName().equals(TokenName.INDENT.toString())) shift(203);
 					else if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(74);
@@ -3089,7 +3090,7 @@ public class Parser {
 					else error();
 					break;
 
-				case 196:
+				case 196://conflict
 					System.out.println("pasok 196");
 					if(currentToken.getName().equals(TokenName.WHILE.toString()))
 						shift(216);
@@ -3101,7 +3102,11 @@ public class Parser {
 					break;
 
 				case 198:
-					if(currentToken.getName().equals(TokenName.BREAK.toString())) shift(25);
+					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(144);
+					else if(currentToken.getName().equals(TokenName.ASSIGN.toString())) shift(54);
+					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) shift(149);
+					else if(currentToken.getName().equals(TokenName.PROC_RET.toString())) shift(219);
+					else if(currentToken.getName().equals(TokenName.BREAK.toString())) shift(25);
 					else if(currentToken.getName().equals(TokenName.CONTINUE.toString())) shift(26);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString())) shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())) shift(28);
@@ -3112,6 +3117,8 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.INPUT.toString())) shift(88);
 					else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
 					else if(currentToken.getName().equals(TokenName.IF.toString())) shift(165);
+					else if(currentToken.getName().equals(TokenName.DO.toString())) shift(218);
+					else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
 					else if(stackTop.equals("<MORE_STATEMENTS>") && tokenTop == null){
@@ -3166,7 +3173,7 @@ public class Parser {
 						state = 35;
 						stateStack.push(state);
 					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
-						state = 33;
+						state = 206;
 						stateStack.push(state);
 					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
 						state = 36;
