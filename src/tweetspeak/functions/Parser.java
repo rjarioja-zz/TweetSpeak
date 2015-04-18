@@ -360,7 +360,7 @@ public class Parser {
 						state = 35;
 						stateStack.push(state);
 					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
-						state = 33;
+						state = 206;
 						stateStack.push(state);
 					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
 						state = 36;
