@@ -66,7 +66,7 @@ public class Parser {
 	    
 	    /* AHHHHHHHHHHH OKIE :D */
 
-	    //12 - 26
+	    //12 - 26 WITH else_if & else
 	    List<String> checkReduce = Arrays.asList(
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
@@ -125,10 +125,9 @@ public class Parser {
 	    		TokenName.DIF_OP.toString(),			TokenName.INPUT.toString(),
 	    		TokenName.OUTPUT.toString(),			TokenName.MUL_OP.toString(),
 	    		TokenName.DIV_OP.toString(),			TokenName.MOD_OP.toString(),
-	    		TokenName.EXP_OP.toString(),			TokenName.LEFT_PAREN.toString(),
-	    		TokenName.RIGHT_PAREN.toString());
+	    		TokenName.EXP_OP.toString(),    		TokenName.RIGHT_PAREN.toString());
 	    
-	    //state 43 - 73 pero di lahat
+	    //43 - 73 pero di lahat -- same as checkReduce but WITHOUT else_if & else    
 	    List<String> checkReduce5 = Arrays.asList(	
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
@@ -750,7 +749,7 @@ public class Parser {
 					break;
 
 				case 56:
-					if(checkReduce.contains(currentToken.getName())) reduce(29);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(27);  
 					else error();
 					break;
 
@@ -761,17 +760,17 @@ public class Parser {
 						shift(66);
 					else if(currentToken.getName().equals(TokenName.DIF_OP.toString()))
 						shift(85);
-					else if(checkReduce.contains(currentToken.getName())) reduce(54);
+					else if(checkReduce5.contains(currentToken.getName())) reduce(54);
 					else error();
 					break;
 
 				case 58:
-					if(checkReduce.contains(currentToken.getName())) reduce(55);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(55);  
 					else error();
 					break;
 
 				case 59:
-					if(checkReduce.contains(currentToken.getName())) reduce(56);
+					if(checkReduce5.contains(currentToken.getName())) reduce(56);
 					else if (currentToken.getName().equals(TokenName.OR_OP.toString())) shift(108);
 					else error();
 					break;
@@ -829,12 +828,12 @@ public class Parser {
 					break;
 
 				case 64:
-					if(checkReduce.contains(currentToken.getName())) reduce(57);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(57);  
 					else error();
 					break;
 
 				case 65:
-					if(checkReduce.contains(currentToken.getName())) reduce(58);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(58);  
 					else error();
 					break;
 
@@ -1179,10 +1178,10 @@ public class Parser {
 						shift(83);
 					else if(currentToken.getName().equals(null))
 						shift(82);
-					else if(stackTop.equals("<EXPRESSIONS>") && tokenTop == null){
+					/*else if(stackTop.equals("<EXPRESSIONS>") && tokenTop == null){
 						state = 113;
 						stateStack.push(state);
-					} else if(stackTop.equals("<CALL_PARAMS>") && tokenTop == null){
+					}*/ else if(stackTop.equals("<CALL_PARAMS>") && tokenTop == null){
 						state = 112;
 						stateStack.push(state);
 					} else if(stackTop.equals("<VALUE>") && tokenTop == null){
@@ -1204,7 +1203,7 @@ public class Parser {
 					break;
 
 				case 89:
-					if(checkReduce.contains(currentToken.getName())) reduce(47);
+					if(checkReduce5.contains(currentToken.getName())) reduce(47);
 					else error();
 					break;
 
