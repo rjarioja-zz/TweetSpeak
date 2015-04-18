@@ -390,12 +390,14 @@ public class Parser {
 						shift(54);
 					/* di ko sure kung may procedure calls,  wala sa table eh*/
 					else if (currentToken.getName().equals(TokenName.PROC_CALL.toString()))
-						shift(142);
+						shift(149);
+					else if (currentToken.getName().equals(TokenName.PROC_RET.toString()))
+						shift(219);
 					else if(currentToken.getName().equals(TokenName.BREAK.toString()))
 						shift(25);
 					else if(currentToken.getName().equals(TokenName.CONTINUE.toString()))
 						shift(26);
-					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
+					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))	
 						shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
 						shift(28);
@@ -411,6 +413,17 @@ public class Parser {
 						shift(88);
 					else if(currentToken.getName().equals(TokenName.OUTPUT.toString()))
 						shift(90);
+					else if(currentToken.getName().equals(TokenName.IF.toString()))
+						shift(165);
+					else if(currentToken.getName().equals(TokenName.DO.toString()))
+						shift(218);
+					else if(currentToken.getName().equals(TokenName.WHILE.toString()))
+						shift(216);
+					else if(currentToken.getName().equals(TokenName.INC_OP.toString()))
+						shift(140);
+					else if(currentToken.getName().equals(TokenName.DEC_OP.toString()))
+						shift(142);
+					
 					else error();
 					break;
 					
