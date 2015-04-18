@@ -2609,6 +2609,7 @@ public class Parser {
 					} else error();
 					break;
 
+				//state 167 to state 171 conflicts
 				 case 167:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
 						 if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.NOT_OP.toString()))
