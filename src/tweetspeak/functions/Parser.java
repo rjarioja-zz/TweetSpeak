@@ -127,8 +127,9 @@ public class Parser {
 	    		TokenName.DIV_OP.toString(),			TokenName.MOD_OP.toString(),
 	    		TokenName.EXP_OP.toString(),			TokenName.LEFT_PAREN.toString(),
 	    		TokenName.RIGHT_PAREN.toString());
-
-	    List<String> checkReduce5 = Arrays.asList(
+	    
+	    //state 43 - 73 pero di lahat
+	    List<String> checkReduce5 = Arrays.asList(	
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
 	    		TokenName.PROC_CALL.toString(), 		TokenName.BREAK.toString(),
@@ -136,6 +137,7 @@ public class Parser {
 	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
 	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
 	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
+	    		TokenName.DO.toString(),				TokenName.WHILE.toString(),
 	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
 	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString(),
 	    		TokenName.OUTPUT.toString());
@@ -277,7 +279,13 @@ public class Parser {
 					else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null) {
 						state = 9;
 						stateStack.push(state);
-					} else
+					} else if(stackTop.equals("<SUB_FUNCTION>") && tokenTop == null) {
+						state = 221;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null) {
+						state = 223;
+						stateStack.push(state);
+					}else
 						error();
 					break;
 					
@@ -528,7 +536,7 @@ public class Parser {
 					
 				case 31:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
-						reduce(43);
+						reduce(45);
 					else error();
 					break;
 					
@@ -538,10 +546,10 @@ public class Parser {
 					else error();
 					break;
 
-				case 33:
+				/*case 33:
 					if(checkReduce.contains(currentToken.getName())) reduce(49);
 					else error();
-					break;
+					break;*/
 					
 				case 34:
 					if(checkReduce.contains(currentToken.getName())) reduce(50);  
@@ -590,7 +598,7 @@ public class Parser {
 					break;
 					
 				case 43:
-					if(checkReduce.contains(currentToken.getName())) reduce(25);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(25);  
 					else if(currentToken.getName().equals(TokenName.ASSIGN_OP.toString()))
 						shift(44);
 					else error();
@@ -622,47 +630,47 @@ public class Parser {
 					} break;
 					
 				case 45: 
-					if(checkReduce.contains(currentToken.getName())) reduce(26);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(26);  
 					else error();
 					break;
 					
 				case 46:
-					if(checkReduce.contains(currentToken.getName())) reduce(112);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(112);  
 					else error();
 					break;
 					
 				case 47:
-					if(checkReduce.contains(currentToken.getName())) reduce(113);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(113);  
 					else error();
 					break;
 					
 				case 48:
-					if(checkReduce.contains(currentToken.getName())) reduce(114);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(114);  
 					else error();
 					break;
 					
 				case 49: 
-					if(checkReduce.contains(currentToken.getName())) reduce(115);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(115);  
 					else error();
 					break;
 					
 				case 50: 
-					if(checkReduce.contains(currentToken.getName())) reduce(116);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(116);  
 					else error();
 					break;
 					
 				case 51: 
-					if(checkReduce.contains(currentToken.getName())) reduce(117);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(117);  
 					else error();
 					break;
 					
 				case 52: 
-					if(checkReduce.contains(currentToken.getName())) reduce(118);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(118);  
 					else error();
 					break;
 					
 				case 53:
-					if(checkReduce.contains(currentToken.getName())) reduce(119);  
+					if(checkReduce5.contains(currentToken.getName())) reduce(119);  
 					else error();
 					break;
 					
