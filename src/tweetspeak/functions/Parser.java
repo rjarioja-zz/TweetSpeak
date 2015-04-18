@@ -125,7 +125,7 @@ public class Parser {
 	    		TokenName.DIV_OP.toString(),			TokenName.MOD_OP.toString(),
 	    		TokenName.EXP_OP.toString());
 	    
-	    //43 - 73 pero di lahat -- same as checkReduce but WITHOUT else_if & else    
+	    //43 - 73 pero di lahat -- same as checkReduce but WITHOUT else_if & else 
 	    List<String> checkReduce5 = Arrays.asList(	
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
@@ -181,6 +181,18 @@ public class Parser {
 				TokenName.EQUAL_OP.toString(),			TokenName.NOT_EQUAL_OP.toString(),
 				TokenName.GREAT_OP.toString(),			TokenName.LESS_OP.toString(),
 				TokenName.GREAT_EQ_OP.toString());
+		
+		List<String> nostmtsep = Arrays.asList(	//similar to checkReduce5 but WITHOUT stme_sep for 200th+ states
+	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
+	    		TokenName.ASSIGN.toString(),			TokenName.PROC_CALL.toString(), 
+	    		TokenName.CONTINUE.toString(),	 		TokenName.BREAK.toString(),
+	    		TokenName.OUTPUT.toString(),			TokenName.DATATYPE_BOOL.toString(),
+	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
+	    		TokenName.DATATYPE_INT.toString(), 		TokenName.DATATYPE_STRING.toString(),
+	    		TokenName.DATATYPE_VOID.toString(), 	TokenName.IF.toString(),
+	    		TokenName.DO.toString(),				TokenName.WHILE.toString(),
+	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
+	    		TokenName.PROC_RET.toString(),			TokenName.INPUT.toString());
 
 	    getToken();
 	    System.out.println("START PARSE WITH: " + currentToken.toString());
@@ -2581,6 +2593,7 @@ public class Parser {
 					else error();
 					break;
 
+				//state 167 to state 171 conflicts
 				 case 167:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
 						 if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.NOT_OP.toString()))
@@ -3044,6 +3057,7 @@ public class Parser {
 					} else error();
 					break;
 
+					//state 192 - 194 conflict
 				case 192:
 					if(currentToken.getName().equals(TokenName.INDENT.toString())) shift(203);
 					else if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(74);
@@ -3062,7 +3076,7 @@ public class Parser {
 					else error();
 					break;
 
-				case 196:
+				case 196://conflict
 					System.out.println("pasok 196");
 					if(currentToken.getName().equals(TokenName.WHILE.toString()))
 						shift(216);
@@ -3074,7 +3088,11 @@ public class Parser {
 					break;
 
 				case 198:
-					if(currentToken.getName().equals(TokenName.BREAK.toString())) shift(25);
+					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(144);
+					else if(currentToken.getName().equals(TokenName.ASSIGN.toString())) shift(54);
+					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) shift(149);
+					else if(currentToken.getName().equals(TokenName.PROC_RET.toString())) shift(219);
+					else if(currentToken.getName().equals(TokenName.BREAK.toString())) shift(25);
 					else if(currentToken.getName().equals(TokenName.CONTINUE.toString())) shift(26);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString())) shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())) shift(28);
@@ -3085,6 +3103,8 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.INPUT.toString())) shift(88);
 					else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
 					else if(currentToken.getName().equals(TokenName.IF.toString())) shift(165);
+					else if(currentToken.getName().equals(TokenName.DO.toString())) shift(218);
+					else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
 					else if(stackTop.equals("<MORE_STATEMENTS>") && tokenTop == null){
@@ -3139,7 +3159,7 @@ public class Parser {
 						state = 35;
 						stateStack.push(state);
 					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
-						state = 33;
+						state = 206;
 						stateStack.push(state);
 					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
 						state = 36;
