@@ -3805,6 +3805,29 @@ public class Parser {
 					break;
 					
 				case 221:
+					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(7);
+					else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null){
+						state = 222;
+						stateStack.push(state);
+					}else if(stackTop.equals("<SUB_FUNCTION>") && tokenTop == null){
+						state = 221;
+						stateStack.push(state);
+					}else if(stackTop.equals("<DATATYPE>") && tokenTop == null){
+						state = 223;
+						stateStack.push(state);
+					}else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString()))
+						shift(27);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString()))
+						shift(28);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString()))
+						shift(29);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString()))
+						shift(30);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString()))
+						shift(31);
+					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
+						shift(32);
+					else error();
 					break;
 					
 				case 222:
