@@ -92,8 +92,8 @@ public class Parser {
 	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
 	    		TokenName.PROC_RET.toString(),			TokenName.ADD_OP.toString(),
 	    		TokenName.DIF_OP.toString(),			TokenName.INPUT.toString(),
-	    		TokenName.OUTPUT.toString());
-	    
+	    		TokenName.OUTPUT.toString());			
+	    		
 	    List<String> checkReduce3 = Arrays.asList(
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
@@ -108,7 +108,8 @@ public class Parser {
 	    		TokenName.DIF_OP.toString(),			TokenName.INPUT.toString(),
 	    		TokenName.OUTPUT.toString(),			TokenName.MUL_OP.toString(),
 	    		TokenName.DIV_OP.toString(),			TokenName.MOD_OP.toString());
-
+	    		
+	    
 	    List<String> checkReduce4 = Arrays.asList(
 	    		TokenName.VAR.toString(), 				TokenName.DEDENT.toString(),
 	    		TokenName.STMT_SEP.toString(), 			TokenName.ASSIGN.toString(),
@@ -857,6 +858,11 @@ public class Parser {
 				case 67: 
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(79);
+					//dag2
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(79);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(79);
 					else if (currentToken.getName().equals(TokenName.MUL_OP.toString()))
 						shift(69);
 					else if (currentToken.getName().equals(TokenName.DIV_OP.toString()))
@@ -868,6 +874,10 @@ public class Parser {
 
 				case 68:
 					if(checkReduce3.contains(currentToken.getName()))
+						reduce(85);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(85);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
 						reduce(85);
 					else error();
 					break;
@@ -986,6 +996,10 @@ public class Parser {
 				case 72:
 					if(checkReduce2.contains(currentToken.getName()))
 						reduce(81);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(82);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(82);
 					else if (currentToken.getName().equals(TokenName.MUL_OP.toString()))
 						shift(69);
 					else if (currentToken.getName().equals(TokenName.DIV_OP.toString()))
@@ -997,6 +1011,10 @@ public class Parser {
 
 				case 73:
 					if(checkReduce3.contains(currentToken.getName()))
+						reduce(87);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(87);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
 						reduce(87);
 					else if (currentToken.getName().equals(TokenName.EXP_OP.toString()))
 						shift(74);
@@ -1346,6 +1364,8 @@ public class Parser {
 
 				case 93: 
 					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())
 						|| currentToken.getName().equals(TokenName.CONCAT.toString())
 						|| currentToken.getName().equals(TokenName.OR_OP.toString())
 						|| currentToken.getName().equals(TokenName.AND_OP.toString())
@@ -1362,6 +1382,8 @@ public class Parser {
 
 				case 94:
 					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
 						|| currentToken.getName().equals(TokenName.CONCAT.toString())
 						|| currentToken.getName().equals(TokenName.OR_OP.toString())
 						|| currentToken.getName().equals(TokenName.AND_OP.toString())
