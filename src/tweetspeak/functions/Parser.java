@@ -3524,6 +3524,8 @@ public class Parser {
 						shift(54);
 					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString()))
 						shift(149);
+					else if(currentToken.getName().equals(TokenName.PROC_RET.toString()))
+						shift(219);
 					else if(currentToken.getName().equals(TokenName.BREAK.toString()))
 						shift(25);
 					else if(currentToken.getName().equals(TokenName.CONTINUE.toString())) 
@@ -3796,7 +3798,10 @@ public class Parser {
 						shift(100);					
 					else error();
 					break;
-			
+
+				case 220:
+					break;
+
 			} // end of switch
 		}
 	}
