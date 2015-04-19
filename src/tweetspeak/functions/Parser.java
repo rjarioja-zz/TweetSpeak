@@ -154,14 +154,15 @@ public class Parser {
 	    		TokenName.DATATYPE_BOOL.toString(),		TokenName.DATATYPE_INT.toString(), 
 	    		TokenName.DATATYPE_CHAR.toString(),		TokenName.DATATYPE_FLOAT.toString(),
 	    		TokenName.DATATYPE_VOID.toString(),		TokenName.DATATYPE_STRING.toString(),
-	    		TokenName.IF.toString(),
+	    		TokenName.IF.toString(),				TokenName.ELSE_IF.toString(),
 	    		TokenName.DO.toString(), 				TokenName.WHILE.toString(),
 	    		TokenName.INC_OP.toString(), 			TokenName.DEC_OP.toString(),
 	    		TokenName.INPUT.toString(),				TokenName.OUTPUT.toString(),
 	    		TokenName.GREAT_EQ_OP.toString(),		TokenName.LESS_EQ_OP.toString(),
 				TokenName.OR_OP.toString(),				TokenName.AND_OP.toString(),
 				TokenName.EQUAL_OP.toString(),			TokenName.NOT_EQUAL_OP.toString(),
-				TokenName.GREAT_OP.toString(),			TokenName.LESS_OP.toString());
+				TokenName.GREAT_OP.toString(),			TokenName.LESS_OP.toString(),
+				TokenName.ELSE.toString());
 
 	    List<String> rightParenParamSep = Arrays.asList(
 	    		TokenName.RIGHT_PAREN.toString(), 		TokenName.PARAM_SEP.toString());
@@ -202,8 +203,12 @@ public class Parser {
 	    System.out.println("START PARSE WITH: " + currentToken.toString());
 
 		while (true) {
-			String stackTop = tokenStack.peek().getData();
+			String stackTop, stackNextTop = "";
+			stackTop= tokenStack.peek().getData();
+			if (tokenStack.size() >= 2) stackNextTop = tokenStack.get(tokenStack.size() - 2).getData();
             Token tokenTop = tokenStack.peek().getToken();
+            //Token tokenNextTop = tokenStack.get(tokenStack.size() - 2).getToken();
+            
             
 			switch (state) {
 				case 0:
@@ -273,25 +278,23 @@ public class Parser {
                     break;
                     
 				case 8:
-					if (currentToken.getName().equals("DEDENT"))
-						reduce(4);
+					if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null) {
+						state = 9;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null) {
+						state = 223;
+						stateStack.push(state);
+					} else if(stackTop.equals("<SUB_FUNCTION>") && tokenTop == null) {
+						state = 221;
+						stateStack.push(state);
+					} else if (currentToken.getName().equals("DEDENT")) reduce(4);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString())) shift(27);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())) shift(28);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString())) shift(29);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())) shift(30);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())) shift(31);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())) shift(32);
-					else if(stackTop.equals("<SUB_FUNCTIONS>") && tokenTop == null) {
-						state = 9;
-						stateStack.push(state);
-					} else if(stackTop.equals("<SUB_FUNCTION>") && tokenTop == null) {
-						state = 221;
-						stateStack.push(state);
-					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null) {
-						state = 223;
-						stateStack.push(state);
-					}else
-						error();
+					else error();
 					break;
 					
 				case 9:
@@ -307,14 +310,14 @@ public class Parser {
 					
 				case 11:
 					System.out.println("State 11 stack top: " + tokenStack.get(tokenStack.size() - 1).getData());
-					System.out.println("State 11 next top: " + tokenStack.get(tokenStack.size() - 2).getData());
+					System.out.println("State 11 next top: " + stackNextTop);
 					/*
 					else if(currentToken.getName().equals(TokenName.DO.toString())) shift(159);
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(135);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(140);
 					*/
 					if(stackTop.equals("<STATEMENTS>") && tokenTop == null){
-						/*if (tokenStack.get(tokenStack.size() - 2).getData().equals("<STATEMENT>")) state = 136;
+						/*if (stackNextTop.equals("<STATEMENT>")) state = 136;
 						else state = 134;*/
 						state = 134;
 						stateStack.push(state);
@@ -574,7 +577,7 @@ public class Parser {
 					break;
 					
 				case 43:
-					if(checkReduce5.contains(currentToken.getName())) reduce(25);  
+					if(checkReduce.contains(currentToken.getName())) reduce(25);  
 					else if(currentToken.getName().equals(TokenName.ASSIGN_OP.toString())) shift(44);
 					else error();
 					break;
@@ -649,19 +652,7 @@ public class Parser {
 					break;
 					
 				case 55:
-					/* missing entries in le parsing table */
-					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(94);
-					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(91);
-					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) shift(60);
-					else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(95);
-					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(96);
-					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(97);
-					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(98);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
-					else if(currentToken.getName().equals(null)) shift(100);
-					else if(stackTop.equals("<EXPRESSIONS>") && tokenTop == null){
+					if (stackTop.equals("<EXPRESSIONS>") && tokenTop == null){
 						state = 56;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MATH_EXPR>") && tokenTop == null){
@@ -703,7 +694,18 @@ public class Parser {
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
-					} else error();
+					} else if(currentToken.getName().equals(TokenName.VAR.toString())) shift(94);
+					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(91);
+					else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) shift(60);
+					else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(95);
+					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(96);
+					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(97);
+					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(98);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
+					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
+					else error();
 					break;
 
 				case 56:
@@ -855,7 +857,7 @@ public class Parser {
 					break;
 
 				case 70:
-					if(stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
+					if (stackTop.equals("<MATH_EXPR3>") && tokenTop == null){
 						state = 111;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
@@ -920,8 +922,7 @@ public class Parser {
 					break;
 
 				case 73:
-					if(checkReduce3.contains(currentToken.getName()))
-						reduce(87);
+					if (checkReduce3.contains(currentToken.getName())) reduce(87);
 					else if (currentToken.getName().equals(TokenName.EXP_OP.toString())) shift(74);
 					else error();
 					break;
@@ -1036,8 +1037,7 @@ public class Parser {
 					break;
 
 				case 86:
-					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString()))
-						reduce(60);
+					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(60);
 					else if(currentToken.getName().equals(TokenName.PARAM_SEP.toString())) shift(87);
 					else error();
 					break;
@@ -1134,16 +1134,7 @@ public class Parser {
 					break;
 
 				case 91:
-					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(110);
-					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(91);
-					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(95);
-					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(96);
-					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(97);
-					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(98);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
-					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else if(stackTop.equals("<MATH_EXPR>") && tokenTop == null){
+					if(stackTop.equals("<MATH_EXPR>") && tokenTop == null){
 						state = 57;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MATH_EXPR2>") && tokenTop == null){
@@ -1164,12 +1155,21 @@ public class Parser {
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 99;
 						stateStack.push(state);
-					} else error();
+					} else if(currentToken.getName().equals(TokenName.VAR.toString())) shift(110);
+					else if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(91);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(95);
+					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(96);
+					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(97);
+					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(98);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
+					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
+					else error();
 					break;
 
 				case 92:
 					if (checkReduce.contains(currentToken.getName())) {
-						String nextTop = tokenStack.get(tokenStack.size() - 2).getData();
+						String nextTop = stackNextTop;
 						switch(nextTop) {
 							case "ADD_OP": 		case "DIF_OP":
 							case "MUL_OP": 		case "DIV_OP":
@@ -1289,13 +1289,15 @@ public class Parser {
 
 					//state 103 to state 106 conflictz
 				case 103:
-					if(checkReduce5.contains(currentToken.getName())
+					if(checkReduce.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.OR_OP.toString())) {
-							if (previousToken.getName().equals("OR_OP")) reduce(92);
-							else reduce(93);
+							if (stackTop.equals("<REL_EXPR2>")) {
+								if (stackNextTop.equals("OR_O")) reduce(92);
+								else reduce(93);
+							}
 					} else if(currentToken.getName().equals(TokenName.AND_OP.toString())) {
-							if (previousToken.getName().equals("OR_OP")) reduce(92);
-							else reduce(118);
+							if (stackTop.equals("<REL_EXPR2>")) reduce(93);
+							else shift(118);
 					} else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString())
 				 		|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
 				 		|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
@@ -1306,11 +1308,13 @@ public class Parser {
 					break;
 
 				case 104:
-					if(checkReduce5.contains(currentToken.getName())
+					if(checkReduce.contains(currentToken.getName())
 						|| currentToken.getName().equals(TokenName.OR_OP.toString())
 						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
-							if (previousToken.getName().equals("AND_OP")) reduce(94);
+						if (stackTop.equals("<REL_EXPR3>")) {
+							if (stackNextTop.equals("AND_OP")) reduce(94);
 							else reduce(95);
+						}
 					} else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString())) shift(114);
 					else if(currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) shift(119);
 					else if(currentToken.getName().equals(TokenName.GREAT_OP.toString())
@@ -1322,31 +1326,24 @@ public class Parser {
 					break;
 
 				case 105:
-					if(checkReduce6.contains(currentToken.getName())
-						|| currentToken.getName().equals(TokenName.OR_OP.toString())
-						|| currentToken.getName().equals(TokenName.AND_OP.toString())) {
-						if (previousToken.getName().equals("AND_OP")) reduce(94);
-						else reduce(95);
-					} else if(currentToken.getName().equals(TokenName.EQUAL_OP.toString())) shift(114);
-					else if(currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) shift(119);
-					else error();
+					if (checkReduce6.contains(currentToken.getName())) {
+						if (stackTop.equals("<REL_EXPR4>")) {
+							if (stackNextTop.equals("EQUAL_OP")) reduce(96);
+							else if (stackNextTop.equals("NOT_EQUAL_OP")) reduce(97);
+							else reduce(98);
+						}
+					} else error();
 					break;
 
 				case 106:
-				 	if(checkReduce.contains(currentToken.getName())
-				 		|| currentToken.getName().equals(TokenName.OR_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.AND_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.LESS_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
-				 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) {
-				 		if (previousToken.getName().equals(TokenName.GREAT_OP.toString())) reduce(99);
-				 		else if (previousToken.getName().equals(TokenName.LESS_OP.toString())) reduce(100);
-				 		else if (previousToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(101);
-				 		else if (previousToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(102);
-				 		else reduce(103);
+				 	if(checkReduce6.contains(currentToken.getName())) {
+				 		if (stackTop.equals("<REL_EXPR5>")) {
+							if (stackNextTop.equals("GREAT_OP")) reduce(99);
+							else if (stackNextTop.equals("LESS_OP>")) reduce(100);
+							else if (stackNextTop.equals("GREAT_EQ_OP>")) reduce(101);
+							else if (stackNextTop.equals("LESS_EQ_OP>")) reduce(102);
+							else reduce(103);
+						}
 				 	}
 				 	else error();
 				 	break;
@@ -1452,15 +1449,7 @@ public class Parser {
 					break;
 
 				case 114:
-					if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(126);
-					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(127);
-					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(128);
-					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(129);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(133);
-					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
-					else if(currentToken.getName().equals(null)) shift(131);
-					else if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
+					if(stackTop.equals("<REL_EXPR4>") && tokenTop == null){
 						state = 105;
 						stateStack.push(state);
 					} else if(stackTop.equals("<REL_EXPR5>") && tokenTop == null){
@@ -1470,13 +1459,21 @@ public class Parser {
 						state = 92;
 						stateStack.push(state);
 					} else if(stackTop.equals("<CONST>") && tokenTop == null){
-							state = 124;
-							stateStack.push(state);
+						state = 124;
+						stateStack.push(state);
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
-							state = 130;
-							stateStack.push(state);
-					} else error();
-						break;
+						state = 130;
+						stateStack.push(state);
+					} else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
+					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(126);
+					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(127);
+					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(128);
+					else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(129);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(133);
+					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
+					else if(currentToken.getName().equals(null)) shift(131);
+					else error();
+					break;
 
 				case 115:
 					if(checkReduce4.contains(currentToken.getName()))
@@ -1832,85 +1829,85 @@ public class Parser {
 						state = 41;
 						stateStack.push(state);
 					} else if(currentToken.getName().equals(TokenName.VAR.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(144);
 					} else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
 					else if(currentToken.getName().equals(TokenName.DEDENT.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else reduce(14);
 					} else if(currentToken.getName().equals(TokenName.STMT_SEP.toString())) shift(147);
 					else if(currentToken.getName().equals(TokenName.ASSIGN.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(54);
 					} else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(149);
 					} else if(currentToken.getName().equals(TokenName.PROC_RET.toString())){
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(219);
 					} else if(currentToken.getName().equals(TokenName.DO.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(218);
 					} else if(currentToken.getName().equals(TokenName.WHILE.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(216);
 					} else if(currentToken.getName().equals(TokenName.BREAK.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(25);
 					} else if(currentToken.getName().equals(TokenName.CONTINUE.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(26);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(31);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(30);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(29);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
-						else shift(29);
+						else shift(28);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(27);
 					} else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(32);
 					} else if(currentToken.getName().equals(TokenName.INPUT.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(88);
 					} else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(90);
 					} else if(currentToken.getName().equals(TokenName.IF.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(165);
 					} else if(currentToken.getName().equals(TokenName.INC_OP.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(140);
 					} else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) {
-						if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.STMT_SEP.toString()))
+						if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 							reduce(16);
 						else shift(142);
 					} else if(stackTop.equals("<STATENENT>") && tokenTop == null) {
@@ -2035,8 +2032,7 @@ public class Parser {
 					break;
 
 				case 141:
-					if(checkReduce7.contains(currentToken.getName()))
-						reduce(106);
+					if(checkReduce7.contains(currentToken.getName())) reduce(106);
 					else error();
 					break;
 
@@ -2046,8 +2042,7 @@ public class Parser {
 					break;
 
 				case 143:
-					if(checkReduce7.contains(currentToken.getName()))
-						reduce(108);
+					if(checkReduce7.contains(currentToken.getName())) reduce(108);
 					else error();
 					break;
 
@@ -2058,14 +2053,12 @@ public class Parser {
 					break;
 
 				case 145:
-					if(checkReduce7.contains(currentToken.getName()))
-						reduce(107);
+					if(checkReduce7.contains(currentToken.getName())) reduce(107);
 					else error();
 					break;
 
 				case 146:
-					if(checkReduce7.contains(currentToken.getName()))
-						reduce(109);
+					if(checkReduce7.contains(currentToken.getName())) reduce(109);
 					else error();
 					break;
 
@@ -2335,33 +2328,26 @@ public class Parser {
 				//state 167 to state 171 conflicts
 				 case 167:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-						 if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.NOT_OP.toString()))
+						 if(stackNextTop.equals(TokenName.NOT_OP.toString()))
 							reduce(104);
 						else shift(192);
 					 } else if (currentToken.getName().equals(TokenName.OR_OP.toString())) {
-						 if(tokenStack.get(tokenStack.size() - 2).getData().equals(TokenName.NOT_OP.toString()))
+						 if(stackNextTop.equals(TokenName.NOT_OP.toString()))
 							reduce(104);
 						else shift(184);
-					 } else if (currentToken.getName().equals(TokenName.AND_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.EQUAL_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.GREAT_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.LESS_OP.toString()))
-						 reduce(104);
-					 else if (currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
-						 reduce(104);
+					 } else if (currentToken.getName().equals(TokenName.AND_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.EQUAL_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.GREAT_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.LESS_OP.toString())) reduce(104);
+					 else if (currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(104);
+					 else error();
 					 break;
 
 				 case 168:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-						String nextTop = tokenStack.get(tokenStack.size() - 2).getData();
-						switch(nextTop) {
+						switch(stackNextTop) {
 							case "OR_OP": reduce(92); break;
 							default: reduce(93); break;
 						}
@@ -2370,8 +2356,7 @@ public class Parser {
 
 				 case 169:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-						String nextTop = tokenStack.get(tokenStack.size() - 2).getData();
-						switch(nextTop) {
+						switch(stackNextTop) {
 							case "AND_OP": reduce(94); break;
 							default: reduce(95); break;
 						}
@@ -2380,8 +2365,7 @@ public class Parser {
 					 
 				 case 170:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-						String nextTop = tokenStack.get(tokenStack.size() - 2).getData();
-						switch(nextTop) {
+						switch(stackNextTop) {
 							case "EQUAL_OP": reduce(96); break;
 							case "NOT_EQUAL_OP": reduce(97); break;
 							default: reduce(98); break;
@@ -2391,8 +2375,7 @@ public class Parser {
 
 				 case 171:
 					 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-						String nextTop = tokenStack.get(tokenStack.size() - 2).getData();
-						switch(nextTop) {
+						switch(stackNextTop) {
 							case "GREAT_OP": reduce(99); break;
 							case "GREAT_EQ_OP": reduce(101); break;
 							case "LESS_OP": reduce(100); break;
@@ -2717,12 +2700,227 @@ public class Parser {
 
 					//state 192 - 194 conflict
 				case 192:
-					if(currentToken.getName().equals(TokenName.INDENT.toString())) shift(203);
-					else if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(74);
+					if (stackTop.equals("<STATEMENT>") && tokenTop == null){
+						state = 193;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DECLARATION>") && tokenTop == null){
+						state = 12;
+						stateStack.push(state);
+					} else if(stackTop.equals("<ASSIGNMENT>") && tokenTop == null){
+						state = 13;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IO>") && tokenTop == null){
+						state = 14;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONTROL_FLOW>") && tokenTop == null){
+						state = 15;
+						stateStack.push(state);
+					} else if(stackTop.equals("<EXPR_STATEMENTS>") && tokenTop == null){
+						state = 16;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BRANCHING>") && tokenTop == null){
+						state = 17;
+						stateStack.push(state);
+					} else if(stackTop.equals("<RETURN>") && tokenTop == null){
+						state = 18;
+						stateStack.push(state);
+					} else if(stackTop.equals("<INPUT_STMT>") && tokenTop == null){
+						state = 19;
+						stateStack.push(state);
+					} else if(stackTop.equals("<OUTPUT_STMT>") && tokenTop == null){
+						state = 20;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONDITIONAL>") && tokenTop == null){
+						state = 21;
+						stateStack.push(state);
+					} else if(stackTop.equals("<LOOPING>") && tokenTop == null){
+						state = 22;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null){
+						state = 42;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_ELSEIF_STMT>") && tokenTop == null){
+						state = 34;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_ELSE_STMT>") && tokenTop == null){
+						state = 35;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
+						state = 206;
+						stateStack.push(state);
+					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
+						state = 36;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DO_WHILE>") && tokenTop == null){
+						state = 37;
+						stateStack.push(state);
+					} else if(stackTop.equals("<INC_STMT>") && tokenTop == null){
+						state = 23;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DEC_STMT>") && tokenTop == null){
+						state = 24;
+						stateStack.push(state);
+					} else if(stackTop.equals("<PRE_INC>") && tokenTop == null){
+						state = 38;
+						stateStack.push(state);
+					} else if(stackTop.equals("<POST_INC>") && tokenTop == null){
+						state = 39;
+						stateStack.push(state);
+					} else if(stackTop.equals("<PRE_DEC>") && tokenTop == null){
+						state = 40;
+						stateStack.push(state);
+					} else if(stackTop.equals("<POST_DEC>") && tokenTop == null){
+						state = 41;
+						stateStack.push(state);
+					} else if(currentToken.getName().equals(TokenName.INDENT.toString())) shift(203);
+					else if(currentToken.getName().equals(TokenName.VAR.toString())) {
+						
+					}
 					break;
 
 				case 193:
-					if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
+					if (stackTop.equals("<STATEMENTS>") && tokenTop == null){ 
+						state = 197;
+						stateStack.push(state);
+					} else if (stackTop.equals("<MORE_STATEMENT>") && tokenTop == null){ 
+						state = 194;
+						stateStack.push(state);
+					} else if (stackTop.equals("<DECLARATION>") && tokenTop == null){ 
+						state = 12;
+						stateStack.push(state);
+					} else if(stackTop.equals("<ASSIGNMENT>") && tokenTop == null){
+						state = 13;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IO>") && tokenTop == null){
+						state = 14;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONTROL_FLOW>") && tokenTop == null){
+						state = 15;
+						stateStack.push(state);
+					} else if(stackTop.equals("<EXPR_STATEMENTS>") && tokenTop == null){
+						state = 16;
+						stateStack.push(state);
+					} else if(stackTop.equals("<BRANCHING>") && tokenTop == null){
+						state = 17;
+						stateStack.push(state);
+					} else if(stackTop.equals("<RETURN>") && tokenTop == null){
+						state = 18;
+						stateStack.push(state);
+					} else if(stackTop.equals("<INPUT_STMT>") && tokenTop == null){
+						state = 19;
+						stateStack.push(state);
+					} else if(stackTop.equals("<OUTPUT_STMT>") && tokenTop == null){
+						state = 20;
+						stateStack.push(state);
+					} else if(stackTop.equals("<CONDITIONAL>") && tokenTop == null){
+						state = 21;
+						stateStack.push(state);
+					} else if(stackTop.equals("<LOOPING>") && tokenTop == null){
+						state = 22;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DATATYPE>") && tokenTop == null){
+						state = 42;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_ELSEIF_STMT>") && tokenTop == null){
+						state = 34;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_ELSE_STMT>") && tokenTop == null){
+						state = 35;
+						stateStack.push(state);
+					} else if(stackTop.equals("<IF_STMT>") && tokenTop == null){
+						state = 206;
+						stateStack.push(state);
+					} else if(stackTop.equals("<WHILE_STMT>") && tokenTop == null){
+						state = 36;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DO_WHILE>") && tokenTop == null){
+						state = 37;
+						stateStack.push(state);
+					} else if(stackTop.equals("<INC_STMT>") && tokenTop == null){
+						state = 23;
+						stateStack.push(state);
+					} else if(stackTop.equals("<DEC_STMT>") && tokenTop == null){
+						state = 24;
+						stateStack.push(state);
+					} else if(stackTop.equals("<PRE_INC>") && tokenTop == null){
+						state = 38;
+						stateStack.push(state);
+					} else if(stackTop.equals("<POST_INC>") && tokenTop == null){
+						state = 39;
+						stateStack.push(state);
+					} else if(stackTop.equals("<PRE_DEC>") && tokenTop == null){
+						state = 40;
+						stateStack.push(state);
+					} else if(stackTop.equals("<POST_DEC>") && tokenTop == null){
+						state = 41;
+						stateStack.push(state);
+					} else if(currentToken.getName().equals(TokenName.VAR.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(144);
+					} else if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(14);
+					else if(currentToken.getName().equals(TokenName.STMT_SEP.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(198);
+					} else if(currentToken.getName().equals(TokenName.ASSIGN.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(54);
+					} else if(currentToken.getName().equals(TokenName.PROC_CALL.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(149);
+					} else if(currentToken.getName().equals(TokenName.PROC_RET.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(219);
+					} else if(currentToken.getName().equals(TokenName.BREAK.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(25);
+					} else if(currentToken.getName().equals(TokenName.CONTINUE.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(26);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_INT.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(27);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_FLOAT.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(28);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_CHAR.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(29);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(30);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(31);
+					} else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(144);
+					} else if(currentToken.getName().equals(TokenName.INPUT.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(88);
+					} else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(90);
+					} else if(currentToken.getName().equals(TokenName.IF.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(165);
+					} else if(currentToken.getName().equals(TokenName.ELSE_IF.toString())) reduce(16);
+					else if(currentToken.getName().equals(TokenName.ELSE.toString())) reduce(16);
+					else if(currentToken.getName().equals(TokenName.DO.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(218);
+					} else if(currentToken.getName().equals(TokenName.WHILE.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(216);
+					} else if(currentToken.getName().equals(TokenName.INC_OP.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(140);
+					} else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) {
+						if (stackNextTop.equals(TokenName.STMT_SEP.toString())) reduce(16);
+						else shift(142);
+					} else if (stackTop.equals("<STATEMENT>") && tokenTop == null){ 
+						state = 193;
+						stateStack.push(state);
+					}  
 					break;
 
 				case 194:
