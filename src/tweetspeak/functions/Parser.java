@@ -3625,8 +3625,7 @@ public class Parser {
 						shift(140);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) 
 						shift(142);
-					break;
-					
+					break;	
 			} // end of switch
 		}
 	}
