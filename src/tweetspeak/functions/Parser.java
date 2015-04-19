@@ -3805,8 +3805,47 @@ public class Parser {
 					break;
 					
 				case 220:
+					if(checkReduce5.contains(currentToken.getName())) reduce(39);
+					else error();
+					break;
 					
+				case 221:
+					break;
 					
+				case 222:
+					break;
+					
+				case 223:
+					break;
+					
+				case 224:
+					break;
+					
+				case 225:
+					break;
+					
+				case 226:
+					break;
+					
+				case 227:
+					break;
+					
+				case 228:
+					break;
+					
+				case 229:
+					break;
+					
+				case 230:
+					break;
+					
+				case 231:
+					break;
+					
+				case 232:
+					break;
+					
+				
 					
 					
 			} // end of switch
