@@ -1339,14 +1339,10 @@ public class Parser {
 				 		|| currentToken.getName().equals(TokenName.LESS_OP.toString())
 				 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 				 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) {
-				 		if (previousToken.getName().equals(TokenName.GREAT_OP.toString()))
-				 			reduce(99);
-				 		else if (previousToken.getName().equals(TokenName.LESS_OP.toString()))
-				 			reduce(100);
-				 		else if (previousToken.getName().equals(TokenName.GREAT_EQ_OP.toString()))
-				 			reduce(101);
-				 		else if (previousToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
-				 			reduce(102);
+				 		if (previousToken.getName().equals(TokenName.GREAT_OP.toString())) reduce(99);
+				 		else if (previousToken.getName().equals(TokenName.LESS_OP.toString())) reduce(100);
+				 		else if (previousToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(101);
+				 		else if (previousToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(102);
 				 		else reduce(103);
 				 	}
 				 	else error();
