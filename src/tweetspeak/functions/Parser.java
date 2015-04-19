@@ -30,15 +30,17 @@ public class Parser {
 		token = Tokenizer.getToken();
 		
 		previousToken = currentToken;
-		if (!(token instanceof Comment)) currentToken = token;
-	    else {
-	    	while (token instanceof Comment || token.getName().equals("COMMENT")) {
-	    		token = Tokenizer.getToken();
-	    		if (!(token instanceof Comment)) break;
-	    	}
-	    	currentToken = token;
-	    }
-		if (token == null) currentToken = new Token("$", "$", TokenType.SPEC_SYMBOL.toString());
+		//if (!(token instanceof Comment)) currentToken = token;
+	    
+    	while (token instanceof Comment 
+    		|| token.getName().equals("COMMENT") 
+    		|| token.getName().equals("NEWLINE")
+    		|| token.getName().equals("NO_INDENT")) {
+    		token = Tokenizer.getToken();
+    		if (!(token instanceof Comment)) break;
+    	}
+    	currentToken = token;
+	    if (token == null) currentToken = new Token("$", "$", TokenType.SPEC_SYMBOL.toString());
 	}
 	
 	public static boolean parse() {
@@ -616,8 +618,9 @@ public class Parser {
 					break;
 					
 				case 49: 
+					System.out.println(currentToken);
 					if(checkReduce5.contains(currentToken.getName())) reduce(115);  
-					else error();
+					//else error();
 					break;
 					
 				case 50: 
@@ -3708,7 +3711,9 @@ public class Parser {
         System.out.println("top of stack = " + tokenStack.peek().getData());
         System.out.println("stack top " + tokenStack.peek().getData());
         System.out.println("State stack after" + stateStack.toString());
-        System.out.println("current state " + stateStack.peek().toString() + ", current token " + currentToken.getName());
+        System.out.println("current state " + stateStack.peek().toString() 
+        		+ ", current token " + currentToken.getName()
+        		+ ", line: " + currentToken.getLineNumber());
     }
 	
 	private static void shift(int nextState) {
