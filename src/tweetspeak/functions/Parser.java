@@ -1283,40 +1283,72 @@ public class Parser {
 	
 				case 95: 
 					if(checkReduce4.contains(currentToken.getName())) reduce(112);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(112);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(112);
 					break;
 	
 				case 96:
 					if(checkReduce4.contains(currentToken.getName())) reduce(113);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(113);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(113);
 					else error();
 					break;
 					
 				case 97:
 					if(checkReduce4.contains(currentToken.getName())) reduce(114);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(114);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(114);
 					else error();
 					break;
 					
 				case 98:
 					if(checkReduce4.contains(currentToken.getName())) reduce(115);
-					//else error();
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(115);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(115);
+					else error();
 					break;
 					
 				case 99:
 					if(checkReduce4.contains(currentToken.getName())) reduce(116);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(116);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(116);
 					else error();
 					break;
 					
 				case 100:
 					if(checkReduce4.contains(currentToken.getName())) reduce(117);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(117);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(117);
 					else error();
 					break;
 					
 				case 101:
 					if(checkReduce4.contains(currentToken.getName())) reduce(118);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(118);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(118);
 					else error();
 					break;
 				
 				case 102:
 					if(checkReduce4.contains(currentToken.getName())) reduce(119);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(119);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(119);
 					else error();
 					break;
 	
@@ -1566,6 +1598,14 @@ public class Parser {
 				case 194: case 195: case 196: case 197:
 				case 198: case 199: case 200: case 201:
 				case 202: case 203: case 204: case 205:
+				case 206: case 207: case 208: case 209:
+				case 210: case 211: case 212: case 213:
+				case 214: case 215: case 216: case 217:
+				case 218: case 219: case 220: case 221:
+				case 222: case 223: case 224: case 225:
+				case 226: case 227: case 228: case 229:
+				case 230: case 231: case 232: case 233:
+				case 234:
 					
 					parse2();
 					break;
