@@ -1280,40 +1280,72 @@ public class Parser {
 
 				case 95: 
 					if(checkReduce4.contains(currentToken.getName())) reduce(112);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(112);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(112);
 					break;
 
 				case 96:
 					if(checkReduce4.contains(currentToken.getName())) reduce(113);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(113);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(113);
 					else error();
 					break;
 					
 				case 97:
 					if(checkReduce4.contains(currentToken.getName())) reduce(114);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(114);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(114);
 					else error();
 					break;
 					
 				case 98:
 					if(checkReduce4.contains(currentToken.getName())) reduce(115);
-					//else error();
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(115);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(115);
+					else error();
 					break;
 					
 				case 99:
 					if(checkReduce4.contains(currentToken.getName())) reduce(116);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(116);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(116);
 					else error();
 					break;
 					
 				case 100:
 					if(checkReduce4.contains(currentToken.getName())) reduce(117);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(117);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(117);
 					else error();
 					break;
 					
 				case 101:
 					if(checkReduce4.contains(currentToken.getName())) reduce(118);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(118);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(118);
 					else error();
 					break;
 				
 				case 102:
 					if(checkReduce4.contains(currentToken.getName())) reduce(119);
+					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+						reduce(119);
+					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+						reduce(119);
 					else error();
 					break;
 
