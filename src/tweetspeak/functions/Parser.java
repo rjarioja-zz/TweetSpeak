@@ -132,7 +132,7 @@ public class Parser {
 			TokenName.OR_OP.toString(),				TokenName.AND_OP.toString(),
 			TokenName.EQUAL_OP.toString(),			TokenName.NOT_EQUAL_OP.toString(),
 			TokenName.GREAT_OP.toString(),			TokenName.LESS_OP.toString(),
-			TokenName.ELSE.toString());
+			TokenName.ELSE.toString(),				TokenName.CONCAT.toString());
 
     static List<String> rightParenParamSep = Arrays.asList(
     		TokenName.RIGHT_PAREN.toString(), 		TokenName.PARAM_SEP.toString());
@@ -220,7 +220,7 @@ public class Parser {
 					else if (stackTop.equals("<PROGRAM>") && tokenTop == null) {
 						state = 1;
 						stateStack.push(state);
-					} else error();
+					} //else error();
 					break;
 					
 				case 1:
@@ -261,7 +261,7 @@ public class Parser {
 					} else if (stackTop.equals("<MAIN_FUNCTION>") && tokenTop == null) {
 						state = 8;
 						stateStack.push(state);
-					}//else error();
+					}////else error();
 					break;
 					
 				case 5:
@@ -298,13 +298,13 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.DATATYPE_STRING.toString())) shift(30);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())) shift(31);
 					else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())) shift(32);
-					else error();
+					//else error();
 					break;
 					
 				case 9:
 					if(currentToken.getName().equals("DEDENT"))
 						reduce(3);
-					else error(); 
+					//else error(); 
 					break;
 					
 				case 10:
@@ -421,169 +421,169 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 					else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
 					
-					else error();
+					//else error();
 					break;
 					
 				case 12:
 					if(checkReduce.contains(currentToken.getName())) reduce(17);
-					else error();
+					//else error();
 					break;
 					
 				case 13:
 					if(checkReduce.contains(currentToken.getName())) reduce(18);
-					else error();
+					//else error();
 					break;
 					
 				case 14:
 					if(checkReduce.contains(currentToken.getName())) reduce(19);
-					else error();
+					//else error();
 					break;
 					
 				case 15: 
 					if(checkReduce.contains(currentToken.getName())) reduce(20);
-					else error();
+					//else error();
 					break;
 					
 				case 16:
 					if(checkReduce.contains(currentToken.getName())) reduce(22);
-					else error();
+					//else error();
 					break;
 					
 				case 17: 
 					if(checkReduce.contains(currentToken.getName())) reduce(23);
-					else error();
+					//else error();
 					break;
 					
 				case 18:
 					if(checkReduce.contains(currentToken.getName())) reduce(24);
-					else error();
+					//else error();
 					break;
 					
 				case 19:
 					if(checkReduce.contains(currentToken.getName())) reduce(28);
-					else error();
+					//else error();
 					break;
 					
 				case 20:
 					if(checkReduce.contains(currentToken.getName())) reduce(29);
-					else error();
+					//else error();
 					break;
 					
 				case 21:
 					if(checkReduce.contains(currentToken.getName())) reduce(30);
-					else error();
+					//else error();
 					break;
 					
 				case 22:
 					if(checkReduce.contains(currentToken.getName())) reduce(31);
-					else error();
+					//else error();
 					break;
 					
 				case 23:
 					if(checkReduce.contains(currentToken.getName())) reduce(34);
-					else error();
+					//else error();
 					break;
 					
 				case 24:
 					if(checkReduce.contains(currentToken.getName())) reduce(35);
-					else error();
+					//else error();
 					break;
 					
 				case 25:
 					if(checkReduce.contains(currentToken.getName())) reduce(37);
-					else error();
+					//else error();
 					break;
 					
 				case 26:
 					if(checkReduce.contains(currentToken.getName())) reduce(38);
-					else error();
+					//else error();
 					break;
 					
 				case 27:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(41);
-					else error();
+					//else error();
 					break;
 					
 				case 28:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(42);
-					else error();
+					//else error();
 					break;
 					
 				case 29:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(43);
-					else error();
+					//else error();
 					break;
 					
 				case 30:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(44);
-					else error();
+					//else error();
 					break;
 					
 				case 31:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(45);
-					else error();
+					//else error();
 					break;
 					
 				case 32:
 					if (currentToken.getName().equals(TokenName.VAR.toString()))
 						reduce(46);
-					else error();
+					//else error();
 					break;
 					
 				case 34:
 					if(checkReduce.contains(currentToken.getName())) reduce(50);  
-					else error();
+					//else error();
 					break;
 					
 				case 35:
 					if(checkReduce.contains(currentToken.getName())) reduce(51);  
-					else error();
+					//else error();
 					break;
 					
 				case 36:
 					if(checkReduce.contains(currentToken.getName())) reduce(52);  
-					else error();
+					//else error();
 					break;
 					
 				case 37:
 					if(checkReduce.contains(currentToken.getName())) reduce(53);  
-					else error();
+					//else error();
 					break;
 					
 				case 38:
 					if(checkReduce.contains(currentToken.getName())) reduce(75);  
-					else error();
+					//else error();
 					break;
 					
 				case 39: 
 					if(checkReduce.contains(currentToken.getName())) reduce(76);  
-					else error();
+					//else error();
 					break;
 					
 				case 40:
 					if(checkReduce.contains(currentToken.getName())) reduce(77);  
-					else error();
+					//else error();
 					break;
 					
 				case 41:
 					if(checkReduce.contains(currentToken.getName())) reduce(78);  
-					else error();
+					//else error();
 					break;
 					
 				case 42:
 					if (currentToken.getName().equals(TokenName.VAR.toString())) shift(43);
-					else error();
+					//else error();
 					break;
 					
 				case 43:
 					if(checkReduce.contains(currentToken.getName())) reduce(25);  
 					else if(currentToken.getName().equals(TokenName.ASSIGN_OP.toString())) shift(44);
-					else error();
+					//else error();
 					break;
 					
 				case 44:
@@ -600,59 +600,58 @@ public class Parser {
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 50;
 						stateStack.push(state);
-					} else {
-						error();
-					} break;
+					} //else error();
+					break;
 					
 				case 45: 
 					if(checkReduce5.contains(currentToken.getName())) reduce(26);  
-					else error();
+					//else error();
 					break;
 					
 				case 46:
 					if(checkReduce5.contains(currentToken.getName())) reduce(112);  
-					else error();
+					//else error();
 					break;
 					
 				case 47:
 					if(checkReduce5.contains(currentToken.getName())) reduce(113);  
-					else error();
+					//else error();
 					break;
 					
 				case 48:
 					if(checkReduce5.contains(currentToken.getName())) reduce(114);  
-					else error();
+					//else error();
 					break;
 					
 				case 49: 
 					System.out.println(currentToken);
 					if(checkReduce5.contains(currentToken.getName())) reduce(115);  
-					//else error();
+					////else error();
 					break;
 					
 				case 50: 
 					if(checkReduce5.contains(currentToken.getName())) reduce(116);  
-					else error();
+					//else error();
 					break;
 					
 				case 51: 
 					if(checkReduce5.contains(currentToken.getName())) reduce(117);  
-					else error();
+					//else error();
 					break;
 					
 				case 52: 
 					if(checkReduce5.contains(currentToken.getName())) reduce(118);  
-					else error();
+					//else error();
 					break;
 					
 				case 53:
 					if(checkReduce5.contains(currentToken.getName())) reduce(119);  
-					else error();
+					//else error();
 					break;
 					
 				case 54: 
 					if (currentToken.getName().equals(TokenName.VAR.toString())) shift(55);
-					else error();
+					//else error();
 					break;
 					
 				case 55:
@@ -709,12 +708,12 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 56:
 					if(checkReduce5.contains(currentToken.getName())) reduce(27);  
-					else error();
+					//else error();
 					break;
 	
 				case 57: 
@@ -722,28 +721,28 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.ADD_OP.toString())) shift(66);
 					else if(currentToken.getName().equals(TokenName.DIF_OP.toString())) shift(85);
 					else if(checkReduce5.contains(currentToken.getName())) reduce(54);
-					else error();
+					//else error();
 					break;
 	
 				case 58:
 					if(checkReduce5.contains(currentToken.getName())) reduce(55);  
-					else error();
+					//else error();
 					break;
 	
 				case 59:
 					if(checkReduce5.contains(currentToken.getName())) reduce(56);
 					else if (currentToken.getName().equals(TokenName.OR_OP.toString())) shift(108);
-					else error();
+					//else error();
 					break;
 	
 				case 60:
 					if(currentToken.getName().equals(TokenName.PROC_NAME.toString())) shift(61);
-					else error();
+					//else error();
 					break;
 	
 				case 61: 
 					if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(62);
-					else error();
+					//else error();
 					break;
 	
 				case 62: 
@@ -768,22 +767,22 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(84);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(83);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(82);
-					else error();
+					//else error();
 					break;
 	
 				case 63:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) shift(64);
-					else error();
+					//else error();
 					break;
 	
 				case 64:
 					if(checkReduce5.contains(currentToken.getName())) reduce(57);  
-					else error();
+					//else error();
 					break;
 	
 				case 65:
 					if(checkReduce5.contains(currentToken.getName())) reduce(58);  
-					else error();
+					//else error();
 					break;
 	
 				case 66: 
@@ -814,7 +813,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 67: 
@@ -831,7 +830,7 @@ public class Parser {
 						shift(70);
 					else if (currentToken.getName().equals(TokenName.MOD_OP.toString()))
 						shift(71);
-					else error();
+					//else error();
 					break;
 	
 				case 68:
@@ -841,7 +840,7 @@ public class Parser {
 						reduce(85);
 					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
 						reduce(85);
-					else error();
+					//else error();
 					break;
 	
 				case 69:
@@ -869,7 +868,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 70:
@@ -897,7 +896,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(null)) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 71:
@@ -925,7 +924,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(null)) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 72:
@@ -941,7 +940,7 @@ public class Parser {
 						shift(70);
 					else if (currentToken.getName().equals(TokenName.MOD_OP.toString()))
 						shift(71);
-					else error();
+					//else error();
 					break;
 	
 				case 73:
@@ -953,7 +952,7 @@ public class Parser {
 						reduce(87);
 					else if (currentToken.getName().equals(TokenName.EXP_OP.toString()))
 						shift(74);
-					else error();
+					//else error();
 					break;
 	
 				case 74:
@@ -981,57 +980,57 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(null)) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 75:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(110);
-					else error();
+					//else error();
 					break;
 	
 				case 76:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(111);
-					else error();
+					//else error();
 					break;
 	
 				case 77:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(112);
-					else error();
+					//else error();
 					break;
 	
 				case 78:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(113);
-					else error();
+					//else error();
 					break;
 	
 				case 79:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(114);
-					else error();
+					//else error();
 					break;
 	
 				case 80:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(115);
-					else error();
+					//else error();
 					break;
 	
 				case 81:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(116);
-					else error();
+					//else error();
 					break;
 	
 				case 82:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(117);
-					else error();
+					//else error();
 					break;
 	
 				case 83:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(118);
-					else error();
+					//else error();
 					break;
 	
 				case 84:
 					if(rightParenParamSep.contains(currentToken.getName())) reduce(119);
-					else error();
+					//else error();
 					break;
 	
 				case 85:
@@ -1062,13 +1061,13 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 86:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(60);
 					else if(currentToken.getName().equals(TokenName.PARAM_SEP.toString())) shift(87);
-					else error();
+					//else error();
 					break;
 					
 				case 87: 
@@ -1092,17 +1091,17 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(84);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(83);
 					else if(currentToken.getName().equals(null)) shift(82);
-					else error();
+					//else error();
 					break;
 	
 				case 88: 
 					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(89);
-					else error();
+					//else error();
 					break;
 	
 				case 89:
 					if(checkReduce5.contains(currentToken.getName())) reduce(47);
-					else error();
+					//else error();
 					break;
 	
 				case 90:
@@ -1159,7 +1158,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 91:
@@ -1193,7 +1192,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(100);
-					else error();
+					//else error();
 					break;
 	
 				case 92:
@@ -1242,7 +1241,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(105);
 					else if(currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(105);
 					//else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) reduce(105);
-					//else error();
+					////else error();
 					break;
 	
 				case 93: 
@@ -1260,7 +1259,7 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(110);
-					else error();
+					//else error();
 					break;
 	
 				case 94:
@@ -1278,78 +1277,150 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
 						|| currentToken.getName().equals(TokenName.NOT_OP.toString()))
 						reduce(111);
-					else error();
+					//else error();
 					break;
 	
 				case 95: 
-					if(checkReduce4.contains(currentToken.getName())) reduce(112);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
-						reduce(112);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(112);
 					break;
 	
 				case 96:
-					if(checkReduce4.contains(currentToken.getName())) reduce(113);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(113);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(113);
-					else error();
+					//else error();
 					break;
 					
 				case 97:
-					if(checkReduce4.contains(currentToken.getName())) reduce(114);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(114);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(114);
-					else error();
+					//else error();
 					break;
 					
 				case 98:
-					if(checkReduce4.contains(currentToken.getName())) reduce(115);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(115);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(115);
-					else error();
+					//else error();
 					break;
 					
 				case 99:
-					if(checkReduce4.contains(currentToken.getName())) reduce(116);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(116);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(116);
-					else error();
+					//else error();
 					break;
 					
 				case 100:
-					if(checkReduce4.contains(currentToken.getName())) reduce(117);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(117);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(117);
-					else error();
+					//else error();
 					break;
 					
 				case 101:
-					if(checkReduce4.contains(currentToken.getName())) reduce(118);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(118);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(118);
-					else error();
+					//else error();
 					break;
 				
 				case 102:
-					if(checkReduce4.contains(currentToken.getName())) reduce(119);
-					else if (currentToken.getName().equals(TokenName.ELSE_IF.toString()))
+					if(checkReduce4.contains(currentToken.getName())
+						|| currentToken.getName().equals(TokenName.ELSE_IF.toString()) 
+						|| currentToken.getName().equals(TokenName.ELSE.toString())	
+						|| currentToken.getName().equals(TokenName.CONCAT.toString())
+						|| currentToken.getName().equals(TokenName.OR_OP.toString())
+						|| currentToken.getName().equals(TokenName.AND_OP.toString())
+						|| currentToken.getName().equals(TokenName.EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_OP.toString())
+						|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())
+						|| currentToken.getName().equals(TokenName.NOT_OP.toString())) 
 						reduce(119);
-					else if (currentToken.getName().equals(TokenName.ELSE.toString()))
-						reduce(119);
-					else error();
+					//else error();
 					break;
 	
 					//state 103 to state 106 conflictz
@@ -1387,7 +1458,7 @@ public class Parser {
 				 		|| currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())
 				 		|| currentToken.getName().equals(TokenName.LESS_EQ_OP.toString()))
 				 		reduce(94);
-				 	else error();
+				 	//else error();
 					break;
 	
 				case 105:
@@ -1397,7 +1468,7 @@ public class Parser {
 							else if (stackNextTop.equals("NOT_EQUAL_OP")) reduce(97);
 							else reduce(98);
 						}
-					} else error();
+					} //else error();
 					break;
 	
 				case 106:
@@ -1410,7 +1481,7 @@ public class Parser {
 							else reduce(103);
 						}
 				 	}
-				 	else error();
+				 	//else error();
 				 	break;
 				
 				case 107:
@@ -1448,7 +1519,7 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(133);
 					else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(131);
-					else error();
+					//else error();
 					break;
 	
 				case 108:
@@ -1482,35 +1553,35 @@ public class Parser {
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 						state = 130;
 						stateStack.push(state);
-					} else error();
+					} //else error();
 					break;
 	
 				case 109:
 					if(checkReduce4.contains(currentToken.getName())) reduce(110);
-					else error();
+					//else error();
 					break;
 	
 				case 110:
 					if(checkReduce4.contains(currentToken.getName())) reduce(111);
-					else error();
+					//else error();
 					break;
 	
 				case 111:
 					if(checkReduce3.contains(currentToken.getName()))
 						reduce(82);
-					else error();
+					//else error();
 					break;
 	
 				case 112:
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) 
 						reduce(59);
-					else error();
+					//else error();
 					break;
 	
 				case 113:
 					if(checkReduce5.contains(currentToken.getName()))
 						reduce(48);
-					else error();
+					//else error();
 					break;
 	
 				case 114:
@@ -1537,17 +1608,18 @@ public class Parser {
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(133);
 					else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 					else if(currentToken.getName().equals(null)) shift(131);
-					else error();
+					//else error();
 					break;
 	
 				case 115:
 					if(checkReduce4.contains(currentToken.getName()))
 						reduce(88);
-					else error();
+					//else error();
 					break;
 	
 				case 116:
-					if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(125);
+					if(currentToken.getName().equals(TokenName.VAR.toString())) shift(125);
+					else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(125);
 					else if(currentToken.getName().equals(TokenName.INT_CONST.toString())) shift(126);
 					else if(currentToken.getName().equals(TokenName.FLOAT_CONST.toString())) shift(127);
 					else if(currentToken.getName().equals(TokenName.CHAR_CONST.toString())) shift(128);
@@ -1567,13 +1639,13 @@ public class Parser {
 					} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 							state = 130;
 							stateStack.push(state);
-					} else error();
+					} //else error();
 						break;
 	
 				case 117:
 					if(checkReduce5.contains(currentToken.getName())) 
 						reduce(91);
-					else error();
+					//else error();
 					break;
 					
 				case 118: case 119: case 120: case 121:
@@ -1649,7 +1721,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(129);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(133);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
-				else if(currentToken.getName().equals(null)) shift(131);else error();
+				else if(currentToken.getName().equals(null)) shift(131);//else error();
 				break;
 	
 			case 119:
@@ -1678,7 +1750,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 				else if(currentToken.getName().equals(null)) shift(131);
 				else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-				else error();
+				//else error();
 				break;
 	
 			case 120:
@@ -1704,7 +1776,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 				else if(currentToken.getName().equals(null)) shift(131);
 				else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-				else error();
+				//else error();
 				break;
 	
 			case 121:
@@ -1730,7 +1802,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 				else if(currentToken.getName().equals(null)) shift(131);
 				else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-				else error();
+				//else error();
 				break;
 	
 			case 122:
@@ -1756,7 +1828,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 				else if(currentToken.getName().equals(null)) shift(131);
 				else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-				else error();
+				//else error();
 				break;
 	
 			case 123:
@@ -1782,72 +1854,72 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(132);
 				else if(currentToken.getName().equals(null)) shift(131);
 				else if(currentToken.getName().equals(TokenName.NOT_OP.toString())) shift(107);
-				else error();
+				//else error();
 				break;
 	
 			case 124:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(110);
-				else error();
+				//else error();
 				break;
 	
 			case 125:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(111);
-				else error();
+				//else error();
 				break;
 	
 			case 126:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(112);
-				else error();
+				//else error();
 				break;
 	
 			case 127:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(113);
-				else error();
+				//else error();
 				break;
 	
 			case 128:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(114);
-				else error();
+				//else error();
 				break;
 	
 			case 129:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(115);
-				else error();
+				//else error();
 				break;
 	
 			case 130:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(116);
-				else error();
+				//else error();
 				break;
 	
 			case 131:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(117);
-				else error();
+				//else error();
 				break;
 	
 			case 132:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(118);
-				else error();
+				//else error();
 				break;
 	
 			case 133:
 				if(checkReduce6.contains(currentToken.getName()))
 					reduce(119);
-				else error();
+				//else error();
 				break;
 	
 			case 134:
 				if(currentToken.getName().equals(TokenName.DEDENT.toString())) shift(135);
-				else error();
+				//else error();
 				break;
 	
 			case 135:
@@ -1859,7 +1931,7 @@ public class Parser {
 					|| currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())
 					|| currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
 						reduce(5);
-				else error();
+				//else error();
 				break;
 	
 			case 136:
@@ -2024,12 +2096,12 @@ public class Parser {
 					state = 136;
 					stateStack.push(state);
 				}
-				else error();
+				//else error();
 				break;
 	
 			case 137:
 				if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(11);
-				else error();	
+				//else error();	
 				break;
 	
 			case 138:
@@ -2128,48 +2200,48 @@ public class Parser {
 				else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
 					state = 138;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 139:
 				if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(12);
-				else error();
+				//else error();
 				break;
 	
 			case 140:
 				if(currentToken.getName().equals(TokenName.VAR.toString())) shift(141);
-				else error();
+				//else error();
 				break;
 	
 			case 141:
 				if(checkReduce7.contains(currentToken.getName())) reduce(106);
-				else error();
+				//else error();
 				break;
 	
 			case 142:
 				if(currentToken.getName().equals(TokenName.VAR.toString())) shift(143);
-				else error();
+				//else error();
 				break;
 	
 			case 143:
 				if(checkReduce7.contains(currentToken.getName())) reduce(108);
-				else error();
+				//else error();
 				break;
 	
 			case 144:
 				if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(145);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(146);
-				else error();
+				//else error();
 				break;
 	
 			case 145:
 				if(checkReduce7.contains(currentToken.getName())) reduce(107);
-				else error();
+				//else error();
 				break;
 	
 			case 146:
 				if(checkReduce7.contains(currentToken.getName())) reduce(109);
-				else error();
+				//else error();
 				break;
 	
 			case 147:
@@ -2264,23 +2336,23 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 				else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
-				else error();
+				//else error();
 				break;
 	
 			case 148:
 				if (checkReduce7.contains(currentToken.getName())) reduce(15);
-				else error();
+				//else error();
 				break;
 	
 			case 149:
 				if(currentToken.getName().equals(TokenName.PROC_NAME.toString())) shift(150);
-				else error();
+				//else error();
 				break;
 	
 			case 150:
 				if (currentToken.getName().equals(TokenName.LEFT_PAREN.toString()))
 					reduce(151);
-				else error();
+				//else error();
 				break;
 	
 			case 151:
@@ -2304,19 +2376,19 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(163);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(164);
 				else if(currentToken.getName().equals(null)) shift(162);
-				else error();
+				//else error();
 				break;
 	
 			case 152: 
 				if (checkReduce7.contains(currentToken.getName()))
 					reduce(36);
-				else error();
+				//else error();
 				break;
 	
 			case 153:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(60);
 				else if(currentToken.getName().equals(TokenName.PARAM_SEP.toString())) shift(154);
-				else error();
+				//else error();
 				break;
 	
 			case 154:
@@ -2340,62 +2412,62 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(163);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(164);
 				else if(currentToken.getName().equals(null)) shift(162);
-				else error();
+				//else error();
 				break;
 	
 			case 155:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(110);
-				else error();
+				//else error();
 				break;
 	
 			case 156:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(111);
-				else error();
+				//else error();
 				break;
 	
 			case 157:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(112);
-				else error();
+				//else error();
 				break;
 	
 			case 158:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(113);
-				else error();
+				//else error();
 				break;
 	
 			case 159:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(114);
-				else error();
+				//else error();
 				break;
 	
 			case 160:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(115);
-				else error();
+				//else error();
 				break;
 	
 			case 161:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(116);
-				else error();
+				//else error();
 				break;
 	
 			case 162:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(117);
-				else error();
+				//else error();
 				break;
 	
 			case 163:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(118);
-				else error();
+				//else error();
 				break;
 	
 			case 164:
 				if(rightParenParamSep.contains(currentToken.getName())) reduce(119);
-				else error();
+				//else error();
 				break;
 	
 			case 165:
 				if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(166);
-				else error();
+				//else error();
 				break;
 	
 			case 166:
@@ -2432,7 +2504,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(183);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(182);
 				else if(currentToken.getName().equals(null)) shift(181);
-				else error();
+				//else error();
 				break;
 	
 			//state 167 to state 171 conflicts
@@ -2452,25 +2524,32 @@ public class Parser {
 				 else if (currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) reduce(104);
 				 else if (currentToken.getName().equals(TokenName.LESS_OP.toString())) reduce(104);
 				 else if (currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) reduce(104);
-				 else error();
+				 //else error();
 				 break;
 	
 			 case 168:
 				 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-					switch(stackNextTop) {
-						case "OR_OP": reduce(92); break;
-						default: reduce(93); break;
-					}
-				 }
+					if (stackNextTop.equals("OR_OP")) reduce(92);
+					else reduce(93);
+				 } else if (currentToken.getName().equals(TokenName.OR_OP.toString())) {
+					 if (stackNextTop.equals("OR_OP")) reduce(92);
+					else reduce(93);
+				 } else if (currentToken.getName().equals(TokenName.AND_OP.toString())) shift(185);
+				 //else error();
 				 break;
 	
 			 case 169:
 				 if (currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) {
-					switch(stackNextTop) {
-						case "AND_OP": reduce(94); break;
-						default: reduce(95); break;
-					}
-				 }
+					 if (stackNextTop.equals("AND_OP")) reduce(94);
+					 else reduce(95);
+				 } else if (currentToken.getName().equals(TokenName.OR_OP.toString())) {
+					 if (stackNextTop.equals("AND_OP")) reduce(94);
+					 else reduce(95);
+				 } else if (currentToken.getName().equals(TokenName.AND_OP.toString())) {
+					 if (stackNextTop.equals("AND_OP")) reduce(94);
+					 else reduce(95);
+				 } else if (currentToken.getName().equals(TokenName.EQUAL_OP.toString())) shift(186);
+				 else if (currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) shift(187);
 				 break;
 				 
 			 case 170:
@@ -2480,7 +2559,35 @@ public class Parser {
 						case "NOT_EQUAL_OP": reduce(97); break;
 						default: reduce(98); break;
 					}
-				 }
+				 } else if (currentToken.getName().equals(TokenName.OR_OP.toString())) {
+					switch(stackNextTop) {
+						case "EQUAL_OP": reduce(96); break;
+						case "NOT_EQUAL_OP": reduce(97); break;
+						default: reduce(98); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.AND_OP.toString())) {
+					switch(stackNextTop) {
+						case "EQUAL_OP": reduce(96); break;
+						case "NOT_EQUAL_OP": reduce(97); break;
+						default: reduce(98); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.EQUAL_OP.toString())) {
+					switch(stackNextTop) {
+						case "EQUAL_OP": reduce(96); break;
+						case "NOT_EQUAL_OP": reduce(97); break;
+						default: reduce(98); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) {
+					switch(stackNextTop) {
+						case "EQUAL_OP": reduce(96); break;
+						case "NOT_EQUAL_OP": reduce(97); break;
+						default: reduce(98); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.GREAT_OP.toString())) shift(188);
+				 else if (currentToken.getName().equals(TokenName.LESS_OP.toString())) shift(189);
+				 else if (currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) shift(190);
+				 else if (currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) shift(191);
+				 
 				 break;
 	
 			 case 171:
@@ -2492,7 +2599,71 @@ public class Parser {
 						case "LESS_EQ_OP": reduce(102); break;
 						default: reduce(103); break;
 					}
-				 }
+				 } else if (currentToken.getName().equals(TokenName.OR_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.AND_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.EQUAL_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.NOT_EQUAL_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.GREAT_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.LESS_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.GREAT_EQ_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } else if (currentToken.getName().equals(TokenName.LESS_EQ_OP.toString())) {
+					switch(stackNextTop) {
+						case "GREAT_OP": reduce(99); break;
+						case "GREAT_EQ_OP": reduce(101); break;
+						case "LESS_OP": reduce(100); break;
+						case "LESS_EQ_OP": reduce(102); break;
+						default: reduce(103); break;
+					}
+				 } 
 				 break;
 	
 			case 172:
@@ -2529,62 +2700,62 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 173:
 				if(operatorss.contains(currentToken.getName())) reduce(105);
-				else error();
+				//else error();
 				break;
 	
 			case 174:
 				if(operatorss.contains(currentToken.getName())) reduce(110);
-				else error();
+				//else error();
 				break;
 	
 			case 175:
 				if(operatorss.contains(currentToken.getName())) reduce(111);
-				else error();
+				//else error();
 				break;
 	
 			case 176:
 				if(operatorss.contains(currentToken.getName())) reduce(112);
-				else error();
+				//else error();
 				break;
 	
 			case 177:
 				if(operatorss.contains(currentToken.getName())) reduce(113);
-				else error();
+				//else error();
 				break;
 	
 			case 178:
 				if(operatorss.contains(currentToken.getName())) reduce(114);
-				else error();
+				//else error();
 				break;
 	
 			case 179:
 				if(operatorss.contains(currentToken.getName())) reduce(115);
-				else error();
+				//else error();
 				break;
 	
 			case 180:
 				if(operatorss.contains(currentToken.getName())) reduce(116);
-				else error();
+				//else error();
 				break;
 	
 			case 181:
 				if(operatorss.contains(currentToken.getName())) reduce(117);
-				else error();
+				//else error();
 				break;
 	
 			case 182:
 				if(operatorss.contains(currentToken.getName())) reduce(118);
-				else error();
+				//else error();
 				break;
 	
 			case 183:
 				if(operatorss.contains(currentToken.getName())) reduce(119);
-				else error();
+				//else error();
 				break;
 	
 			case 184:
@@ -2618,7 +2789,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 185:
@@ -2649,7 +2820,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 186:
@@ -2677,7 +2848,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 187:
@@ -2705,7 +2876,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 188:
@@ -2730,7 +2901,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 189:
@@ -2755,7 +2926,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 190:
@@ -2780,7 +2951,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 			case 191:
@@ -2805,7 +2976,7 @@ public class Parser {
 				} else if(stackTop.equals("<BOOL_CONST>") && tokenTop == null){
 					state = 180;
 					stateStack.push(state);
-				} else error();
+				} //else error();
 				break;
 	
 				//state 192 - 194 conflict
@@ -3258,7 +3429,7 @@ public class Parser {
 				
 			case 195:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) shift(152);
-				else error();
+				//else error();
 				break;
 	
 			case 196://conflict
@@ -3376,12 +3547,12 @@ public class Parser {
 					if(tokenStack.get(tokenStack.size() - 5).getData().equals(TokenName.IF.toString())) reduce(66);
 					else if(tokenStack.get(tokenStack.size() - 5).getData().equals(TokenName.ELSE_IF.toString())) reduce(68);
 					else if(tokenStack.get(tokenStack.size() - 5).getData().equals(TokenName.WHILE.toString())) reduce(72);
-				} else error();
+				} //else error();
 				break;
 	
 			case 197:
 				if(checkReduce.contains(currentToken.getName())) reduce(11);
-				else error();
+				//else error();
 				break;
 	
 			case 198:
@@ -3479,29 +3650,26 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 				else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
-				else error();
+				//else error();
 				break;
 	
 			case 199:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(60);
-				else error();
+				//else error();
 				break;
 				
 			case 200:
 				if(checkReduce.contains(currentToken.getName())) reduce(12);
-				else error();
+				//else error();
 				break;
 					
 			case 201:
 				if(checkReduce.contains(currentToken.getName())) reduce(15);
-				else error();
+				//else error();
 				break;
 					
 			case 203:
-				if(stackTop.equals("<STATEMENTS>") && tokenTop == null) {
-					state = 204;
-					stateStack.push(state);
-				} else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
+				if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
 					state = 194;
 					stateStack.push(state);
 				} else if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
@@ -3584,19 +3752,29 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString())) shift(32);
 				else if(currentToken.getName().equals(TokenName.INPUT.toString())) shift(88);
 				else if(currentToken.getName().equals(TokenName.OUTPUT.toString())) shift(90);
-				else if(currentToken.getName().equals(TokenName.IF.toString())) shift(218);
-				else if(currentToken.getName().equals(TokenName.DO.toString())) shift(216);
-				else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(165);
+				else if(currentToken.getName().equals(TokenName.IF.toString())) shift(165);
+				else if(currentToken.getName().equals(TokenName.DO.toString())) shift(218);
+				else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 				else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
+				else if(stackTop.equals("<STATEMENTS>") && tokenTop == null) {
+					state = 204;
+					stateStack.push(state);
+				} 
 				break;
 				
 			case 204:
-				if(currentToken.getName().equals(TokenName.DEDENT.toString())) shift(205);
+				if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(11);
 				break;
 				
 			case 205:
-				if(currentToken.getName().equals(TokenName.VAR.toString())) {
+				if(currentToken.getName().equals(TokenName.ELSE_IF.toString())) {
+					//System.out.println("pasok else if, check " + tokenStack.get(tokenStack.size() - 4).getData());
+					if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.IF.toString()))
+						reduce(65);
+					else if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.ELSE_IF.toString()))
+						reduce(67);
+				} else if(currentToken.getName().equals(TokenName.VAR.toString())) {
 					if(tokenStack.get(tokenStack.size() - 4).getData().equals(TokenName.ELSE.toString())) reduce(69);
 					else if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.IF.toString())) reduce(65);
 					else if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.ELSE_IF.toString())) reduce(67);
@@ -3706,39 +3884,34 @@ public class Parser {
 						reduce(65);
 					else if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.ELSE_IF.toString()))
 						reduce(67);
-				} else if(currentToken.getName().equals(TokenName.ELSE_IF.toString())) {
-					if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.IF.toString()))
-						reduce(65);
-					else if(tokenStack.get(tokenStack.size() - 7).getData().equals(TokenName.ELSE_IF.toString()))
-						reduce(67);
-				} else error();
+				}   //else error();
 				break;
 				
 			case 206:
 				if(checkReduce.contains(currentToken.getName())) reduce(49);
-				else error();
+				//else error();
 				break;
 				
 			case 207:
 				if(nostmtsep.contains(currentToken.getName())) reduce(61);
-				else error();
+				//else error();
 				break;
 				
 			case 208:
 				if(nostmtsep.contains(currentToken.getName())){
 					//SKIPPED LOL
 				}
-				else error();
+				//else error();
 				break;
 				
 			case 211:
 				if(nostmtsep.contains(currentToken.getName())) reduce(64);
-				else error();
+				//else error();
 				break;
 				
 			case 212:
 				if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) shift(213);
-				else error();
+				//else error();
 				break;
 				
 			case 213:
@@ -3751,7 +3924,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(182);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(183);
 				else if(currentToken.getName().equals(null)) shift(181);
-				else error();
+				//else error();
 				break;
 				
 			case 214:
@@ -3850,7 +4023,7 @@ public class Parser {
 				
 			case 215:
 				if(nostmtsep.contains(currentToken.getName())) reduce(63);
-				else error();
+				//else error();
 				break;
 				
 			case 216:
@@ -3893,11 +4066,11 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(182);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(183);
 				else if(currentToken.getName().equals(null)) shift(181);
-				else error();
+				//else error();
 				break;
 				
 			case 218:
-				System.out.println("pasok 218");
+				//System.out.println("pasok 218");
 				if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
 					state = 196;
 					stateStack.push(state);
@@ -3990,7 +4163,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.WHILE.toString())) shift(216);
 				else if(currentToken.getName().equals(TokenName.INC_OP.toString())) shift(140);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) shift(142);
-				else error();
+				////else error();
 				break;
 				
 			case 219:
@@ -4047,12 +4220,12 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(101);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(102);
 				else if(currentToken.getName().equals(null)) shift(100);					
-				else error();
+				//else error();
 				break;
 	
 			case 220:
 				if(checkReduce5.contains(currentToken.getName())) reduce(39);
-				else error();
+				//else error();
 				break;
 				
 			case 221:
@@ -4078,24 +4251,24 @@ public class Parser {
 					shift(31);
 				else if(currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
 					shift(32);
-				else error();
+				//else error();
 				break;
 				
 			case 222:
 				if(currentToken.getName().equals(TokenName.DEDENT.toString())) reduce(6);
-				else error();
+				//else error();
 				break;
 				
 			case 223:
 				if(currentToken.getName().equals(TokenName.PROC_NAME.toString()))
 					shift(224);
-				else error();
+				//else error();
 				break;
 				
 			case 224:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString()))
 					shift(225);
-				else error();
+				//else error();
 				break;
 				
 			case 225:
@@ -4117,19 +4290,19 @@ public class Parser {
 				} else if(stackTop.equals("<DATATYPE>") && tokenTop == null) {
 					state = 231;
 					stateStack.push(state);					
-				} else error();
+				} //else error();
 				break;
 				
 			case 226:
 				if(currentToken.getName().equals(TokenName.LEFT_PAREN.toString())) 
 					shift(227);
-				else error();
+				//else error();
 				break;
 				
 			case 227:
 				if(currentToken.getName().equals(TokenName.INDENT.toString())) 
 					shift(228);
-				else error();
+				//else error();
 				break;
 				
 			case 228:
@@ -4249,13 +4422,13 @@ public class Parser {
 					shift(140);
 				else if(currentToken.getName().equals(TokenName.DEC_OP.toString())) 
 					shift(142);
-				else error();
+				//else error();
 				break;
 				
 			case 229:
 				if(currentToken.getName().equals(TokenName.DEDENT.toString())) 
 					shift(142);
-				else error();
+				//else error();
 				break;
 				
 			case 230:
@@ -4267,20 +4440,20 @@ public class Parser {
 						|| currentToken.getName().equals(TokenName.DATATYPE_BOOL.toString())
 						|| currentToken.getName().equals(TokenName.DATATYPE_VOID.toString()))
 							reduce(8);
-					else error();
+					//else error();
 				break;
 				
 			case 231:
 				if(currentToken.getName().equals(TokenName.VAR.toString())) 
 					shift(232);
-				else error();
+				//else error();
 				break;
 				
 			case 232:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(10);
 				else if(currentToken.getName().equals(TokenName.PARAM_SEP.toString())) 
 					shift(233);
-				else error();
+				//else error();
 				break;
 				
 			case 233:
@@ -4302,12 +4475,12 @@ public class Parser {
 				} else if(stackTop.equals("<DATATYPE>") && tokenTop == null) {
 					state = 231;
 					stateStack.push(state);					
-				} else error();
+				} //else error();
 				break;
 				
 			case 234:
 				if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) reduce(9);
-				else error();
+				//else error();
 				break;
 			}
 	}
