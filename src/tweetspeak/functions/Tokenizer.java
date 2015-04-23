@@ -878,7 +878,7 @@ public class Tokenizer {
 																token += sourceCode.charAt(index++);
 																if (index >= sourceCode.length()) return new Error(token, "INVALID TOKEN - " + token, lineCode.getLineNumber(), index);
 																if (sourceCode.charAt(index) == ' ') {
-																	return new Token(token, TokenName.CONCAT.toString(), TokenType.RESERVED_WORD.toString(), lineCode.getLineNumber(), index);
+																	return new Token(token, TokenName.CONCAT.toString(), TokenType.OPERATOR.toString(), lineCode.getLineNumber(), index);
 																} else return new Error(token, "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 															} else return new Error(token, "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
 														} else return new Error(token, "INVALID TOKEN - " + token + sourceCode.charAt(index), lineCode.getLineNumber(), index);
