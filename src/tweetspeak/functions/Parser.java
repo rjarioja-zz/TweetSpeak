@@ -3693,8 +3693,8 @@ public class Parser {
 					else state = 204;
 					stateStack.push(state);
 				} else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
-					// state = 194;
-					state = 138;
+					state = 194;
+					// state = 138;
 					stateStack.push(state);
 				} else if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
 					state = 193;
