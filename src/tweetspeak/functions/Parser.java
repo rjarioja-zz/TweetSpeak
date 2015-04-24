@@ -276,6 +276,7 @@ public class Parser {
 					break;
 					
 				case 6:
+					//System.out.println(tokenStack);
 					if (currentToken.getName().equals(TokenName.END.toString())) shift(7);
 					//else errorMsg("End of Program.");
 					break;
