@@ -2354,6 +2354,8 @@ public class Parser {
 	
 			case 148:
 				if (checkReduce7.contains(currentToken.getName())) reduce(15);
+				else if (currentToken.getName().equals("ELSE_IF")) reduce(15);
+				else if (currentToken.getName().equals("ELSE"))reduce(15);
 				//else error();
 				break;
 	
@@ -2393,8 +2395,9 @@ public class Parser {
 				break;
 	
 			case 152: 
-				if (checkReduce7.contains(currentToken.getName()))
-					reduce(36);
+				if (checkReduce7.contains(currentToken.getName())) reduce(36);
+				else if (currentToken.getName().equals("ELSE_IF")) reduce(36);
+				else if (currentToken.getName().equals("ELSE"))reduce(36);
 				//else error();
 				break;
 	
