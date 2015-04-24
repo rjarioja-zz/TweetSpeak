@@ -3761,6 +3761,12 @@ public class Parser {
 				} else if(stackTop.equals("<DO_WHILE>") && tokenTop == null) {
 					state = 37;
 					stateStack.push(state);
+				} else if(stackTop.equals("<INC_STMT>") && tokenTop == null) {
+					state = 23;
+					stateStack.push(state);
+				} else if(stackTop.equals("<DEC_STMT>") && tokenTop == null) {
+					state = 24;
+					stateStack.push(state);
 				} else if(stackTop.equals("<PRE_INC>") && tokenTop == null) {
 					state = 38;
 					stateStack.push(state);
