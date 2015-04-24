@@ -675,7 +675,7 @@ public class Parser {
 						state = 68;
 						stateStack.push(state);
 					} else if(stackTop.equals("<MATH_EXPR4>") && tokenTop == null){
-						state = 73;
+  						state = 73;
 						stateStack.push(state);
 					} else if(stackTop.equals("<STRING_EXPR>") && tokenTop == null){
 						state = 58;
@@ -719,7 +719,7 @@ public class Parser {
 					break;
 	
 				case 56:
-					if(checkReduce5.contains(currentToken.getName())) reduce(27);  
+					if(checkReduce.contains(currentToken.getName())) reduce(27);  
 					//else error();
 					break;
 	
@@ -727,17 +727,17 @@ public class Parser {
 					if(currentToken.getName().equals(TokenName.RIGHT_PAREN.toString())) shift(115);
 					else if(currentToken.getName().equals(TokenName.ADD_OP.toString())) shift(66);
 					else if(currentToken.getName().equals(TokenName.DIF_OP.toString())) shift(85);
-					else if(checkReduce5.contains(currentToken.getName())) reduce(54);
+					else if(checkReduce.contains(currentToken.getName())) reduce(54);
 					//else error();
 					break;
 	
 				case 58:
-					if(checkReduce5.contains(currentToken.getName())) reduce(55);  
+					if(checkReduce.contains(currentToken.getName())) reduce(55);  
 					//else error();
 					break;
 	
 				case 59:
-					if(checkReduce5.contains(currentToken.getName())) reduce(56);
+					if(checkReduce.contains(currentToken.getName())) reduce(56);
 					else if (currentToken.getName().equals(TokenName.OR_OP.toString())) shift(108);
 					//else error();
 					break;
@@ -783,12 +783,12 @@ public class Parser {
 					break;
 	
 				case 64:
-					if(checkReduce5.contains(currentToken.getName())) reduce(57);  
+					if(checkReduce.contains(currentToken.getName())) reduce(57);  
 					//else error();
 					break;
 	
 				case 65:
-					if(checkReduce5.contains(currentToken.getName())) reduce(58);  
+					if(checkReduce.contains(currentToken.getName())) reduce(58);  
 					//else error();
 					break;
 	
