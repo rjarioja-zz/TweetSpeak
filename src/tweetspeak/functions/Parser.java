@@ -2232,7 +2232,9 @@ public class Parser {
 	
 			case 143:
 				if(checkReduce7.contains(currentToken.getName())) reduce(108);
-				//else error();
+				else if (currentToken.getName().equals("ELSE_IF")) reduce(108);
+				else if (currentToken.getName().equals("ELSE"))reduce(108);
+				//else error()
 				break;
 	
 			case 144:
@@ -2243,11 +2245,15 @@ public class Parser {
 	
 			case 145:
 				if(checkReduce7.contains(currentToken.getName())) reduce(107);
+				else if (currentToken.getName().equals("ELSE_IF")) reduce(107);
+				else if (currentToken.getName().equals("ELSE"))reduce(107);
 				//else error();
 				break;
 	
 			case 146:
 				if(checkReduce7.contains(currentToken.getName())) reduce(109);
+				else if (currentToken.getName().equals("ELSE_IF")) reduce(109);
+				else if (currentToken.getName().equals("ELSE"))reduce(109);
 				//else error();
 				break;
 	
