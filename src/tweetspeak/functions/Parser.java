@@ -3680,10 +3680,12 @@ public class Parser {
 			case 203:
 				if(stackTop.equals("<STATEMENTS>") && tokenTop == null) {
 					if (stackNextTop.equals("<STATEMENT>")) state = 136;
+					else if (stackNextTop.equals("<MORE_STATEMENT>")) state = 138;
 					else state = 204;
 					stateStack.push(state);
 				} else if(stackTop.equals("<MORE_STATEMENT>") && tokenTop == null) {
-					state = 194;
+					// state = 194;
+					state = 138;
 					stateStack.push(state);
 				} else if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
 					state = 193;
@@ -3980,7 +3982,7 @@ public class Parser {
 				else if(currentToken.getName().equals(TokenName.STRING_CONST.toString())) shift(179);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_TRUE.toString())) shift(182);
 				else if(currentToken.getName().equals(TokenName.BOOL_CONST_FALSE.toString())) shift(183);
-				else if(currentToken.getName().equals(null)) shift(181);
+				else if(currentToken.getName().equals(TokenName.NULL.toString())) shift(181);
 				//else error();
 				break;
 				
