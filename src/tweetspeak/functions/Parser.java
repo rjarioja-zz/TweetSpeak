@@ -2099,7 +2099,7 @@ public class Parser {
 					if(stackNextTop.equals(TokenName.STMT_SEP.toString()))
 						reduce(16);
 					else shift(142);
-				} else if(stackTop.equals("<STATENENT>") && tokenTop == null) {
+				} else if(stackTop.equals("<STATEMENT>") && tokenTop == null) {
 					state = 136;
 					stateStack.push(state);
 				}
