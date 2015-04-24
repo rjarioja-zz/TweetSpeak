@@ -1225,6 +1225,7 @@ public class Parser {
 										reduce(89); break;
 									case "STRING_CONST":
 									case "CHAR_CONST":
+									case "VAR":
 										reduce(90); break;
 									case "BOOL_CONST_TRUE":
 									case "BOOL_CONST_FALSE":
@@ -3925,14 +3926,15 @@ public class Parser {
 				break;
 				
 			case 206:
-				if(stackTop.equals("<ELSEIF_STMTS>") && tokenTop == null) {
-					state = 207;
-					stateStack.push(state);
-				} else if(stackTop.equals("<ELSEIF_STMT>") && tokenTop == null) {
+				if(stackTop.equals("<ELSEIF_STMT>") && tokenTop == null) {
 					state = 211;
 					stateStack.push(state);
 				} else if(stackTop.equals("<ELSE_STMT>") && tokenTop == null) {
 					state = 208;
+					stateStack.push(state);
+				} else if(stackTop.equals("<ELSEIF_STMTS>") && tokenTop == null) {
+					if (stackNextTop.equals("<IF_STMT>")) state = 207;
+					else state = 211;
 					stateStack.push(state);
 				} else if(currentToken.getName().equals(TokenName.ELSE_IF.toString())) shift(212);
 				else if(currentToken.getName().equals(TokenName.ELSE.toString())) shift(214);
