@@ -605,48 +605,48 @@ public class Parser {
 					} break;
 					
 				case 45: 
-					if(checkReduce5.contains(currentToken.getName())) reduce(26);  
+					if(checkReduce.contains(currentToken.getName())) reduce(26);  
 					else error();
 					break;
 					
 				case 46:
-					if(checkReduce5.contains(currentToken.getName())) reduce(112);  
+					if(checkReduce.contains(currentToken.getName())) reduce(112);  
 					else error();
 					break;
 					
 				case 47:
-					if(checkReduce5.contains(currentToken.getName())) reduce(113);  
+					if(checkReduce.contains(currentToken.getName())) reduce(113);  
 					else error();
 					break;
 					
 				case 48:
-					if(checkReduce5.contains(currentToken.getName())) reduce(114);  
+					if(checkReduce.contains(currentToken.getName())) reduce(114);  
 					else error();
 					break;
 					
 				case 49: 
 					System.out.println(currentToken);
-					if(checkReduce5.contains(currentToken.getName())) reduce(115);  
+					if(checkReduce.contains(currentToken.getName())) reduce(115);  
 					//else error();
 					break;
 					
 				case 50: 
-					if(checkReduce5.contains(currentToken.getName())) reduce(116);  
+					if(checkReduce.contains(currentToken.getName())) reduce(116);  
 					else error();
 					break;
 					
 				case 51: 
-					if(checkReduce5.contains(currentToken.getName())) reduce(117);  
+					if(checkReduce.contains(currentToken.getName())) reduce(117);  
 					else error();
 					break;
 					
 				case 52: 
-					if(checkReduce5.contains(currentToken.getName())) reduce(118);  
+					if(checkReduce.contains(currentToken.getName())) reduce(118);  
 					else error();
 					break;
 					
 				case 53:
-					if(checkReduce5.contains(currentToken.getName())) reduce(119);  
+					if(checkReduce.contains(currentToken.getName())) reduce(119);  
 					else error();
 					break;
 					
